@@ -1,22 +1,68 @@
+'use client';
+import { useState } from 'react';
 import Link from 'next/link';
-export const metadata = { title: 'Sign Up' };
+import { createClient } from '@/lib/supabase/client';
 
 export default function SignupPage() {
+  const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [error, setError] = useState('');
+  const supabase = createClient();
+
+  const handleGoogle = async () => {
+    setLoading(true);
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: window.location.origin + '/auth/callback' },
+    });
+    if (error) setError(error.message);
+    setLoading(false);
+  };
+
+  const handleSignup = async () => {
+    if (!email) return;
+    setLoading(true);
+    setError('');
+    const { error } = await supabase.auth.signInWithOtp({
+      email,
+      options: { emailRedirectTo: window.location.origin + '/auth/callback' },
+    });
+    if (error) setError(error.message);
+    else setSent(true);
+    setLoading(false);
+  };
+
+  if (sent) {
+    return (
+      <main className="min-h-screen flex items-center justify-center px-6">
+        <div className="max-w-sm w-full text-center">
+          <Link href="/" className="font-serif font-semibold text-2xl text-[#1a1a2e] tracking-wide">Momently<span className="text-[#b8956a]">.</span></Link>
+          <div className="mt-10">
+            <p className="text-4xl mb-4">✉️</p>
+            <h1 className="font-serif text-2xl text-[#1a1a2e]">Перевірте пошту</h1>
+            <p className="text-sm text-gray-500 mt-3">Ми надіслали magic link на <strong>{email}</strong></p>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main className="min-h-screen flex items-center justify-center px-6">
       <div className="max-w-sm w-full text-center">
         <Link href="/" className="font-serif font-semibold text-2xl text-[#1a1a2e] tracking-wide">Momently<span className="text-[#b8956a]">.</span></Link>
         <h1 className="font-serif text-3xl text-[#1a1a2e] mt-8">Створити акаунт</h1>
         <p className="text-sm text-gray-500 mt-2">Почніть створювати ваше весільне запрошення</p>
+        {error && <p className="text-xs text-red-500 mt-4 bg-red-50 rounded-lg px-4 py-2">{error}</p>}
         <div className="mt-8 space-y-3">
-          <button className="w-full flex items-center justify-center gap-3 bg-white border border-[#e8e0d4] rounded-lg px-4 py-3 text-sm text-[#1a1a2e] hover:border-[#b8956a] transition-colors">
+          <button onClick={handleGoogle} disabled={loading} className="w-full flex items-center justify-center gap-3 bg-white border border-[#e8e0d4] rounded-lg px-4 py-3 text-sm text-[#1a1a2e] hover:border-[#b8956a] transition-colors disabled:opacity-50">
             <svg width="18" height="18" viewBox="0 0 18 18"><path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 01-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.616z" fill="#4285F4"/><path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z" fill="#34A853"/><path d="M3.964 10.71A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.042l3.007-2.332z" fill="#FBBC05"/><path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z" fill="#EA4335"/></svg>
             Зареєструватись через Google
           </button>
           <div className="flex items-center gap-3 text-xs text-gray-400"><div className="flex-1 h-px bg-[#e8e0d4]" />або<div className="flex-1 h-px bg-[#e8e0d4]" /></div>
-          <input type="text" placeholder="Ваше ім'я" className="w-full px-4 py-3 border border-[#e8e0d4] rounded-lg text-sm focus:outline-none focus:border-[#b8956a]" />
-          <input type="email" placeholder="email@example.com" className="w-full px-4 py-3 border border-[#e8e0d4] rounded-lg text-sm focus:outline-none focus:border-[#b8956a]" />
-          <button className="w-full bg-[#1a1a2e] text-[#faf8f4] rounded-lg px-4 py-3 text-sm font-medium hover:bg-[#2a2a3e] transition-colors">Створити акаунт</button>
+          <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="email@example.com" onKeyDown={e => e.key === 'Enter' && handleSignup()} className="w-full px-4 py-3 border border-[#e8e0d4] rounded-lg text-sm focus:outline-none focus:border-[#b8956a]" />
+          <button onClick={handleSignup} disabled={loading || !email} className="w-full bg-[#1a1a2e] text-[#faf8f4] rounded-lg px-4 py-3 text-sm font-medium hover:bg-[#2a2a3e] transition-colors disabled:opacity-50">{loading ? 'Надсилаємо...' : 'Створити акаунт'}</button>
         </div>
         <p className="text-xs text-gray-400 mt-6">Вже є акаунт? <Link href="/auth/login" className="text-[#b8956a] hover:underline">Увійти</Link></p>
       </div>
