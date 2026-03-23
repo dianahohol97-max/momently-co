@@ -12,27 +12,42 @@ export default function LoginPage() {
 
   const handleGoogle = async () => {
     setLoading(true);
-    const { error } = await supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.origin + '/auth/callback' } });
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: window.location.origin + '/auth/callback' },
+    });
     if (error) setError(error.message);
     setLoading(false);
   };
 
   const handleMagicLink = async () => {
     if (!email) return;
-    setLoading(true); setError('');
-    const { error } = await supabase.auth.signInWithOtp({ email, options: { emailRedirectTo: window.location.origin + '/auth/callback' } });
-    if (error) setError(error.message); else setSent(true);
+    setLoading(true);
+    setError('');
+    const { error } = await supabase.auth.signInWithOtp({
+      email,
+      options: { emailRedirectTo: window.location.origin + '/auth/callback' },
+    });
+    if (error) setError(error.message);
+    else setSent(true);
     setLoading(false);
   };
 
-  if (sent) return (
-    <main className="min-h-screen flex items-center justify-center px-6">
-      <div className="max-w-sm w-full text-center">
-        <Link href="/" className="font-serif font-semibold text-2xl text-[#1a1a2e] tracking-wide">Momently<span className="text-[#b8956a]">.</span></Link>
-        <div className="mt-10"><p className="text-4xl mb-4">✉️</p><h1 className="font-serif text-2xl text-[#1a1a2e]">Перевірте пошту</h1><p className="text-sm text-gray-500 mt-3">Ми надіслали magic link на <strong>{email}</strong></p><p className="text-xs text-gray-400 mt-6">Не отримали? <button onClick={() => setSent(false)} className="text-[#b8956a] hover:underline">Спробувати ще раз</button></p></div>
-      </div>
-    </main>
-  );
+  if (sent) {
+    return (
+      <main className="min-h-screen flex items-center justify-center px-6">
+        <div className="max-w-sm w-full text-center">
+          <Link href="/" className="font-serif font-semibold text-2xl text-[#1a1a2e] tracking-wide">Momently<span className="text-[#b8956a]">.</span></Link>
+          <div className="mt-10">
+            <p className="text-4xl mb-4">✉️</p>
+            <h1 className="font-serif text-2xl text-[#1a1a2e]">Перевірте пошту</h1>
+            <p className="text-sm text-gray-500 mt-3">Ми надіслали magic link на <strong>{email}</strong></p>
+            <p className="text-xs text-gray-400 mt-6">Не отримали? <button onClick={() => setSent(false)} className="text-[#b8956a] hover:underline">Спробувати ще раз</button></p>
+          </div>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-screen flex items-center justify-center px-6">
