@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { createServerSupabase } from '@/lib/supabase/server';
 import { Navbar, Footer } from '@/components/shared/navbar';
+import { CreateWeddingButton } from '@/components/shared/create-wedding-button';
 import type { Metadata } from 'next';
 
 interface Props { params: { slug: string } }
@@ -16,7 +17,7 @@ async function getTemplate(slug: string) {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const t = await getTemplate(params.slug);
   if (!t) return { title: 'Template Not Found' };
-  return { title: `${t.name} — Wedding Template`, description: t.seo_description || t.description || `${t.name} wedding invitation template` };
+  return { title: t.name + ' — Wedding Template', description: t.seo_description || t.description || t.name + ' wedding invitation template' };
 }
 
 export default async function TemplateDetailPage({ params }: Props) {
@@ -52,7 +53,9 @@ export default async function TemplateDetailPage({ params }: Props) {
                 ))}
               </div>
               <div className="mt-10 flex items-center gap-4">
-                <Link href={`/auth/signup?template=${template.slug}`} className="bg-[#1a1a2e] text-[#faf8f4] px-8 py-3.5 rounded-lg font-medium text-sm hover:bg-[#2a2a3e] transition-colors">Обрати шаблон</Link>
+                <CreateWeddingButton templateId={template.id} templateSlug={template.slug} className="bg-[#1a1a2e] text-[#faf8f4] px-8 py-3.5 rounded-lg font-medium text-sm hover:bg-[#2a2a3e] transition-colors disabled:opacity-50">
+                  Створити весілля
+                </CreateWeddingButton>
                 {template.price_uah === 0 ? <span className="text-sm text-[#b8956a] font-medium">Безкоштовно</span> : <span className="text-lg text-[#1a1a2e] font-semibold">{template.price_uah} ₴</span>}
               </div>
               <div className="mt-10"><p className="text-xs uppercase tracking-widest text-gray-400 mb-3">Палітра</p>
