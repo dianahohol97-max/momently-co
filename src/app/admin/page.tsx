@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect, useCallback } from 'react';
-import { createBrowserSupabase } from '@/lib/supabase/client';
+import { createClient } from '@/lib/supabase/client';
 
 const TABS = ['Dashboard', 'Templates', 'New Template'];
 
@@ -11,7 +11,7 @@ export default function AdminPage() {
   const [error, setError] = useState('');
 
   const fetchData = useCallback(async () => {
-    const sb = createBrowserSupabase();
+    const sb = createClient();
     const { data: { session } } = await sb.auth.getSession();
     if (!session) { setError('Not logged in'); setLoading(false); return; }
     const res = await fetch('/api/admin', { headers: { Authorization: 'Bearer ' + session.access_token } });
@@ -108,7 +108,7 @@ function TemplatesTab({ data, onRefresh }: any) {
 
   const save = async () => {
     setSaving(true);
-    const sb = createBrowserSupabase();
+    const sb = createClient();
     const { data: { session } } = await sb.auth.getSession();
     await fetch('/api/admin/templates', {
       method: 'PUT',
@@ -121,7 +121,7 @@ function TemplatesTab({ data, onRefresh }: any) {
   };
 
   const toggleActive = async (t: any) => {
-    const sb = createBrowserSupabase();
+    const sb = createClient();
     const { data: { session } } = await sb.auth.getSession();
     await fetch('/api/admin/templates', {
       method: 'PUT',
@@ -168,7 +168,7 @@ function TemplateEditor({ template, onSave, onCancel, onChange, saving }: any) {
 
   const uploadFile = async (file: File, category: string) => {
     setUploading(true);
-    const sb = createBrowserSupabase();
+    const sb = createClient();
     const { data: { session } } = await sb.auth.getSession();
     const fd = new FormData();
     fd.append('file', file);
@@ -328,7 +328,7 @@ function NewTemplateTab({ onRefresh }: any) {
   const create = async () => {
     if (!name) return;
     setCreating(true);
-    const sb = createBrowserSupabase();
+    const sb = createClient();
     const { data: { session } } = await sb.auth.getSession();
     await fetch('/api/admin/templates', {
       method: 'POST',
