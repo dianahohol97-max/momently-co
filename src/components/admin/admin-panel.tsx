@@ -24,8 +24,10 @@ export function AdminPanel({ wedding, template, guests, rsvpResponses, allTempla
   const [weddingData, setWeddingData] = useState(wedding);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [paying, setPaying] = useState(false);
   const names = weddingData.partner_name_1 + ' & ' + weddingData.partner_name_2;
   const isPublished = weddingData.status === 'published';
+  const isPaid = weddingData.is_paid;
 
   const handleSave = async (updates: Record<string, any>) => {
     setSaving(true);
@@ -33,6 +35,29 @@ export function AdminPanel({ wedding, template, guests, rsvpResponses, allTempla
       const res = await fetch('/api/weddings/' + weddingData.id, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(updates) });
       if (res.ok) { const updated = await res.json(); setWeddingData(updated); setSaved(true); setTimeout(() => setSaved(false), 2000); }
     } catch (e) { console.error('Save failed:', e); } finally { setSaving(false); }
+  };
+
+  const handlePublish = async () => {
+    if (!isPaid && !isPublished) {
+      // Redirect to payment
+      handlePayment();
+      return;
+    }
+    handleSave({ status: isPublished ? 'draft' : 'published' });
+  };
+
+  const handlePayment = async () => {
+    setPaying(true);
+    try {
+      const res = await fetch('/api/payment/create', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ wedding_id: weddingData.id }) });
+      const data = await res.json();
+      if (data.pageUrl) {
+        window.location.href = data.pageUrl;
+      } else {
+        alert(data.error || 'Помилка створення платежу');
+      }
+    } catch (e) { alert('Помилка з\'єднання'); }
+    finally { setPaying(false); }
   };
 
   return (
@@ -45,17 +70,23 @@ export function AdminPanel({ wedding, template, guests, rsvpResponses, allTempla
           <div>
             <h1 className="font-serif text-lg text-[#1a1a2e]">{names}</h1>
             <div className="flex items-center gap-2 mt-0.5">
-              <span className={'inline-block w-1.5 h-1.5 rounded-full ' + (isPublished ? 'bg-green-500' : 'bg-amber-400')} />
-              <span className="text-[10px] uppercase tracking-widest text-gray-400">{isPublished ? 'Опубліковано' : 'Чернетка'}</span>
+              <span className={'inline-block w-1.5 h-1.5 rounded-full ' + (isPublished ? 'bg-green-500' : isPaid ? 'bg-blue-400' : 'bg-amber-400')} />
+              <span className="text-[10px] uppercase tracking-widest text-gray-400">{isPublished ? 'Опубліковано' : isPaid ? 'Оплачено' : 'Чернетка'}</span>
             </div>
           </div>
         </div>
         <div className="flex items-center gap-3">
           {saved && <span className="text-xs text-green-600">Збережено ✓</span>}
           {weddingData.slug && <Link href={'/w/' + weddingData.slug} target="_blank" className="text-xs uppercase tracking-widest text-gray-400 hover:text-[#b8956a] transition-colors hidden md:block">/w/{weddingData.slug}</Link>}
-          <button onClick={() => handleSave({ status: isPublished ? 'draft' : 'published' })} className={'text-xs uppercase tracking-widest px-4 py-2 rounded-lg font-medium transition-colors ' + (isPublished ? 'bg-gray-100 text-gray-600 hover:bg-gray-200' : 'bg-[#1a1a2e] text-[#faf8f4] hover:bg-[#2a2a3e]')}>
-            {isPublished ? 'Зняти' : 'Опублікувати'}
-          </button>
+          {!isPaid && !isPublished ? (
+            <button onClick={handlePayment} disabled={paying} className="text-xs uppercase tracking-widest px-4 py-2 rounded-lg font-medium bg-[#b8956a] text-white hover:bg-[#a07850] transition-colors disabled:opacity-50">
+              {paying ? 'Переходимо...' : 'Оплатити 599 ₴'}
+            </button>
+          ) : (
+            <button onClick={handlePublish} className={'text-xs uppercase tracking-widest px-4 py-2 rounded-lg font-medium transition-colors ' + (isPublished ? 'bg-gray-100 text-gray-600 hover:bg-gray-200' : 'bg-[#1a1a2e] text-[#faf8f4] hover:bg-[#2a2a3e]')}>
+              {isPublished ? 'Зняти' : 'Опублікувати'}
+            </button>
+          )}
         </div>
       </header>
       <div className="border-b border-[#e8e0d4] bg-white px-6 overflow-x-auto">
@@ -68,6 +99,15 @@ export function AdminPanel({ wedding, template, guests, rsvpResponses, allTempla
         </div>
       </div>
       <div className="max-w-5xl mx-auto px-6 py-8">
+        {!isPaid && !isPublished && (
+          <div className="bg-amber-50 border border-amber-200 rounded-xl p-6 mb-8 text-center">
+            <p className="text-sm text-amber-800 font-medium">Оплатіть 599 ₴, щоб опублікувати запрошення</p>
+            <p className="text-xs text-amber-600 mt-1">Ви можете редагувати все безкоштовно. Оплата потрібна лише для публікації.</p>
+            <button onClick={handlePayment} disabled={paying} className="mt-4 bg-[#b8956a] text-white px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-[#a07850] disabled:opacity-50">
+              {paying ? 'Переходимо до оплати...' : 'Оплатити через Monobank — 599 ₴'}
+            </button>
+          </div>
+        )}
         {activeTab === 'design' && <DesignTab wedding={weddingData} template={template} allTemplates={allTemplates} onSave={handleSave} saving={saving} />}
         {activeTab === 'details' && <DetailsTab wedding={weddingData} onSave={handleSave} saving={saving} />}
         {activeTab === 'guests' && <GuestsTab wedding={weddingData} guests={guests} rsvpResponses={rsvpResponses} />}
@@ -77,4 +117,4 @@ export function AdminPanel({ wedding, template, guests, rsvpResponses, allTempla
       </div>
     </div>
   );
-}
+                            }
