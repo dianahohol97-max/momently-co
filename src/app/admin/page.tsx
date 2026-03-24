@@ -191,7 +191,7 @@ export default function AdminPage() {
             <div>
               <div style={{ fontSize: 11, color: '#666', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 12 }}>Colors</div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 24 }}>
-                {Object.entries(colors).filter(([k]) => typeof colors[k] === 'string' && colors[k].startsWith('#')).map(([key, val]) => (
+                {Object.entries(colors).filter(([_k, v]: [string, unknown]) => typeof v === 'string' && (v as string).startsWith('#')).map(([key, val]) => (
                   <label key={key} style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
                     <input type="color" value={val as string} onChange={e => updateColor(key, e.target.value)} style={{ width: 28, height: 28, border: '1px solid #333', borderRadius: 4, padding: 0, cursor: 'pointer' }} />
                     <div><div style={{ fontSize: 11, color: '#aaa' }}>{key}</div><div style={{ fontSize: 10, color: '#555', fontFamily: 'monospace' }}>{val as string}</div></div>
