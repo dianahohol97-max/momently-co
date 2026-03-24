@@ -1,27 +1,43 @@
-import { notFound } from 'next/navigation';
+import { redirect, notFound } from 'next/navigation';
 import { createServerSupabase } from '@/lib/supabase/server';
 import { AdminPanel } from '@/components/admin/admin-panel';
 
 interface Props { params: { id: string } }
 
-async function getWeddingData(id: string) {
+export default async function WeddingAdminPage({ params }: Props) {
   const supabase = createServerSupabase();
-  const { data: wedding, error } = await supabase.from('weddings').select('*').eq('id', id).single();
-  if (error || !wedding) return null;
-  const { data: weddingTemplate } = await supabase.from('wedding_templates').select('template_id').eq('wedding_id', id).single();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) redirect('/auth/login');
+
+  const { data: wedding } = await supabase.from('weddings').select('*').eq('id', params.id).eq('user_id', user.id).single();
+  if (!wedding) notFound();
+
+  // Get linked template
+  const { data: weddingTemplate } = await supabase.from('wedding_templates').select('template_id').eq('wedding_id', wedding.id).single();
   let template = null;
-  if (weddingTemplate?.template_id) {
+  if (weddingTemplate) {
     const { data } = await supabase.from('templates').select('*').eq('id', weddingTemplate.template_id).single();
     template = data;
   }
-  const { data: guests } = await supabase.from('guests').select('*').eq('wedding_id', id).order('created_at', { ascending: true });
-  const { data: rsvpResponses } = await supabase.from('rsvp_responses').select('*').eq('wedding_id', id);
-  const { data: allTemplates } = await supabase.from('templates').select('*').eq('is_active', true).order('display_order');
-  return { wedding, template, guests: guests || [], rsvpResponses: rsvpResponses || [], allTemplates: allTemplates || [] };
-}
 
-export default async function AdminPage({ params }: Props) {
-  const data = await getWeddingData(params.id);
-  if (!data) notFound();
-  return <AdminPanel {...data} />;
+  // Get all templates for the picker
+  const { data: allTemplates } = await supabase.from('templates').select('*').eq('is_active', true);
+
+  // Get guests and RSVP responses
+  const { data: guests } = await supabase.from('guests').select('*').eq('wedding_id', wedding.id).order('created_at', { ascending: false });
+  const { data: rsvpResponses } = await supabase.from('rsvp_responses').select('*').eq('wedding_id', wedding.id);
+
+  // Get guest photos
+  const { data: photos } = await supabase.from('guest_photos').select('*').eq('wedding_id', wedding.id).order('created_at', { ascending: false });
+
+  return (
+    <AdminPanel
+      wedding={wedding}
+      template={template}
+      guests={guests || []}
+      rsvpResponses={rsvpResponses || []}
+      allTemplates={allTemplates || []}
+      photos={photos || []}
+    />
+  );
 }
