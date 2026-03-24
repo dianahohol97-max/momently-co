@@ -1,40 +1,71 @@
 import Link from 'next/link';
 import { Navbar, Footer } from '@/components/shared/navbar';
 
-export const metadata = { title: 'Pricing', description: 'Simple pricing for your digital wedding experience.' };
-
-const plans = [
-  { name: 'Free', price: '0 ₴', description: 'Ідеально для тестування', features: ['1 безкоштовний шаблон', 'Базовий RSVP', 'До 50 гостей', 'Сайт-запрошення', 'QR-код'], cta: 'Почати безкоштовно', href: '/auth/signup', highlighted: false },
-  { name: 'Standard', price: '299 ₴', description: 'Все для ідеального весілля', features: ['Будь-який шаблон', 'Повна кастомізація', 'Необмежені гості', 'RSVP з меню вибору', 'Гостьова камера', 'Фотобудка', 'Гостьова книга', 'QR-код + WhatsApp/Viber', '3 мови: UA / EN / RO'], cta: 'Обрати Standard', href: '/auth/signup?plan=standard', highlighted: true },
-  { name: 'Premium', price: '499 ₴', description: 'Максимум вражень', features: ['Все з Standard', 'Преміум шаблони', 'Memory Film (відео)', 'Власний домен', 'Пріоритетна підтримка', 'Аналітика відвідувань'], cta: 'Обрати Premium', href: '/auth/signup?plan=premium', highlighted: false },
-];
+export const metadata = { title: 'Pricing — Momently Co' };
 
 export default function PricingPage() {
   return (
     <main>
       <Navbar />
-      <section className="pt-28 pb-16 px-6">
-        <div className="max-w-5xl mx-auto text-center">
-          <p className="text-xs uppercase tracking-[0.25em] text-[#b8956a] font-medium mb-4">Тарифи</p>
-          <h1 className="font-serif text-5xl md:text-6xl text-[#1a1a2e] leading-tight">Одна ціна, без підписки</h1>
-          <p className="text-lg text-gray-500 mt-4 max-w-md mx-auto">Оплатіть один раз — користуйтесь завжди.</p>
-        </div>
+      <section className="pt-28 pb-8 px-6 text-center">
+        <p className="text-xs uppercase tracking-[0.25em] text-[#b8956a] mb-3">Pricing</p>
+        <h1 className="font-serif text-4xl md:text-5xl text-[#1a1a2e]">Одна ціна — все включено</h1>
+        <p className="text-gray-500 mt-4 max-w-md mx-auto">Без підписки. Без прихованих платежів. Одноразова оплата за повний доступ до всіх функцій.</p>
       </section>
+
       <section className="pb-24 px-6">
-        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
-          {plans.map(plan => (
-            <div key={plan.name} className={`rounded-2xl p-8 border transition-all duration-300 ${plan.highlighted ? 'border-[#b8956a] bg-white shadow-lg scale-[1.02]' : 'border-[#e8e0d4] bg-white/50 hover:border-[#b8956a]/50'}`}>
-              <h3 className="text-xs uppercase tracking-widest text-[#b8956a] font-medium">{plan.name}</h3>
-              <div className="mt-4"><span className="font-serif text-4xl text-[#1a1a2e]">{plan.price}</span><span className="text-xs text-gray-400 ml-2">одноразово</span></div>
-              <p className="text-sm text-gray-500 mt-2">{plan.description}</p>
-              <div className="w-full h-px bg-[#e8e0d4] my-6" />
-              <ul className="space-y-3">{plan.features.map(f => <li key={f} className="flex items-start gap-2 text-sm text-gray-600"><span className="text-[#b8956a] mt-0.5 flex-shrink-0">✓</span>{f}</li>)}</ul>
-              <Link href={plan.href} className={`block text-center mt-8 px-6 py-3 rounded-lg text-sm font-medium transition-colors ${plan.highlighted ? 'bg-[#1a1a2e] text-[#faf8f4] hover:bg-[#2a2a3e]' : 'border border-[#b8956a] text-[#b8956a] hover:bg-[#b8956a]/10'}`}>{plan.cta}</Link>
+        <div className="max-w-lg mx-auto">
+          <div className="bg-white rounded-2xl border-2 border-[#b8956a] p-10 text-center relative overflow-hidden">
+            <div className="absolute top-0 left-0 right-0 bg-[#b8956a] py-1.5"><p className="text-[10px] uppercase tracking-widest text-white font-medium">Повний пакет</p></div>
+            <div className="pt-6">
+              <div className="flex items-baseline justify-center gap-1 mt-4">
+                <span className="font-serif text-6xl text-[#1a1a2e]">299</span>
+                <span className="text-lg text-gray-400">₴</span>
+              </div>
+              <p className="text-xs text-gray-400 mt-2">одноразово · без підписки</p>
             </div>
-          ))}
+            <div className="mt-8 space-y-3 text-left max-w-xs mx-auto">
+              {[
+                'Цифрове запрошення з RSVP',
+                'Весільний сайт з усіма деталями',
+                'Гостьова камера та фотобудка',
+                'Книга побажань гостей',
+                'Memory Film — відео зі всіх фото',
+                'QR-код для друку',
+                'Кастомізація кольорів та шрифтів',
+                'Адмін-панель з аналітикою',
+                'Шеринг через WhatsApp / Viber / Telegram',
+                'Підтримка UA / EN / RO',
+              ].map(f => (
+                <div key={f} className="flex items-center gap-3">
+                  <div className="w-5 h-5 rounded-full bg-[#b8956a]/10 flex items-center justify-center text-[#b8956a] text-[10px] flex-shrink-0">✓</div>
+                  <span className="text-sm text-gray-600">{f}</span>
+                </div>
+              ))}
+            </div>
+            <Link href="/templates" className="inline-block mt-10 bg-[#1a1a2e] text-[#faf8f4] px-10 py-3.5 rounded-lg font-medium text-sm hover:bg-[#2a2a3e] transition-colors">
+              Обрати шаблон
+            </Link>
+          </div>
+
+          <div className="mt-12 text-center space-y-4">
+            <p className="text-xs uppercase tracking-widest text-gray-400">Часті питання</p>
+            {[
+              { q: 'Чи є підписка?', a: 'Ні. Ви платите один раз і отримуєте повний доступ назавжди.' },
+              { q: 'Скільки гостей можна запросити?', a: 'Без обмежень. Запрошуйте скільки потрібно.' },
+              { q: 'Чи можна змінити дизайн після оплати?', a: 'Так, ви можете міняти кольори, шрифти та деталі в будь-який час.' },
+              { q: 'Які способи оплати?', a: 'Карта Visa/Mastercard через безпечний платіжний шлюз.' },
+            ].map(faq => (
+              <div key={faq.q} className="text-left bg-white rounded-xl border border-[#e8e0d4] p-5">
+                <p className="text-sm font-medium text-[#1a1a2e]">{faq.q}</p>
+                <p className="text-sm text-gray-500 mt-1">{faq.a}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
+
       <Footer />
     </main>
   );
-                                                                                            }
+               }
