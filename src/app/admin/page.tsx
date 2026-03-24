@@ -236,7 +236,7 @@ export default function AdminPage() {
             <div style={{ fontSize: 11, color: '#b8956a', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 12 }}>
               {ALL_SECTIONS.find(s => s.id === activeSection)?.icon} {activeSection} Settings
             </div>
-            <SectionSettings sectionId={activeSection} config={sectionConfigs[activeSection] || {}} onChange={(k, v) => updateSectionConfig(activeSection, k, v)} onUpload={uploadImage} templateId={selected.id} />
+            <SectionSettings sectionId={activeSection} config={sectionConfigs[activeSection] || {}} onChange={(k: string, v: any) => updateSectionConfig(activeSection, k, v)} onUpload={uploadImage} templateId={selected.id} />
           </div>
         )}
       </div>
