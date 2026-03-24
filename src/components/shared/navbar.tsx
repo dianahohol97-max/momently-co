@@ -1,9 +1,30 @@
 'use client';
+
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { createClient } from '@/lib/supabase/client';
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  const router = useRouter();
+  const supabase = createClient();
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => setUser(data.user));
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
+      setUser(session?.user || null);
+    });
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    router.push('/');
+    router.refresh();
+  };
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-[#faf8f4]/90 backdrop-blur-xl border-b border-[#e8e0d4]">
       <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
@@ -11,8 +32,17 @@ export function Navbar() {
         <div className="hidden md:flex items-center gap-1">
           <Link href="/templates" className="text-xs uppercase tracking-widest text-gray-500 hover:text-[#b8956a] px-3 py-2 transition-colors">Templates</Link>
           <Link href="/pricing" className="text-xs uppercase tracking-widest text-gray-500 hover:text-[#b8956a] px-3 py-2 transition-colors">Pricing</Link>
-          <Link href="/blog" className="text-xs uppercase tracking-widest text-gray-500 hover:text-[#b8956a] px-3 py-2 transition-colors">Blog</Link>
-          <Link href="/auth/login" className="ml-4 text-xs uppercase tracking-widest bg-[#1a1a2e] text-[#faf8f4] px-5 py-2.5 rounded-lg hover:bg-[#2a2a3e] transition-colors">Get Started</Link>
+          {user ? (
+            <>
+              <Link href="/dashboard" className="text-xs uppercase tracking-widest text-gray-500 hover:text-[#b8956a] px-3 py-2 transition-colors">Dashboard</Link>
+              <button onClick={handleSignOut} className="ml-2 text-xs uppercase tracking-widest text-gray-400 hover:text-red-500 px-3 py-2 transition-colors">Вийти</button>
+              <div className="ml-2 w-7 h-7 rounded-full bg-[#b8956a] flex items-center justify-center text-[10px] text-white font-medium">
+                {(user.email || '?')[0].toUpperCase()}
+              </div>
+            </>
+          ) : (
+            <Link href="/auth/login" className="ml-4 text-xs uppercase tracking-widest bg-[#1a1a2e] text-[#faf8f4] px-5 py-2.5 rounded-lg hover:bg-[#2a2a3e] transition-colors">Get Started</Link>
+          )}
         </div>
         <button onClick={() => setIsOpen(!isOpen)} className="md:hidden p-2 text-[#1a1a2e]">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">{isOpen ? <path d="M5 5L15 15M15 5L5 15" stroke="currentColor" strokeWidth="1.5" /> : <path d="M3 6H17M3 10H17M3 14H17" stroke="currentColor" strokeWidth="1.5" />}</svg>
@@ -22,7 +52,14 @@ export function Navbar() {
         <div className="md:hidden bg-[#faf8f4] border-b border-[#e8e0d4] px-6 py-4 space-y-3">
           <Link href="/templates" className="block text-sm text-gray-600 hover:text-[#b8956a]" onClick={() => setIsOpen(false)}>Templates</Link>
           <Link href="/pricing" className="block text-sm text-gray-600 hover:text-[#b8956a]" onClick={() => setIsOpen(false)}>Pricing</Link>
-          <Link href="/auth/login" className="block text-sm font-medium text-[#b8956a]" onClick={() => setIsOpen(false)}>Get Started</Link>
+          {user ? (
+            <>
+              <Link href="/dashboard" className="block text-sm text-gray-600 hover:text-[#b8956a]" onClick={() => setIsOpen(false)}>Dashboard</Link>
+              <button onClick={handleSignOut} className="block text-sm text-red-400">Вийти</button>
+            </>
+          ) : (
+            <Link href="/auth/login" className="block text-sm font-medium text-[#b8956a]" onClick={() => setIsOpen(false)}>Get Started</Link>
+          )}
         </div>
       )}
     </nav>
@@ -36,4 +73,4 @@ export function Footer() {
       <p className="text-xs text-gray-400 mt-2">&copy; 2026 Momently Co</p>
     </footer>
   );
-            }
+}
