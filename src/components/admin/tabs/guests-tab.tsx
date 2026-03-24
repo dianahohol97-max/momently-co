@@ -2,9 +2,9 @@
 import { useState } from 'react';
 
 interface GuestsTabProps { wedding: any; guests: any[]; rsvpResponses: any[]; }
-const groupLabels: Record<string, string> = { family: 'Родина', friends: 'Друзі', work: 'Робота', other: 'Інше' };
-const statusColors: Record<string, string> = { yes: 'bg-green-100 text-green-700', no: 'bg-red-100 text-red-700', pending: 'bg-amber-100 text-amber-700', maybe: 'bg-blue-100 text-blue-700' };
-const statusLabels: Record<string, string> = { yes: 'Так', no: 'Ні', pending: 'Очікує', maybe: 'Можливо' };
+const groupLabels: Record<string,string> = { family: 'Родина', friends: 'Друзі', work: 'Робота', other: 'Інше' };
+const statusColors: Record<string,string> = { yes: 'bg-green-100 text-green-700', no: 'bg-red-100 text-red-700', pending: 'bg-amber-100 text-amber-700' };
+const statusLabels: Record<string,string> = { yes: 'Так', no: 'Ні', pending: 'Очікує' };
 
 export function GuestsTab({ wedding, guests: initialGuests, rsvpResponses }: GuestsTabProps) {
   const [guests, setGuests] = useState(initialGuests);
@@ -13,6 +13,8 @@ export function GuestsTab({ wedding, guests: initialGuests, rsvpResponses }: Gue
   const [newEmail, setNewEmail] = useState('');
   const [newGroup, setNewGroup] = useState('friends');
   const [adding, setAdding] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [sentResult, setSentResult] = useState('');
   const stats = { total: guests.length, yes: guests.filter(g => g.rsvp_status === 'yes').length, no: guests.filter(g => g.rsvp_status === 'no').length, pending: guests.filter(g => g.rsvp_status === 'pending').length };
 
   const handleAdd = async () => {
@@ -22,6 +24,20 @@ export function GuestsTab({ wedding, guests: initialGuests, rsvpResponses }: Gue
       const res = await fetch('/api/guests', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ wedding_id: wedding.id, name: newName, email: newEmail || null, guest_group: newGroup }) });
       if (res.ok) { const guest = await res.json(); setGuests([...guests, guest]); setNewName(''); setNewEmail(''); setShowAdd(false); }
     } catch (e) { console.error(e); } finally { setAdding(false); }
+  };
+
+  const handleSendInvites = async () => {
+    const emails = guests.filter(g => g.email && !g.invitation_sent).map(g => g.email);
+    if (emails.length === 0) { setSentResult('Немає гостей з email для відправки'); setTimeout(() => setSentResult(''), 3000); return; }
+    setSending(true);
+    setSentResult('');
+    try {
+      const res = await fetch('/api/invite', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ wedding_id: wedding.id, emails }) });
+      const data = await res.json();
+      if (res.ok) { setSentResult('Надіслано ' + data.sent + ' з ' + data.total + ' запрошень!'); }
+      else { setSentResult(data.error || 'Помилка'); }
+    } catch { setSentResult('Помилка зʼєднання'); }
+    finally { setSending(false); setTimeout(() => setSentResult(''), 5000); }
   };
 
   return (
@@ -34,31 +50,44 @@ export function GuestsTab({ wedding, guests: initialGuests, rsvpResponses }: Gue
           </div>
         ))}
       </div>
-      <div className="flex items-center justify-between">
+
+      <div className="flex items-center justify-between flex-wrap gap-3">
         <h2 className="font-serif text-xl text-[#1a1a2e]">Список гостей</h2>
-        <button onClick={() => setShowAdd(!showAdd)} className="text-xs uppercase tracking-widest text-[#b8956a] font-medium">{showAdd ? 'Скасувати' : '+ Додати гостя'}</button>
+        <div className="flex gap-2">
+          <button onClick={handleSendInvites} disabled={sending} className="text-xs uppercase tracking-widest text-white bg-[#b8956a] hover:bg-[#a07850] px-4 py-2 rounded-lg font-medium disabled:opacity-50">
+            {sending ? 'Надсилаємо...' : '✉️ Надіслати запрошення'}
+          </button>
+          <button onClick={() => setShowAdd(!showAdd)} className="text-xs uppercase tracking-widest text-[#b8956a] font-medium border border-[#b8956a] px-4 py-2 rounded-lg">
+            {showAdd ? 'Скасувати' : '+ Додати'}
+          </button>
+        </div>
       </div>
+
+      {sentResult && <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 text-center text-sm text-blue-700">{sentResult}</div>}
+
       {showAdd && (
         <div className="bg-white rounded-xl border border-[#e8e0d4] p-6 space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <input value={newName} onChange={e => setNewName(e.target.value)} placeholder="Ім'я гостя" className="px-4 py-3 border border-[#e8e0d4] rounded-lg text-sm focus:outline-none focus:border-[#b8956a]" />
-            <input value={newEmail} onChange={e => setNewEmail(e.target.value)} placeholder="Email" className="px-4 py-3 border border-[#e8e0d4] rounded-lg text-sm focus:outline-none focus:border-[#b8956a]" />
+            <input value={newEmail} onChange={e => setNewEmail(e.target.value)} placeholder="Email (для запрошення)" className="px-4 py-3 border border-[#e8e0d4] rounded-lg text-sm focus:outline-none focus:border-[#b8956a]" />
             <select value={newGroup} onChange={e => setNewGroup(e.target.value)} className="px-4 py-3 border border-[#e8e0d4] rounded-lg text-sm"><option value="family">Родина</option><option value="friends">Друзі</option><option value="work">Робота</option><option value="other">Інше</option></select>
           </div>
           <button onClick={handleAdd} disabled={adding || !newName.trim()} className="bg-[#1a1a2e] text-[#faf8f4] px-6 py-2.5 rounded-lg text-sm font-medium disabled:opacity-50">{adding ? 'Додаємо...' : 'Додати'}</button>
         </div>
       )}
+
       {guests.length === 0 ? (
         <div className="text-center py-16 border border-dashed border-[#e8e0d4] rounded-xl"><p className="text-3xl mb-3">👥</p><p className="text-sm text-gray-400">Поки немає гостей</p></div>
       ) : (
         <div className="bg-white rounded-xl border border-[#e8e0d4] overflow-hidden">
           <table className="w-full">
-            <thead><tr className="border-b border-[#e8e0d4]"><th className="text-left text-[10px] uppercase tracking-widest text-gray-400 font-medium px-4 py-3">Ім&apos;я</th><th className="text-left text-[10px] uppercase tracking-widest text-gray-400 font-medium px-4 py-3 hidden md:table-cell">Група</th><th className="text-left text-[10px] uppercase tracking-widest text-gray-400 font-medium px-4 py-3">RSVP</th></tr></thead>
+            <thead><tr className="border-b border-[#e8e0d4]"><th className="text-left text-[10px] uppercase tracking-widest text-gray-400 font-medium px-4 py-3">Ім&apos;я</th><th className="text-left text-[10px] uppercase tracking-widest text-gray-400 font-medium px-4 py-3 hidden md:table-cell">Група</th><th className="text-left text-[10px] uppercase tracking-widest text-gray-400 font-medium px-4 py-3">RSVP</th><th className="text-left text-[10px] uppercase tracking-widest text-gray-400 font-medium px-4 py-3 hidden md:table-cell">Email</th></tr></thead>
             <tbody>{guests.map((g: any) => (
               <tr key={g.id} className="border-b border-[#e8e0d4] last:border-0 hover:bg-[#faf8f4]">
-                <td className="px-4 py-3"><div className="text-sm text-[#1a1a2e] font-medium">{g.name}</div>{g.email && <div className="text-xs text-gray-400">{g.email}</div>}</td>
+                <td className="px-4 py-3"><div className="text-sm text-[#1a1a2e] font-medium">{g.name}</div></td>
                 <td className="px-4 py-3 hidden md:table-cell"><span className="text-xs text-gray-500">{groupLabels[g.guest_group] || g.guest_group}</span></td>
                 <td className="px-4 py-3"><span className={'inline-block text-[10px] uppercase tracking-wider font-medium px-2 py-1 rounded-full ' + (statusColors[g.rsvp_status] || 'bg-gray-100 text-gray-500')}>{statusLabels[g.rsvp_status] || g.rsvp_status}</span></td>
+                <td className="px-4 py-3 hidden md:table-cell"><span className="text-xs text-gray-400">{g.email || '—'}</span>{g.invitation_sent && <span className="ml-1 text-[10px] text-green-500">✓</span>}</td>
               </tr>
             ))}</tbody>
           </table>
@@ -66,4 +95,4 @@ export function GuestsTab({ wedding, guests: initialGuests, rsvpResponses }: Gue
       )}
     </div>
   );
-}
+                                                               }
