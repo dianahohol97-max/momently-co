@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { getCountdown, formatWeddingDate, formatTime } from '@/lib/template-engine';
 import { RSVPForm } from '@/components/rsvp/rsvp-form';
 
@@ -16,6 +17,7 @@ export function WeddingView({ wedding, template }: WeddingViewProps) {
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: colors.background, color: colors.text, fontFamily: typography.bodyFont }}>
+      {/* Hero */}
       <section className="min-h-screen flex flex-col items-center justify-center text-center px-6 relative">
         <div className="w-16 h-px mb-8" style={{ backgroundColor: colors.primary }} />
         <p className="text-xs uppercase tracking-[0.35em] mb-4" style={{ color: colors.textMuted }}>Запрошуємо вас на наше весілля</p>
@@ -54,9 +56,20 @@ export function WeddingView({ wedding, template }: WeddingViewProps) {
 
       {rsvpEnabled && <RSVPForm weddingId={wedding.id} colors={colors} typography={typography} />}
 
+      {/* Guest Camera CTA */}
+      <section className="py-16 px-6 text-center" style={{ backgroundColor: colors.surface }}>
+        <p className="text-3xl mb-3">📸</p>
+        <h2 className="text-2xl mb-2" style={{ fontFamily: typography.headingFont, color: colors.text }}>Гостьова камера</h2>
+        <p className="text-sm mb-6" style={{ color: colors.textMuted }}>Завантажте фото з нашого свята!</p>
+        <Link href={'/w/' + wedding.slug + '/camera'} className="inline-block px-6 py-3 rounded-lg text-sm font-medium transition-colors" style={{ backgroundColor: colors.primary, color: colors.background }}>
+          Відкрити камеру
+        </Link>
+      </section>
+
       <section className="py-16 px-6 text-center" style={{ backgroundColor: colors.background }}>
         <p className="text-2xl" style={{ fontFamily: typography.accentFont, color: colors.primary }}>Чекаємо на вас!</p>
         <p className="text-xs mt-4" style={{ color: colors.textMuted }}>{names}</p>
+        {wedding.details_data?.hashtag && <p className="text-xs mt-2" style={{ color: colors.primary }}>#{wedding.details_data.hashtag}</p>}
       </section>
     </div>
   );
