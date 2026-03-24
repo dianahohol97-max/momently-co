@@ -13,11 +13,9 @@ export function WeddingView({ wedding, template }: WeddingViewProps) {
   const names = wedding.partner_name_1 + ' & ' + wedding.partner_name_2;
   const venue = wedding.venue_data?.ceremony || {};
   const schedule = wedding.schedule_data || {};
-  const rsvpEnabled = wedding.rsvp_settings?.enabled !== false;
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: colors.background, color: colors.text, fontFamily: typography.bodyFont }}>
-      {/* Hero */}
       <section className="min-h-screen flex flex-col items-center justify-center text-center px-6 relative">
         <div className="w-16 h-px mb-8" style={{ backgroundColor: colors.primary }} />
         <p className="text-xs uppercase tracking-[0.35em] mb-4" style={{ color: colors.textMuted }}>Запрошуємо вас на наше весілля</p>
@@ -29,7 +27,7 @@ export function WeddingView({ wedding, template }: WeddingViewProps) {
         {wedding.ceremony_time && <p className="text-sm mt-1" style={{ color: colors.textMuted }}>{formatTime(wedding.ceremony_time, wedding.locale || 'ua')}</p>}
       </section>
 
-      {wedding.wedding_date && <CountdownSection weddingDate={wedding.wedding_date} colors={colors} typography={typography} />}
+      {wedding.wedding_date && <CD d={wedding.wedding_date} c={colors} t={typography} />}
 
       {venue.name && (
         <section className="py-20 px-6 text-center" style={{ backgroundColor: colors.surface }}>
@@ -52,18 +50,23 @@ export function WeddingView({ wedding, template }: WeddingViewProps) {
         </div>
       </section>
 
-      {wedding.details_data && <Details d={wedding.details_data} c={colors} t={typography} />}
+      {wedding.details_data && <Det d={wedding.details_data} c={colors} t={typography} />}
 
-      {rsvpEnabled && <RSVPForm weddingId={wedding.id} colors={colors} typography={typography} />}
+      <RSVPForm weddingId={wedding.id} colors={colors} typography={typography} />
 
-      {/* Guest Camera CTA */}
-      <section className="py-16 px-6 text-center" style={{ backgroundColor: colors.surface }}>
-        <p className="text-3xl mb-3">📸</p>
-        <h2 className="text-2xl mb-2" style={{ fontFamily: typography.headingFont, color: colors.text }}>Гостьова камера</h2>
-        <p className="text-sm mb-6" style={{ color: colors.textMuted }}>Завантажте фото з нашого свята!</p>
-        <Link href={'/w/' + wedding.slug + '/camera'} className="inline-block px-6 py-3 rounded-lg text-sm font-medium transition-colors" style={{ backgroundColor: colors.primary, color: colors.background }}>
-          Відкрити камеру
-        </Link>
+      <section className="py-16 px-6" style={{ backgroundColor: colors.surface }}>
+        <div className="max-w-md mx-auto grid grid-cols-2 gap-4">
+          <Link href={'/w/' + wedding.slug + '/camera'} className="flex flex-col items-center gap-2 py-8 rounded-xl border transition-colors hover:shadow-md" style={{ borderColor: colors.border, backgroundColor: colors.background }}>
+            <span className="text-3xl">📸</span>
+            <span className="text-sm font-medium" style={{ color: colors.text }}>Гостьова камера</span>
+            <span className="text-[10px]" style={{ color: colors.textMuted }}>Завантажте фото</span>
+          </Link>
+          <Link href={'/w/' + wedding.slug + '/guestbook'} className="flex flex-col items-center gap-2 py-8 rounded-xl border transition-colors hover:shadow-md" style={{ borderColor: colors.border, backgroundColor: colors.background }}>
+            <span className="text-3xl">📖</span>
+            <span className="text-sm font-medium" style={{ color: colors.text }}>Книга гостей</span>
+            <span className="text-[10px]" style={{ color: colors.textMuted }}>Залиште побажання</span>
+          </Link>
+        </div>
       </section>
 
       <section className="py-16 px-6 text-center" style={{ backgroundColor: colors.background }}>
@@ -75,16 +78,16 @@ export function WeddingView({ wedding, template }: WeddingViewProps) {
   );
 }
 
-function CountdownSection({ weddingDate, colors, typography }: any) {
-  const [cd, setCd] = useState(getCountdown(weddingDate));
-  useEffect(() => { const i = setInterval(() => setCd(getCountdown(weddingDate)), 1000); return () => clearInterval(i); }, [weddingDate]);
+function CD({ d, c, t }: any) {
+  const [cd, setCd] = useState(getCountdown(d));
+  useEffect(() => { const i = setInterval(() => setCd(getCountdown(d)), 1000); return () => clearInterval(i); }, [d]);
   if (cd.isPast) return null;
   return (
     <section className="py-20 px-6 text-center">
-      <p className="text-xs uppercase tracking-[0.25em] mb-8" style={{ color: colors.primary }}>До весілля залишилось</p>
+      <p className="text-xs uppercase tracking-[0.25em] mb-8" style={{ color: c.primary }}>До весілля залишилось</p>
       <div className="flex items-center justify-center gap-6 md:gap-10">
         {[{v:cd.days,l:'днів'},{v:cd.hours,l:'годин'},{v:cd.minutes,l:'хвилин'},{v:cd.seconds,l:'секунд'}].map(i=>(
-          <div key={i.l}><div className="text-4xl md:text-5xl font-light tabular-nums" style={{fontFamily:typography.headingFont,color:colors.text}}>{String(i.v).padStart(2,'0')}</div><div className="text-[10px] uppercase tracking-widest mt-1" style={{color:colors.textMuted}}>{i.l}</div></div>
+          <div key={i.l}><div className="text-4xl md:text-5xl font-light tabular-nums" style={{fontFamily:t.headingFont,color:c.text}}>{String(i.v).padStart(2,'0')}</div><div className="text-[10px] uppercase tracking-widest mt-1" style={{color:c.textMuted}}>{i.l}</div></div>
         ))}
       </div>
     </section>
@@ -93,8 +96,8 @@ function CountdownSection({ weddingDate, colors, typography }: any) {
 
 function TL({time,label,c,t}:any){return(<div className="flex items-center gap-6"><div className="text-lg w-16 text-right tabular-nums" style={{fontFamily:t.accentFont,color:c.primary}}>{time}</div><div className="w-2 h-2 rounded-full flex-shrink-0" style={{backgroundColor:c.primary}}/><div className="text-sm text-left" style={{color:c.text}}>{label}</div></div>);}
 
-function Details({d,c,t}:any){
+function Det({d,c,t}:any){
   const items=[{l:'Дрес-код',v:d.dressCode},{l:'Подарунки',v:d.giftRegistry},{l:'Проживання',v:d.accommodationInfo},{l:'Транспорт',v:d.transportInfo},{l:'Примітки',v:d.specialNotes}].filter(i=>i.v);
   if(!items.length)return null;
   return(<section className="py-20 px-6" style={{backgroundColor:c.surface}}><div className="max-w-lg mx-auto text-center"><p className="text-xs uppercase tracking-[0.25em] mb-3" style={{color:c.primary}}>Деталі</p><h2 className="text-3xl mb-10" style={{fontFamily:t.headingFont}}>Корисна інформація</h2><div className="space-y-6 text-left">{items.map(i=>(<div key={i.l}><p className="text-xs uppercase tracking-widest mb-1" style={{color:c.primary}}>{i.l}</p><p className="text-sm leading-relaxed" style={{color:c.textMuted}}>{i.v}</p></div>))}</div></div></section>);
-}
+          }
