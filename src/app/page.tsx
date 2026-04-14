@@ -1,11 +1,13 @@
 'use client';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { ArrowRight, Check, Heart, Calendar, Users } from 'lucide-react';
 
 const templates = [
   { name: 'Golden Elegance', slug: 'golden-hour', cat: 'Cream & Gold', bg: '#FAF7F2', text: '#2C2420', accent: '#B8956A', names: 'Olivia & Noah', font: 'Cormorant Garamond' },
   { name: 'Old Money', slug: 'midnight-elegance', cat: 'Dark Luxe', bg: '#0F0F0F', text: '#F5F0E8', accent: '#B8956A', names: 'Olivia & Noah', font: 'Playfair Display' },
-  { name: 'Burgundy Romance', slug: 'botanical-garden', cat: 'Wine & Rose', bg: '#1A0F10', text: '#F2E8E0', accent: '#C4786E', names: 'Olivia & Noah', font: 'Playfair Display' },
-  { name: 'Lavender Dream', slug: 'lavender-dream', cat: 'Soft Pastel', bg: '#F8F4F9', text: '#3A2E3E', accent: '#9B7BA8', names: 'Olivia & Noah', font: 'Cormorant Garamond' },
+  { name: 'Burgundy Romance', slug: 'botanical-garden', cat: 'Wine & Rose', bg: '#1A0F10', text: '#F2E8E0', accent: '#C4786E', names: 'Sophia & James', font: 'Playfair Display' },
+  { name: 'Lavender Dream', slug: 'lavender-dream', cat: 'Soft Pastel', bg: '#F8F4F9', text: '#3A2E3E', accent: '#9B7BA8', names: 'Emma & Luca', font: 'Cormorant Garamond' },
   { name: 'Cream Elegance', slug: 'modern-minimal', cat: 'UA Classic', bg: '#FAF7F2', text: '#2C2420', accent: '#B8956A', names: 'Вікторія & Андрій', font: 'Cormorant Garamond' },
   { name: 'Emerald Garden', slug: 'emerald-garden', cat: 'Nature Green', bg: '#F5F8F2', text: '#2D3A2D', accent: '#5B7F5B', names: 'Вікторія & Андрій', font: 'Cormorant Garamond' },
   { name: 'Noir Gold', slug: 'noir-gold', cat: 'Black & Gold', bg: '#0A0A0A', text: '#F0ECE0', accent: '#C9A84C', names: 'Olivia & Noah', font: 'Playfair Display' },
@@ -13,166 +15,304 @@ const templates = [
 
 function IPhoneFrame({ t }: { t: typeof templates[0] }) {
   return (
-    <div style={{ position: 'relative', width: 220, flexShrink: 0 }}>
-      {/* iPhone outer shell */}
-      <div style={{ background: '#1a1a1a', borderRadius: 32, padding: '12px 8px', boxShadow: '0 20px 60px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.05)' }}>
-        {/* Notch */}
-        <div style={{ width: 80, height: 20, background: '#1a1a1a', borderRadius: '0 0 16px 16px', margin: '0 auto 4px', position: 'relative', zIndex: 2 }} />
-        {/* Screen */}
-        <div style={{ background: t.bg, borderRadius: 20, overflow: 'hidden', height: 380 }}>
-          {/* Mini template preview */}
-          <div style={{ padding: '40px 16px 20px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
-            <div style={{ width: 32, height: 1, background: t.accent, marginBottom: 16 }} />
+    <div className="relative flex-shrink-0" style={{ width: 200 }}>
+      <div style={{
+        background: '#1a1a1a',
+        borderRadius: 32,
+        padding: '10px 7px',
+        boxShadow: '0 24px 64px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.06)',
+      }}>
+        <div style={{ width: 72, height: 18, background: '#1a1a1a', borderRadius: '0 0 14px 14px', margin: '0 auto 4px', position: 'relative', zIndex: 2 }} />
+        <div style={{ background: t.bg, borderRadius: 20, overflow: 'hidden', height: 360 }}>
+          <div style={{ padding: '36px 14px 18px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+            <div style={{ width: 28, height: 1, background: t.accent, marginBottom: 14 }} />
             <p style={{ fontSize: 6, textTransform: 'uppercase', letterSpacing: '0.3em', color: t.accent, marginBottom: 8 }}>We invite you</p>
-            <h3 style={{ fontFamily: "'" + t.font + "', serif", fontSize: 22, fontWeight: 300, color: t.text, lineHeight: 1.2 }}>
+            <h3 style={{ fontFamily: `'${t.font}', serif`, fontSize: 20, fontWeight: 300, color: t.text, lineHeight: 1.2 }}>
               {t.names.split(' & ')[0]}
             </h3>
-            <p style={{ fontFamily: "'" + t.font + "', serif", fontSize: 16, fontStyle: 'italic', color: t.accent, margin: '4px 0' }}>&amp;</p>
-            <h3 style={{ fontFamily: "'" + t.font + "', serif", fontSize: 22, fontWeight: 300, color: t.text, lineHeight: 1.2 }}>
+            <p style={{ fontFamily: `'${t.font}', serif`, fontSize: 14, fontStyle: 'italic', color: t.accent, margin: '4px 0' }}>&amp;</p>
+            <h3 style={{ fontFamily: `'${t.font}', serif`, fontSize: 20, fontWeight: 300, color: t.text, lineHeight: 1.2 }}>
               {t.names.split(' & ')[1]}
             </h3>
-            <div style={{ width: 32, height: 1, background: t.accent, margin: '16px 0 12px' }} />
-            <p style={{ fontSize: 7, color: t.accent, fontFamily: "'" + t.font + "', serif" }}>12.09.2026</p>
-            {/* Mini sections preview */}
+            <div style={{ width: 28, height: 1, background: t.accent, margin: '14px 0 10px' }} />
+            <p style={{ fontSize: 7, color: t.accent, fontFamily: `'${t.font}', serif`, letterSpacing: '0.15em' }}>12.09.2026</p>
             <div style={{ marginTop: 20, width: '100%' }}>
-              <div style={{ height: 1, width: 1, background: t.accent, margin: '0 auto 12px', opacity: 0.3 }} />
-              <div style={{ display: 'flex', justifyContent: 'center', gap: 16 }}>
+              <div style={{ display: 'flex', justifyContent: 'center', gap: 14 }}>
                 {['142', '08', '34'].map((n, i) => (
                   <div key={i} style={{ textAlign: 'center' }}>
-                    <div style={{ fontFamily: "'" + t.font + "', serif", fontSize: 14, color: t.text }}>{n}</div>
+                    <div style={{ fontFamily: `'${t.font}', serif`, fontSize: 13, color: t.text }}>{n}</div>
                     <div style={{ fontSize: 5, textTransform: 'uppercase', letterSpacing: '0.1em', color: t.accent }}>{['days', 'hrs', 'min'][i]}</div>
                   </div>
-                ))}
-              </div>
-              <div style={{ marginTop: 16, display: 'flex', justifyContent: 'center', gap: 4 }}>
-                {[t.bg, t.accent, t.text].map((c, i) => (
-                  <div key={i} style={{ width: 12, height: 12, borderRadius: 6, background: c, border: '1px solid ' + t.accent + '33' }} />
                 ))}
               </div>
             </div>
           </div>
         </div>
-        {/* Bottom bar */}
-        <div style={{ width: 60, height: 4, background: '#333', borderRadius: 2, margin: '8px auto 4px' }} />
+        <div style={{ width: 56, height: 4, background: '#333', borderRadius: 2, margin: '7px auto 3px' }} />
       </div>
-      {/* Template name below */}
-      <div style={{ textAlign: 'center', marginTop: 16 }}>
-        <h4 style={{ fontSize: 14, fontWeight: 600, color: '#2C2420', fontFamily: "'Cormorant Garamond', serif" }}>{t.name}</h4>
-        <p style={{ fontSize: 11, color: '#8A7B6B', marginTop: 2 }}>{t.cat}</p>
+      <div className="text-center mt-4">
+        <h4 className="text-sm font-semibold text-[#2C2420]" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{t.name}</h4>
+        <p className="text-[11px] text-[#8A7B6B] mt-1">{t.cat}</p>
       </div>
     </div>
   );
 }
 
+const features = [
+  {
+    icon: <Heart className="w-5 h-5" />,
+    title: 'Save the Date',
+    desc: 'Анімоване запрошення з посиланням, яке хочеться відкрити одразу.',
+  },
+  {
+    icon: <Calendar className="w-5 h-5" />,
+    title: 'Wedding Website',
+    desc: 'Персональний сайт з таймером зворотного відліку, вашою історією та всіма деталями.',
+  },
+  {
+    icon: <Users className="w-5 h-5" />,
+    title: 'RSVP System',
+    desc: 'Гості підтверджують присутність онлайн. Відстежуйте відповіді в дашборді.',
+  },
+];
+
 export default function HomePage() {
   return (
-    <div style={{ fontFamily: "'DM Sans', sans-serif", color: '#2C2420', background: '#FDFAF6' }}>
-      <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+    <div className="min-h-screen bg-[#FDFAF6] text-[#2C2420]" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+
+      {/* Nav */}
+      <nav className="flex justify-between items-center px-8 py-5 border-b border-[#E8E0D4]/60 bg-[#FDFAF6]/90 backdrop-blur-sm sticky top-0 z-50">
+        <div className="text-xl text-[#B8956A]" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Momently</div>
+        <div className="flex items-center gap-6">
+          <Link href="/templates" className="text-xs font-medium uppercase tracking-widest text-[#8A7B6B] hover:text-[#2C2420] transition-colors">
+            Шаблони
+          </Link>
+          <Link href="/auth/login" className="text-xs font-medium uppercase tracking-widest text-[#8A7B6B] hover:text-[#2C2420] transition-colors">
+            Увійти
+          </Link>
+          <Link href="/templates" className="bg-[#2C2420] text-[#FDFAF6] px-5 py-2.5 rounded-full text-xs font-medium uppercase tracking-widest hover:bg-[#2C2420]/80 transition-colors">
+            Створити весілля
+          </Link>
+        </div>
+      </nav>
 
       {/* Hero */}
-      <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '80px 24px', position: 'relative', overflow: 'hidden' }}>
+      <section className="relative px-8 py-24 lg:py-36 max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center overflow-hidden">
         {/* Decorative circles */}
-        <div style={{ position: 'absolute', top: -100, right: -100, width: 400, height: 400, borderRadius: '50%', border: '1px solid #E8DDD4', opacity: 0.4 }} />
-        <div style={{ position: 'absolute', bottom: -150, left: -150, width: 500, height: 500, borderRadius: '50%', border: '1px solid #E8DDD4', opacity: 0.3 }} />
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full border border-[#E8DDD4]/40 -translate-y-1/4 translate-x-1/4 pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full border border-[#E8DDD4]/30 translate-y-1/4 -translate-x-1/4 pointer-events-none" />
 
-        <div style={{ position: 'relative', zIndex: 1 }}>
-          <p style={{ fontSize: 12, letterSpacing: '0.35em', textTransform: 'uppercase', color: '#B8956A', marginBottom: 24 }}>Momently</p>
-          <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(36px, 6vw, 64px)', fontWeight: 300, lineHeight: 1.15, color: '#2C2420', maxWidth: 700, margin: '0 auto' }}>
-            Digital Wedding<br />
-            <span style={{ fontStyle: 'italic', color: '#B8956A' }}>Invitations</span>
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="relative z-10"
+        >
+          <div className="flex items-center gap-3 mb-8">
+            <div className="h-px w-10 bg-[#B8956A]" />
+            <span className="text-xs uppercase tracking-[0.3em] text-[#B8956A]">Digital Wedding Platform</span>
+          </div>
+          <h1 className="leading-[0.95] mb-8 text-[#2C2420]" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(44px, 6vw, 72px)', fontWeight: 300 }}>
+            Ваше весілля<br />
+            <span style={{ fontStyle: 'italic', color: '#B8956A' }}>в одному лінку</span>
           </h1>
-          <p style={{ fontSize: 15, color: '#8A7B6B', marginTop: 24, maxWidth: 480, margin: '24px auto 0', lineHeight: 1.8 }}>
-            Beautiful digital invitations with countdown, RSVP, guest camera, photo booth and more. All in one link.
+          <p className="text-[#8A7B6B] max-w-md mb-10 leading-relaxed" style={{ fontSize: 16 }}>
+            Цифрові запрошення, персональний сайт та RSVP. Все в єдиному стилі для вашого особливого дня.
           </p>
-          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', marginTop: 40 }}>
-            <Link href="/templates" style={{ padding: '16px 40px', background: '#B8956A', color: '#fff', borderRadius: 8, textDecoration: 'none', fontSize: 13, fontWeight: 500, letterSpacing: '0.05em' }}>
-              Browse Templates
+          <div className="flex flex-wrap gap-4 items-center">
+            <Link
+              href="/templates"
+              className="flex items-center gap-3 bg-[#B8956A] text-white px-8 py-4 rounded-full text-sm font-medium uppercase tracking-widest hover:bg-[#A07850] transition-all group"
+            >
+              Почати за 599₴
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
-            <Link href="/pricing" style={{ padding: '16px 40px', border: '1px solid #D4C5B0', color: '#2C2420', borderRadius: 8, textDecoration: 'none', fontSize: 13, fontWeight: 500 }}>
-              Pricing
+            <Link href="/templates" className="text-sm text-[#8A7B6B] underline underline-offset-4 hover:text-[#2C2420] transition-colors">
+              Переглянути шаблони
             </Link>
           </div>
-          <p style={{ fontSize: 28, fontFamily: "'Cormorant Garamond', serif", fontWeight: 500, color: '#B8956A', marginTop: 16 }}>599 &#8372;</p>
-        </div>
+        </motion.div>
+
+        {/* Floating hero card */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.96 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1, delay: 0.2 }}
+          className="relative hidden lg:block"
+        >
+          <div className="relative aspect-[4/5] rounded-[40px] overflow-hidden border border-[#E8DDD4] shadow-2xl bg-[#FAF7F2]">
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-12">
+              <div className="w-10 h-px bg-[#B8956A] mb-8" />
+              <p className="text-[10px] uppercase tracking-[0.35em] text-[#B8956A] mb-6">We invite you to celebrate</p>
+              <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 42, fontWeight: 300, color: '#2C2420', lineHeight: 1.2 }}>
+                Anna<br />
+                <span style={{ fontStyle: 'italic', color: '#B8956A', fontSize: 32 }}>&amp;</span><br />
+                Maxim
+              </h2>
+              <div className="w-10 h-px bg-[#B8956A] my-8" />
+              <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 14, color: '#8A7B6B', letterSpacing: '0.2em' }}>12 · 09 · 2026</p>
+              <p className="text-xs text-[#8A7B6B] mt-2 tracking-widest uppercase">Kyiv, Restaurant Praha</p>
+              <div className="flex gap-8 mt-10">
+                {['142', '08', '34'].map((n, i) => (
+                  <div key={i} className="text-center">
+                    <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 28, fontWeight: 300, color: '#2C2420' }}>{n}</div>
+                    <div className="text-[9px] uppercase tracking-widest text-[#B8956A] mt-1">{['days', 'hrs', 'min'][i]}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Floating badge */}
+          <motion.div
+            animate={{ y: [0, -8, 0] }}
+            transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute -top-6 -right-6 bg-white rounded-2xl shadow-xl border border-[#E8DDD4] p-4 max-w-[160px]"
+          >
+            <div className="flex items-center gap-2 mb-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
+              <span className="text-[9px] uppercase tracking-widest text-[#8A7B6B]">Нова відповідь</span>
+            </div>
+            <p className="text-xs font-medium text-[#2C2420]">Марія Коваль</p>
+            <p className="text-[10px] text-[#B8956A]">Буде присутня ✓</p>
+          </motion.div>
+
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute -bottom-6 -left-6 bg-[#2C2420] text-white rounded-2xl shadow-xl p-4 max-w-[160px]"
+          >
+            <p className="text-[9px] uppercase tracking-widest text-white/50 mb-1">RSVP</p>
+            <p className="text-lg font-light" style={{ fontFamily: "'Cormorant Garamond', serif" }}>48 гостей</p>
+            <p className="text-[10px] text-[#B8956A] mt-0.5">підтвердили участь</p>
+          </motion.div>
+        </motion.div>
       </section>
 
-      {/* Templates Carousel in iPhone Frames */}
-      <section style={{ padding: '80px 0', background: '#F5F0EA' }}>
-        <div style={{ textAlign: 'center', marginBottom: 48, padding: '0 24px' }}>
-          <p style={{ fontSize: 11, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#B8956A', marginBottom: 12 }}>Our Collection</p>
-          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 40, fontWeight: 300, color: '#2C2420' }}>Wedding Templates</h2>
+      {/* Templates Carousel */}
+      <section className="py-24 bg-[#F5F0EA]">
+        <div className="text-center mb-14 px-6">
+          <p className="text-[11px] uppercase tracking-[0.3em] text-[#B8956A] mb-3">Наша колекція</p>
+          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 40, fontWeight: 300, color: '#2C2420' }}>
+            Весільні шаблони
+          </h2>
         </div>
-        <div style={{ display: 'flex', gap: 32, overflow: 'auto', padding: '0 48px 32px', scrollSnapType: 'x mandatory', WebkitOverflowScrolling: 'touch' }}>
+        <div className="flex gap-8 overflow-x-auto px-12 pb-8" style={{ scrollSnapType: 'x mandatory', WebkitOverflowScrolling: 'touch' }}>
           {templates.map(t => (
-            <Link key={t.slug} href={'/templates/' + t.slug} style={{ textDecoration: 'none', color: 'inherit', scrollSnapAlign: 'center' }}>
-              <IPhoneFrame t={t} />
+            <Link key={t.slug} href={`/templates/${t.slug}`} style={{ textDecoration: 'none', color: 'inherit', scrollSnapAlign: 'center' }}>
+              <motion.div whileHover={{ y: -6 }} transition={{ duration: 0.3 }}>
+                <IPhoneFrame t={t} />
+              </motion.div>
             </Link>
           ))}
         </div>
       </section>
 
-      {/* Features */}
-      <section style={{ padding: '100px 24px', textAlign: 'center' }}>
-        <p style={{ fontSize: 11, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#B8956A', marginBottom: 12 }}>Everything You Need</p>
-        <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 40, fontWeight: 300, color: '#2C2420', marginBottom: 60 }}>6 Modules in One</h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 32, maxWidth: 900, margin: '0 auto' }}>
-          {[
-            { icon: '\u2709\ufe0f', title: 'Digital Invitation', desc: 'Beautiful personalized wedding page with countdown, venue, timeline and all details' },
-            { icon: '\ud83d\udcf8', title: 'Guest Camera', desc: 'Guests upload photos directly to your gallery during the celebration' },
-            { icon: '\ud83c\udfad', title: 'Photo Booth', desc: '6 filters, 4 frames — fun photos for your guests with instant download' },
-            { icon: '\ud83d\udcd6', title: 'Guestbook', desc: 'Digital wishes from your guests — save them forever' },
-            { icon: '\u2709\ufe0f', title: 'RSVP System', desc: 'Guests confirm attendance online. Track responses in your dashboard' },
-            { icon: '\ud83c\udfac', title: 'Memory Film', desc: 'Auto-generated slideshow from guest photos — a beautiful keepsake' },
-          ].map((f, i) => (
-            <div key={i} style={{ padding: 32, borderRadius: 16, border: '1px solid #E8E0D4', background: '#FDFAF6', textAlign: 'left' }}>
-              <div style={{ fontSize: 28, marginBottom: 16 }}>{f.icon}</div>
-              <h3 style={{ fontSize: 16, fontWeight: 600, marginBottom: 8 }}>{f.title}</h3>
-              <p style={{ fontSize: 13, color: '#8A7B6B', lineHeight: 1.7 }}>{f.desc}</p>
-            </div>
-          ))}
+      {/* Features — MVP only */}
+      <section className="py-28 px-8">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-20">
+            <p className="text-[11px] uppercase tracking-[0.3em] text-[#B8956A] mb-3">Все що потрібно</p>
+            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 40, fontWeight: 300, color: '#2C2420' }}>
+              Три модулі. Один лінк.
+            </h2>
+            <p className="text-[#8A7B6B] mt-4 max-w-md mx-auto text-sm leading-relaxed">
+              Забудьте про паперові запрошення, Google Forms і хаотичні повідомлення. Все в одному місці.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {features.map((f, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="p-8 rounded-[28px] border border-[#E8E0D4] bg-white hover:shadow-lg hover:-translate-y-1 transition-all"
+              >
+                <div className="w-11 h-11 rounded-2xl bg-[#B8956A]/10 flex items-center justify-center text-[#B8956A] mb-6">
+                  {f.icon}
+                </div>
+                <h3 className="text-base font-semibold mb-3 tracking-wide uppercase text-[11px]" style={{ fontFamily: "'DM Sans', sans-serif", letterSpacing: '0.1em' }}>
+                  {f.title}
+                </h3>
+                <p className="text-[#8A7B6B] text-sm leading-relaxed">{f.desc}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* How it Works */}
-      <section style={{ padding: '100px 24px', background: '#F5F0EA', textAlign: 'center' }}>
-        <p style={{ fontSize: 11, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#B8956A', marginBottom: 12 }}>Simple Process</p>
-        <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 40, fontWeight: 300, color: '#2C2420', marginBottom: 60 }}>3 Easy Steps</h2>
-        <div style={{ display: 'flex', justifyContent: 'center', gap: 48, flexWrap: 'wrap', maxWidth: 800, margin: '0 auto' }}>
-          {[
-            { n: '01', t: 'Choose Template', d: 'Pick from our collection of beautiful designs' },
-            { n: '02', t: 'Customize', d: 'Add your names, date, venue, photos and details' },
-            { n: '03', t: 'Share', d: 'Send a link to your guests via any messenger' },
-          ].map((s, i) => (
-            <div key={i} style={{ textAlign: 'center', maxWidth: 200 }}>
-              <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 48, fontWeight: 300, color: '#B8956A', marginBottom: 12 }}>{s.n}</div>
-              <h3 style={{ fontSize: 15, fontWeight: 600, marginBottom: 8 }}>{s.t}</h3>
-              <p style={{ fontSize: 13, color: '#8A7B6B', lineHeight: 1.6 }}>{s.d}</p>
-            </div>
-          ))}
+      <section className="py-28 px-8 bg-[#F5F0EA]">
+        <div className="max-w-4xl mx-auto text-center">
+          <p className="text-[11px] uppercase tracking-[0.3em] text-[#B8956A] mb-3">Простий процес</p>
+          <h2 className="mb-20" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 40, fontWeight: 300, color: '#2C2420' }}>
+            3 кроки до готового сайту
+          </h2>
+          <div className="flex justify-center gap-16 flex-wrap">
+            {[
+              { n: '01', t: 'Оберіть шаблон', d: 'Виберіть зі стилів від ніжного до розкішного' },
+              { n: '02', t: 'Налаштуйте', d: 'Додайте імена, дату, локацію та свою історію' },
+              { n: '03', t: 'Поділіться', d: 'Надішліть посилання гостям через будь-який месенджер' },
+            ].map((s, i) => (
+              <div key={i} className="text-center max-w-[180px]">
+                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 52, fontWeight: 300, color: '#B8956A' }}>{s.n}</div>
+                <h3 className="text-sm font-semibold mt-2 mb-2">{s.t}</h3>
+                <p className="text-xs text-[#8A7B6B] leading-relaxed">{s.d}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section style={{ padding: '100px 24px', textAlign: 'center' }}>
-        <div style={{ width: 48, height: 1, background: '#B8956A', margin: '0 auto 32px' }} />
-        <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 40, fontWeight: 300, color: '#2C2420', marginBottom: 16 }}>
-          Ready to Create<br /><span style={{ fontStyle: 'italic', color: '#B8956A' }}>Your Invitation?</span>
-        </h2>
-        <p style={{ fontSize: 14, color: '#8A7B6B', marginBottom: 32 }}>All 6 modules included. One price. Unlimited guests.</p>
-        <Link href="/templates" style={{ display: 'inline-block', padding: '18px 48px', background: '#B8956A', color: '#fff', borderRadius: 8, textDecoration: 'none', fontSize: 14, fontWeight: 500, letterSpacing: '0.05em' }}>
-          Get Started — 599 &#8372;
-        </Link>
+      {/* Pricing */}
+      <section className="py-28 px-8">
+        <div className="max-w-xl mx-auto text-center">
+          <div className="inline-block px-4 py-1 rounded-full bg-[#B8956A]/10 text-[#B8956A] text-[10px] uppercase tracking-[0.2em] mb-6">Проста ціна</div>
+          <h2 className="mb-4" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 48, fontWeight: 300, color: '#2C2420' }}>
+            Все включено<br />за <span style={{ color: '#B8956A' }}>599₴</span>
+          </h2>
+          <p className="text-[#8A7B6B] text-sm mb-12">Один раз — назавжди. Жодних підписок.</p>
+
+          <div className="grid sm:grid-cols-2 gap-4 text-left mb-10">
+            {[
+              'Save the Date запрошення',
+              'Персональний весільний сайт',
+              'RSVP система з дашбордом',
+              'Необмежена кількість гостей',
+              'Персональний домен /w/ваше-ім\'я',
+              'Підтримка протягом 1 року',
+            ].map((item, i) => (
+              <div key={i} className="flex items-center gap-3">
+                <div className="w-5 h-5 rounded-full bg-[#B8956A]/15 flex items-center justify-center text-[#B8956A] flex-shrink-0">
+                  <Check className="w-3 h-3" />
+                </div>
+                <span className="text-sm text-[#2C2420]/80">{item}</span>
+              </div>
+            ))}
+          </div>
+
+          <Link
+            href="/templates"
+            className="w-full block bg-[#2C2420] text-[#FDFAF6] py-5 rounded-full text-sm font-medium uppercase tracking-widest hover:bg-[#2C2420]/80 transition-colors text-center"
+          >
+            Створити весілля зараз
+          </Link>
+          <p className="text-xs text-[#8A7B6B] mt-4">Немає прихованих платежів. Оплата через Monobank.</p>
+        </div>
       </section>
 
       {/* Footer */}
-      <footer style={{ padding: '48px 24px', borderTop: '1px solid #E8E0D4', textAlign: 'center' }}>
-        <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 20, color: '#B8956A' }}>Momently</p>
-        <p style={{ fontSize: 12, color: '#8A7B6B', marginTop: 8 }}>Digital Wedding Experience Platform</p>
-        <div style={{ display: 'flex', justifyContent: 'center', gap: 24, marginTop: 16 }}>
-          <Link href="/templates" style={{ fontSize: 12, color: '#8A7B6B', textDecoration: 'none' }}>Templates</Link>
-          <Link href="/pricing" style={{ fontSize: 12, color: '#8A7B6B', textDecoration: 'none' }}>Pricing</Link>
-          <Link href="/blog" style={{ fontSize: 12, color: '#8A7B6B', textDecoration: 'none' }}>Blog</Link>
+      <footer className="px-8 py-12 border-t border-[#E8E0D4] flex flex-col md:flex-row justify-between items-center gap-6 text-[#8A7B6B]">
+        <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 20, color: '#B8956A' }}>Momently</div>
+        <div className="flex gap-8 text-xs uppercase tracking-widest">
+          <Link href="/templates" className="hover:text-[#2C2420] transition-colors">Шаблони</Link>
+          <Link href="/pricing" className="hover:text-[#2C2420] transition-colors">Ціни</Link>
+          <Link href="/auth/login" className="hover:text-[#2C2420] transition-colors">Увійти</Link>
         </div>
+        <div className="text-xs">© 2026 Momently. Зроблено з любов'ю в Україні.</div>
       </footer>
     </div>
   );
