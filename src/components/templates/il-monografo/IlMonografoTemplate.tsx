@@ -319,7 +319,7 @@ export default function IlMonografoTemplate({ data = DEMO }: { data?: WeddingDat
           <p className="font-sans text-[10px] uppercase tracking-[0.5em] text-white/40 mb-10">The Location</p>
           <h3 className="font-headline text-5xl md:text-6xl mb-10 leading-tight">
             {data.venue_name.split(',').map((part, i) => (
-              <span key={i}>{i > 0 ? <><br /><span className="italic">{part}</span></> : part}</>
+              <span key={i}>{i > 0 ? (<><br /><span className="italic">{part}</span></>) : part}</span>
             ))}
           </h3>
           <p className="font-sans text-xs uppercase tracking-widest leading-loose opacity-60 whitespace-pre-line">
