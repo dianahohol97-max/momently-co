@@ -1,61 +1,151 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { createServerSupabase } from '@/lib/supabase/server';
-import { Navbar, Footer } from '@/components/shared/navbar';
+import { ArrowRight, Plus, Calendar, MapPin, ExternalLink } from 'lucide-react';
 
-export const metadata = { title: 'Dashboard' };
+export const metadata = { title: 'Dashboard — Momently' };
 
 export default async function DashboardPage() {
   const supabase = createServerSupabase();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect('/auth/login');
 
-  const { data: weddings } = await supabase.from('weddings').select('*').eq('user_id', user.id).order('created_at', { ascending: false });
+  const { data: weddings } = await supabase
+    .from('weddings')
+    .select('*')
+    .eq('user_id', user.id)
+    .order('created_at', { ascending: false });
+
   const userName = user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0] || '';
 
   return (
-    <main>
-      <Navbar />
-      <section className="pt-28 pb-16 px-6">
-        <div className="max-w-4xl mx-auto">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="font-serif text-3xl text-[#1a1a2e]">{userName ? 'Привіт, ' + userName : 'Мої весілля'}</h1>
-              <p className="text-sm text-gray-500 mt-1">Керуйте вашими запрошеннями</p>
-            </div>
-            <Link href="/templates" className="bg-[#1a1a2e] text-[#faf8f4] px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-[#2a2a3e] transition-colors">+ Нове весілля</Link>
-          </div>
-          {(!weddings || weddings.length === 0) ? (
-            <div className="mt-16 text-center py-20 border border-dashed border-[#e8e0d4] rounded-2xl">
-              <p className="text-4xl mb-4">💍</p>
-              <h2 className="font-serif text-xl text-[#1a1a2e]">Поки що пусто</h2>
-              <p className="text-sm text-gray-400 mt-2 max-w-xs mx-auto">Створіть ваше перше цифрове весільне запрошення за кілька хвилин</p>
-              <Link href="/templates" className="inline-block mt-6 bg-[#b8956a] text-white px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-[#a07850] transition-colors">Обрати шаблон</Link>
-            </div>
-          ) : (
-            <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-              {weddings.map((wedding: any) => {
-                const isPublished = wedding.status === 'published';
-                return (
-                  <Link key={wedding.id} href={'/dashboard/' + wedding.id} className="group bg-white rounded-2xl border border-[#e8e0d4] p-6 hover:shadow-lg hover:-translate-y-0.5 transition-all">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-2">
-                        <span className={'w-2 h-2 rounded-full ' + (isPublished ? 'bg-green-500' : 'bg-amber-400')} />
-                        <span className="text-[10px] uppercase tracking-widest text-gray-400">{isPublished ? 'Опубліковано' : 'Чернетка'}</span>
-                      </div>
-                      <span className="text-xs text-gray-400">{new Date(wedding.created_at).toLocaleDateString('uk-UA')}</span>
-                    </div>
-                    <h3 className="font-serif text-xl text-[#1a1a2e]">{wedding.partner_name_1} & {wedding.partner_name_2}</h3>
-                    {wedding.wedding_date && <p className="text-sm text-gray-500 mt-1">{new Date(wedding.wedding_date).toLocaleDateString('uk-UA', { day: 'numeric', month: 'long', year: 'numeric' })}</p>}
-                    {wedding.slug && <p className="text-xs text-[#b8956a] mt-3 opacity-0 group-hover:opacity-100 transition-opacity">/w/{wedding.slug} →</p>}
-                  </Link>
-                );
-              })}
-            </div>
-          )}
+    <div className="min-h-screen bg-[#FDFAF6]" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+
+      {/* Nav */}
+      <nav className="sticky top-0 z-10 bg-[#FDFAF6]/90 backdrop-blur-sm border-b border-[#E8E0D4]/60 px-8 py-4 flex justify-between items-center">
+        <Link href="/" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 20, color: '#B8956A', textDecoration: 'none' }}>
+          Momently
+        </Link>
+        <div className="flex items-center gap-6">
+          <span className="text-xs uppercase tracking-widest text-[#8A7B6B]">{user?.email}</span>
+          <form action="/auth/signout" method="POST">
+            <button type="submit" className="text-xs uppercase tracking-widest text-[#8A7B6B] hover:text-[#2C2420] transition-colors">
+              Вийти
+            </button>
+          </form>
         </div>
-      </section>
-      <Footer />
-    </main>
+      </nav>
+
+      <main className="max-w-5xl mx-auto px-8 py-14">
+
+        {/* Header */}
+        <div className="flex items-end justify-between mb-14">
+          <div>
+            <p className="text-[11px] uppercase tracking-[0.3em] text-[#B8956A] mb-2">Ваш акаунт</p>
+            <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 40, fontWeight: 300, color: '#2C2420' }}>
+              {userName ? `Привіт, ${userName}` : 'Мої весілля'}
+            </h1>
+            <p className="text-sm text-[#8A7B6B] mt-1">Керуйте вашими запрошеннями та сайтами</p>
+          </div>
+          <Link
+            href="/templates"
+            className="flex items-center gap-2 bg-[#2C2420] text-[#FDFAF6] px-6 py-3 rounded-full text-xs font-medium uppercase tracking-widest hover:bg-[#2C2420]/80 transition-colors"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            Нове весілля
+          </Link>
+        </div>
+
+        {/* Empty state */}
+        {(!weddings || weddings.length === 0) ? (
+          <div className="border border-dashed border-[#E8DDD4] rounded-[32px] p-20 text-center bg-white">
+            <div className="w-14 h-14 rounded-2xl bg-[#B8956A]/10 flex items-center justify-center text-[#B8956A] mx-auto mb-6">
+              <Plus className="w-7 h-7" />
+            </div>
+            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 26, fontWeight: 300, color: '#2C2420' }}>
+              Поки що пусто
+            </h2>
+            <p className="text-sm text-[#8A7B6B] mt-3 max-w-xs mx-auto leading-relaxed">
+              Створіть ваше перше цифрове весільне запрошення за кілька хвилин
+            </p>
+            <Link
+              href="/templates"
+              className="inline-flex items-center gap-2 mt-8 bg-[#B8956A] text-white px-8 py-4 rounded-full text-xs font-medium uppercase tracking-widest hover:bg-[#A07850] transition-colors group"
+            >
+              Обрати шаблон
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+            </Link>
+          </div>
+        ) : (
+          <div className="grid md:grid-cols-2 gap-6">
+            {weddings.map((wedding: any) => {
+              const isPublished = wedding.status === 'published';
+              return (
+                <Link
+                  key={wedding.id}
+                  href={`/dashboard/${wedding.id}`}
+                  className="group bg-white rounded-[28px] border border-[#E8E0D4] p-8 hover:shadow-xl hover:-translate-y-1 transition-all no-underline"
+                >
+                  {/* Status + date row */}
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center gap-2">
+                      <span className={`w-1.5 h-1.5 rounded-full ${isPublished ? 'bg-green-500' : 'bg-amber-400'}`} />
+                      <span className="text-[9px] uppercase tracking-widest text-[#8A7B6B]">
+                        {isPublished ? 'Опубліковано' : 'Чернетка'}
+                      </span>
+                    </div>
+                    <span className="text-[10px] text-[#8A7B6B]">
+                      {new Date(wedding.created_at).toLocaleDateString('uk-UA')}
+                    </span>
+                  </div>
+
+                  {/* Names */}
+                  <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 28, fontWeight: 300, color: '#2C2420', lineHeight: 1.2 }}>
+                    {wedding.partner_name_1} & {wedding.partner_name_2}
+                  </h3>
+
+                  {/* Meta */}
+                  <div className="mt-4 space-y-2">
+                    {wedding.wedding_date && (
+                      <div className="flex items-center gap-2 text-xs text-[#8A7B6B]">
+                        <Calendar className="w-3.5 h-3.5" />
+                        {new Date(wedding.wedding_date).toLocaleDateString('uk-UA', { day: 'numeric', month: 'long', year: 'numeric' })}
+                      </div>
+                    )}
+                    {wedding.location && (
+                      <div className="flex items-center gap-2 text-xs text-[#8A7B6B]">
+                        <MapPin className="w-3.5 h-3.5" />
+                        {wedding.location}
+                      </div>
+                    )}
+                    {wedding.slug && (
+                      <div className="flex items-center gap-2 text-xs text-[#B8956A] opacity-0 group-hover:opacity-100 transition-opacity">
+                        <ExternalLink className="w-3.5 h-3.5" />
+                        /w/{wedding.slug}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Bottom actions */}
+                  <div className="flex items-center justify-between mt-8 pt-6 border-t border-[#E8E0D4]">
+                    <div className="flex gap-3">
+                      <span className="px-3 py-1 rounded-full bg-[#F5F0EA] text-[9px] uppercase tracking-widest text-[#8A7B6B]">
+                        Save the Date
+                      </span>
+                      <span className="px-3 py-1 rounded-full bg-[#F5F0EA] text-[9px] uppercase tracking-widest text-[#8A7B6B]">
+                        RSVP
+                      </span>
+                    </div>
+                    <div className="w-8 h-8 rounded-full bg-[#B8956A]/10 flex items-center justify-center text-[#B8956A] group-hover:bg-[#B8956A] group-hover:text-white transition-colors">
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        )}
+      </main>
+    </div>
   );
 }
