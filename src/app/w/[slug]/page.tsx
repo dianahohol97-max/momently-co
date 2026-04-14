@@ -131,7 +131,6 @@ export default async function WeddingPage({ params }: Props) {
     venue_address_2:        wedding.venue_address?.split('\n')[1] || '',
     venue_description:      wedding.venue_description || '',
     venue_directions_url:   wedding.venue_directions_url || '#',
-    venue_map_url:          wedding.venue_map_url || '#',
     venue_stay_description: wedding.venue_stay_description || '',
     venue_travel_description: wedding.venue_travel_description || '',
     venue_parking:          wedding.venue_parking ?? false,
