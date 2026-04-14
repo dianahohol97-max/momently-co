@@ -170,12 +170,50 @@ export default function HomePage() {
           <p className="text-[11px] uppercase tracking-[0.3em] text-[#B8956A] mb-3">Наша колекція</p>
           <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 40, fontWeight: 300, color: '#2C2420' }}>Весільні шаблони</h2>
         </div>
-        <div className="flex gap-8 overflow-x-auto px-12 pb-8" style={{ scrollSnapType: 'x mandatory', WebkitOverflowScrolling: 'touch' }}>
+
+        {/* Scrollable row */}
+        <div className="flex gap-6 overflow-x-auto px-6 md:px-12 pb-8" style={{ scrollSnapType: 'x mandatory', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none' }}>
           {templates.map(t => (
-            <Link key={t.slug} href={`/templates/${t.slug}`} style={{ textDecoration: 'none', color: 'inherit', scrollSnapAlign: 'center' }}>
+            <div key={t.slug} style={{ scrollSnapAlign: 'center', flexShrink: 0 }}>
               <IPhoneFrame t={t} />
-            </Link>
+              {/* Переглянути під кожним */}
+              <div className="text-center mt-3">
+                <Link
+                  href={`/templates/${t.slug}`}
+                  className="inline-block text-[10px] uppercase tracking-widest text-[#B8956A] border border-[#B8956A]/30 rounded-full px-4 py-1.5 hover:bg-[#B8956A] hover:text-white transition-all"
+                >
+                  Переглянути
+                </Link>
+              </div>
+            </div>
           ))}
+
+          {/* CTA tile в кінці */}
+          <div style={{ scrollSnapAlign: 'center', flexShrink: 0, width: 200 }} className="flex flex-col items-center justify-center gap-4">
+            <div className="w-12 h-12 rounded-full border border-[#B8956A]/30 flex items-center justify-center text-[#B8956A]">
+              <ArrowRight className="w-5 h-5" />
+            </div>
+            <p className="text-sm text-[#8A7B6B] text-center leading-snug" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              Ще більше стилів
+            </p>
+            <Link
+              href="/templates"
+              className="text-[10px] uppercase tracking-widest bg-[#2C2420] text-white rounded-full px-5 py-2.5 hover:bg-[#2C2420]/80 transition-colors text-center"
+            >
+              Всі шаблони
+            </Link>
+          </div>
+        </div>
+
+        {/* Mobile: кнопка під каруселлю */}
+        <div className="text-center mt-6 md:hidden px-6">
+          <Link
+            href="/templates"
+            className="inline-flex items-center gap-2 bg-[#2C2420] text-white px-8 py-4 rounded-full text-xs uppercase tracking-widest hover:bg-[#2C2420]/80 transition-colors"
+          >
+            Переглянути всі шаблони
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
         </div>
       </section>
 
