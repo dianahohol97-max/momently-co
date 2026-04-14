@@ -7,6 +7,7 @@ import { DetailsTab } from './tabs/details-tab';
 import { PreviewTab } from './tabs/preview-tab';
 import { ShareTab } from './tabs/share-tab';
 import { PhotosTab } from './tabs/photos-tab';
+import { MediaTab } from './tabs/media-tab';
 
 interface AdminPanelProps { wedding: any; template: any; guests: any[]; rsvpResponses: any[]; allTemplates: any[]; photos?: any[]; }
 
@@ -14,7 +15,8 @@ const tabs = [
   { id: 'design', label: 'Дизайн', icon: '🎨' },
   { id: 'details', label: 'Деталі', icon: '📋' },
   { id: 'guests', label: 'Гості', icon: '👥' },
-  { id: 'photos', label: 'Фото', icon: '📸' },
+  { id: 'media', label: 'Медіа', icon: '🖼' },
+  { id: 'photos', label: 'Фото гостей', icon: '📸' },
   { id: 'share', label: 'Поділитися', icon: '🔗' },
   { id: 'preview', label: 'Перегляд', icon: '👁' },
 ];
@@ -111,6 +113,7 @@ export function AdminPanel({ wedding, template, guests, rsvpResponses, allTempla
         {activeTab === 'design' && <DesignTab wedding={weddingData} template={template} allTemplates={allTemplates} onSave={handleSave} saving={saving} />}
         {activeTab === 'details' && <DetailsTab wedding={weddingData} onSave={handleSave} saving={saving} />}
         {activeTab === 'guests' && <GuestsTab wedding={weddingData} guests={guests} rsvpResponses={rsvpResponses} />}
+        {activeTab === 'media' && <MediaTab wedding={weddingData} onSave={handleSave} saving={saving} /> }
         {activeTab === 'photos' && <PhotosTab wedding={weddingData} photos={photos} />}
         {activeTab === 'share' && <ShareTab wedding={weddingData} />}
         {activeTab === 'preview' && <PreviewTab wedding={weddingData} template={template} />}
