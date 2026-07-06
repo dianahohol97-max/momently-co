@@ -11,6 +11,7 @@ import TheDigitalSalonTemplate from '@/components/templates/the-digital-salon/Th
 import TheStationeryTemplate from '@/components/templates/the-stationery/TheStationeryTemplate';
 import EvergreenTemplate from '@/components/templates/evergreen/EvergreenTemplate';
 import EtherealConservatoryTemplate from '@/components/templates/ethereal-conservatory/EtherealConservatoryTemplate';
+import FieldSerifTemplate from '@/components/templates/field-serif/FieldSerifTemplate';
 
 interface Props {
   params: { slug: string };
@@ -27,6 +28,7 @@ const TEMPLATE_MAP: Record<string, React.ComponentType<{ data?: any }>> = {
   'the-stationery':         TheStationeryTemplate,
   'evergreen':              EvergreenTemplate,
   'ethereal-conservatory':  EtherealConservatoryTemplate,
+  'field-serif':            FieldSerifTemplate,
 };
 
 const DEFAULT_TEMPLATE = CoteDazurTemplate;

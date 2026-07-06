@@ -14,6 +14,7 @@ const TEMPLATE_PREVIEW: Record<string, { bg: string; text: string; accent: strin
   'the-stationery':        { bg: '#fbf9f5', text: '#071524', accent: '#735a36', names: 'Isabelle & Laurent',font: 'Noto Serif',       mood: 'Deep Navy'       },
   'evergreen':             { bg: '#fdf9f4', text: '#270002', accent: '#546430', names: 'Lauren & Paul',     font: 'Noto Serif',       mood: 'Burgundy & Green'},
   'ethereal-conservatory': { bg: '#fcf9f6', text: '#1c1c1a', accent: '#496455', names: 'Henry & Amelia',   font: 'Noto Serif',       mood: 'Botanical Green' },
+  'field-serif':           { bg: '#FAF7F1', text: '#23241F', accent: '#B7674B', names: 'Соломія & Марко',  font: 'Playfair Display', mood: 'Photo Editorial' },
 };
 
 const CATEGORY_FILTERS = [

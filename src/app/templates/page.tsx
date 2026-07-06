@@ -13,6 +13,7 @@ const TEMPLATES = [
   { id: '7', slug: 'the-stationery',        name: 'The Stationery',         category: 'minimal',  display_order: 7 },
   { id: '8', slug: 'evergreen',             name: 'Evergreen',              category: 'elegant',  display_order: 8 },
   { id: '9', slug: 'ethereal-conservatory', name: 'Ethereal Conservatory',  category: 'modern',   display_order: 9 },
+  { id: '10', slug: 'field-serif',          name: 'Field & Serif',          category: 'elegant',  display_order: 0 },
 ];
 
 export default function TemplatesPage() {
