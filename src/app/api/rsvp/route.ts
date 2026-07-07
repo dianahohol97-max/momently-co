@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
-const supabase = createClient(
+const supabase = () => createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Get wedding id by slug (must be published)
-    const { data: wedding, error: weddingError } = await supabase
+    const { data: wedding, error: weddingError } = await supabase()
       .from('weddings')
       .select('id, status')
       .eq('slug', wedding_slug)
@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
 
     // Check for duplicate (same email)
     if (email) {
-      const { data: existing } = await supabase
+      const { data: existing } = await supabase()
         .from('rsvp_responses')
         .select('id')
         .eq('wedding_id', wedding.id)
@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
 
       if (existing) {
         // Update existing response
-        await supabase
+        await supabase()
           .from('rsvp_responses')
           .update({ name, attendance, dietary: dietary || null, plus_one: plus_one || false })
           .eq('id', existing.id);
@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Insert new RSVP
-    const { error: insertError } = await supabase
+    const { error: insertError } = await supabase()
       .from('rsvp_responses')
       .insert({
         wedding_id: wedding.id,

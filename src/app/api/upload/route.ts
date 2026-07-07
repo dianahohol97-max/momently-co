@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
-const supabase = createClient(
+const supabase = () => createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
     const filename = `${field}-${Date.now()}.${ext}`;
     const buffer = await file.arrayBuffer();
 
-    const { data, error } = await supabase.storage
+    const { data, error } = await supabase().storage
       .from('wedding-media')
       .upload(filename, buffer, {
         contentType: file.type,
@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
 
     if (error) throw error;
 
-    const { data: { publicUrl } } = supabase.storage
+    const { data: { publicUrl } } = supabase().storage
       .from('wedding-media')
       .getPublicUrl(filename);
 

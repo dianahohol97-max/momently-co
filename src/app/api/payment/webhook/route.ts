@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseAdmin = createClient(
+const supabaseAdmin = () => createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
@@ -17,11 +17,11 @@ export async function POST(request: NextRequest) {
     const updates: any = { webhook_data: body, status: status === 'success' ? 'paid' : status };
     if (status === 'success') updates.paid_at = new Date().toISOString();
 
-    await supabaseAdmin.from('payments').update(updates).eq('invoice_id', invoiceId);
+    await supabaseAdmin().from('payments').update(updates).eq('invoice_id', invoiceId);
 
     // If payment successful, mark wedding as paid
     if (status === 'success' && reference) {
-      await supabaseAdmin.from('weddings').update({ is_paid: true }).eq('id', reference);
+      await supabaseAdmin().from('weddings').update({ is_paid: true }).eq('id', reference);
     }
 
     return NextResponse.json({ ok: true });
