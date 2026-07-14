@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import { t as tr, normalizeLocale } from '@/lib/i18n';
 
 // ─── PALETTE ──────────────────────────────────────────────
 const C = {
@@ -24,6 +25,7 @@ interface EventItem {
 }
 
 interface WeddingData {
+  locale?: string;
   partner_name_1: string;
   partner_name_2: string;
   wedding_date: string;
@@ -51,29 +53,29 @@ interface WeddingData {
 
 // ─── DEMO DATA ────────────────────────────────────────────
 const DEMO: WeddingData = {
-  partner_name_1: 'Gabriel',
-  partner_name_2: 'Maria',
+  partner_name_1: 'Марта',
+  partner_name_2: 'Богдан',
   wedding_date: '2026-09-14T16:00:00',
-  location: 'Lake Como, Italy',
+  location: 'озеро Комо, Італія',
   hero_image_url: 'https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=1600&q=80',
   story_image_url: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=700&q=80',
-  story_heading: 'From Barcelona\n& with love.',
-  story_paragraph_1: 'It began under the warm amber glow of a Barcelona sunset. Where a chance meeting at a small tapas bar turned into a collection of adventures together. From the winding streets of the Gothic Quarter to the quiet piazzas of Tuscany, our journey has been a collection of shared stories and hard-fought love.',
-  story_paragraph_2: 'The years after opened the renaissance beauty of Florence, a promise was made. We invite you to join us on the shores of Lake Como to witness the beginning of our greatest chapter yet.',
+  story_heading: 'З Барселони —\nз любов’ю.',
+  story_paragraph_1: 'Все почалося в теплому бурштиновому світлі барселонського заходу сонця, коли випадкова зустріч у маленькому тапас-барі перетворилася на колекцію спільних пригод. Від звивистих вуличок Готичного кварталу до тихих п’яцц Тоскани — наша історія складалася з маленьких спільних відкриттів.',
+  story_paragraph_2: 'Роки потому, серед ренесансної краси Флоренції, пролунала обіцянка. Запрошуємо вас на береги озера Комо — стати свідками початку нашого найбільшого розділу.',
   events: [
-    { date_time: 'September 13 · 19:00', title: 'Welcome Cocktails', location: 'Villa Balbianello Terrace', description: 'Join us at the historic Villa Balbianello for an evening of welcome drinks, live music, and the first glimpses of the Tremezzo Trattoria.' },
-    { date_time: 'September 14 · 15:30', title: 'The Ceremony', location: 'The Gardens, Villa del Balbianello', description: 'The main event. An exchange of vows amidst century-old gardens, followed by a champagne reception on the loggia.' },
-    { date_time: 'September 14 · 18:00', title: 'Farewell Brunch', location: 'Grand Hotel Tremezzo', description: 'A relaxed morning farewell at the Grand Hotel, the perfect setting for goodbyes over prosecco and pastries.' },
+    { date_time: '13 вересня · 19:00', title: 'Вітальні коктейлі', location: 'Тераса Вілли Бальб’янелло', description: 'Вечір знайомств з живою музикою, аперитивами й першими тостами на історичній терасі над озером.' },
+    { date_time: '14 вересня · 15:30', title: 'Церемонія', location: 'Сади Вілли дель Бальб’янелло', description: 'Головна подія. Обмін обітницями серед столітніх садів і шампанське на лоджії з видом на Комо.' },
+    { date_time: '15 вересня · 11:00', title: 'Прощальний бранч', location: 'Гранд-готель Тремеццо', description: 'Неспішний ранок прощань за просеко і випічкою — крапка вихідних, яку хочеться поставити красиво.' },
   ],
-  venue_name: 'Villa del Balbianello',
-  venue_city: 'Lake Como',
-  venue_address: 'Via Comoedia, 5\n22016 Lenno, LC, Italy',
-  venue_description: 'A place of timeless elegance and serene beauty. We have been lucky enough to find a team of extraordinary people at the Grand Hotel Tremezzo, who have made all the arrangements for this weekend\'s ceremony.',
+  venue_name: 'Вілла дель Бальб’янелло',
+  venue_city: 'озеро Комо',
+  venue_address: 'Via Comoedia, 5\n22016 Lenno, Італія',
+  venue_description: 'Місце позачасової елегантності. Команда Гранд-готелю Тремеццо подбала про кожну деталь цих вихідних — від трансферів до останнього келиха.',
   venue_image_url: 'https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?w=900&q=80',
   venue_map_url: '#',
-  transport_description: 'Lake Como is easily reached from Milan Malpensa (MXP) or Bergamo (BGY) airports. We recommend taking the Malpensa Express to Como Lago station, or arrange a private car through our recommended concierge service.',
-  dress_code_title: 'The Attire',
-  dress_code_description: 'We invite you to dress in your most formal finest. For gentlemen: a tuxedo or formal suit. For ladies: floor-length gowns or elegant cocktail dresses. Please consider the gravel paths and lakeside terrain when choosing footwear.',
+  transport_description: 'До Комо найзручніше з міланських аеропортів Мальпенса (MXP) або Бергамо (BGY): потяг Malpensa Express до станції Como Lago, або приватний трансфер через нашого консьєржа.',
+  dress_code_title: 'Дрес-код',
+  dress_code_description: 'Найурочистіше з вашого гардероба. Для панів — смокінг або строгий костюм, для пань — сукня в підлогу чи елегантний коктейль. Врахуйте гравійні доріжки біля озера, обираючи взуття.',
   gallery_images: [
     'https://images.unsplash.com/photo-1543158181-e6f9f6712055?w=600&q=80',
     'https://images.unsplash.com/photo-1470116945706-e6bf5d5a53ca?w=600&q=80',
@@ -81,12 +83,12 @@ const DEMO: WeddingData = {
     'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80',
   ],
   faq: [
-    { question: 'Can I bring a plus one?', answer: 'Due to the intimate nature of the venue, we can only accommodate guests specifically named on the invitation. If you have questions, please reach out to us directly.' },
-    { question: 'Are children invited?', answer: 'Our celebration is designed as an adults-only occasion. We hope this gives everyone the freedom to celebrate fully.' },
-    { question: 'Transport on the day?', answer: 'We will be arranging private water taxis from Tremezzo to the Villa. Departure times will be confirmed closer to the date.' },
+    { question: 'Чи можна прийти з парою?', answer: 'Через камерність вілли ми можемо прийняти лише гостей, названих у запрошенні. Якщо є питання — напишіть нам особисто.' },
+    { question: 'Чи запрошені діти?', answer: 'Це свято ми задумали лише для дорослих — щоб кожен міг святкувати на повну.' },
+    { question: 'Як дістатися в день церемонії?', answer: 'Ми організуємо приватні водні таксі від Тремеццо до вілли. Точний розклад надішлемо ближче до дати.' },
   ],
-  rsvp_deadline: 'July 1st, 2026',
-  slug: 'gabriel-maria',
+  rsvp_deadline: '1 липня 2026',
+  slug: 'marta-bohdan',
 };
 
 // ─── COUNTDOWN ────────────────────────────────────────────
@@ -127,6 +129,8 @@ function addToCalendar(data: WeddingData) {
 
 // ─── RSVP FORM ────────────────────────────────────────────
 function RSVPForm({ data }: { data: WeddingData }) {
+  const L = normalizeLocale(data.locale);
+  const t = (k: string, v?: Record<string, string | number>) => tr(L, k, v);
   const [form, setForm] = useState({ name: '', email: '', attendance: '', dietary: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
@@ -149,10 +153,10 @@ function RSVPForm({ data }: { data: WeddingData }) {
   if (status === 'success') return (
     <div className="py-16 space-y-3">
       <p style={{ fontFamily: "'Noto Serif', serif", fontStyle: 'italic', fontSize: 28, color: C.text }}>
-        Thank you.
+        {t('thanksYes', { name: form.name })}
       </p>
       <p style={{ fontSize: 11, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.textMuted }}>
-        We look forward to celebrating with you.
+        {t('thanksSub')}
       </p>
     </div>
   );
@@ -161,19 +165,19 @@ function RSVPForm({ data }: { data: WeddingData }) {
     <form className="space-y-10" onSubmit={handleSubmit}>
       <div>
         <label style={{ fontSize: 10, letterSpacing: '0.15em', textTransform: 'uppercase', color: C.primary, display: 'block', marginBottom: 8 }}>
-          Full Name
+          {t('nameLabel')}
         </label>
         <input
           className="w-full bg-transparent focus:outline-none py-3 px-0 text-xl"
           style={{ fontFamily: "'Noto Serif', serif", fontStyle: 'italic', color: C.text,
             borderBottom: `0.5px solid ${C.outline}`, transition: 'border-color 0.3s' }}
-          placeholder="Your name" required
+          placeholder={t('namePlaceholder')} required
           value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
         />
       </div>
       <div>
         <label style={{ fontSize: 10, letterSpacing: '0.15em', textTransform: 'uppercase', color: C.primary, display: 'block', marginBottom: 8 }}>
-          Email Address
+          {t('emailLabel')}
         </label>
         <input
           className="w-full bg-transparent focus:outline-none py-3 px-0"
@@ -184,10 +188,10 @@ function RSVPForm({ data }: { data: WeddingData }) {
       </div>
       <div>
         <label style={{ fontSize: 10, letterSpacing: '0.15em', textTransform: 'uppercase', color: C.primary, display: 'block', marginBottom: 12 }}>
-          Presence
+          {t('presenceLabel')}
         </label>
         <div className="flex gap-10">
-          {[{ val: 'attending', label: 'Joyfully Accept' }, { val: 'declined', label: 'Regretfully Decline' }].map(o => (
+          {[{ val: 'attending', label: t('yes') }, { val: 'declined', label: t('no') }].map(o => (
             <label key={o.val} className="flex items-center gap-3 cursor-pointer">
               <input type="radio" name="attendance" value={o.val}
                 checked={form.attendance === o.val}
@@ -203,12 +207,12 @@ function RSVPForm({ data }: { data: WeddingData }) {
       </div>
       <div>
         <label style={{ fontSize: 10, letterSpacing: '0.15em', textTransform: 'uppercase', color: C.primary, display: 'block', marginBottom: 8 }}>
-          Dietary Preferences
+          {t('wishesLabel')}
         </label>
         <input
           className="w-full bg-transparent focus:outline-none py-3 px-0 text-xl"
           style={{ fontFamily: "'Noto Serif', serif", fontStyle: 'italic', color: C.text, borderBottom: `0.5px solid ${C.outline}` }}
-          placeholder="None, vegan, allergies…"
+          placeholder={t('wishesPlaceholder')}
           value={form.dietary} onChange={e => setForm(f => ({ ...f, dietary: e.target.value }))}
         />
       </div>
@@ -217,20 +221,74 @@ function RSVPForm({ data }: { data: WeddingData }) {
         className="w-full py-5 disabled:opacity-40 hover:opacity-80 transition-opacity"
         style={{ background: C.primary, color: '#fff6ef', fontSize: 12, letterSpacing: '0.3em', textTransform: 'uppercase' }}
       >
-        {status === 'loading' ? 'Sending...' : 'Submit Response'}
+        {status === 'loading' ? t('sending') : t('submit')}
       </button>
       {status === 'error' && (
-        <p style={{ fontSize: 11, color: '#9e422c', textAlign: 'center' }}>Something went wrong. Please try again.</p>
+        <p style={{ fontSize: 11, color: '#9e422c', textAlign: 'center' }}>{t('errSend')}</p>
       )}
       <p style={{ fontSize: 10, letterSpacing: '0.15em', textTransform: 'uppercase', color: C.textMuted, textAlign: 'center' }}>
-        Responses requested by {data.rsvp_deadline}
+        {t('rsvpDeadline', { date: data.rsvp_deadline })}
       </p>
     </form>
   );
 }
 
+
+// ─── WAX SEAL (signature) ─────────────────────────────────
+const SEAL_CSS = `
+.mh-sealwrap{text-align:center;padding:24px 0 8px}
+.mh-seal{position:relative;width:150px;height:150px;background:none;border:none;cursor:pointer;display:inline-block;transition:transform .3s}
+.mh-seal:hover{transform:scale(1.04) rotate(-2deg)}
+.mh-half{position:absolute;inset:0;display:block;transition:transform .55s cubic-bezier(.6,-.2,.3,1),opacity .55s}
+.mh-l{clip-path:polygon(0 0,54% 0,42% 18%,58% 34%,44% 52%,60% 70%,46% 86%,52% 100%,0 100%)}
+.mh-r{clip-path:polygon(54% 0,100% 0,100% 100%,52% 100%,46% 86%,60% 70%,44% 52%,58% 34%,42% 18%)}
+.mh-seal.broken{cursor:default}
+.mh-seal.broken .mh-l{transform:translate(-26px,10px) rotate(-9deg);opacity:0}
+.mh-seal.broken .mh-r{transform:translate(24px,12px) rotate(8deg);opacity:0}
+.mh-hint{margin-top:14px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#797c73}
+.mh-form{opacity:0;transform:translateY(14px);transition:opacity .6s,transform .6s}
+.mh-form.open{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.mh-half,.mh-form{transition:none}}
+`;
+function SealFace({ a, b }: { a: string; b: string }) {
+  return (
+    <svg viewBox="0 0 160 160" width="150" height="150" aria-hidden="true">
+      <path d="M80 6 C96 4 104 14 118 14 C132 14 138 26 148 34 C158 42 154 56 156 68 C158 80 152 90 152 100 C152 112 142 120 136 130 C130 140 118 140 108 146 C98 152 88 148 80 150 C70 152 62 144 52 142 C40 140 34 132 28 122 C22 112 12 108 10 96 C8 84 14 76 12 64 C10 52 18 44 26 36 C34 28 40 18 52 14 C64 10 70 8 80 6 Z" fill="#7A2E2B"/>
+      <circle cx="80" cy="78" r="52" fill="none" stroke="#5E211F" strokeWidth="2"/>
+      <circle cx="80" cy="78" r="46" fill="none" stroke="#93433D" strokeWidth="1"/>
+      <text x="80" y="92" textAnchor="middle" fontFamily="'Noto Serif', serif" fontStyle="italic" fontSize="40" fill="#F3E4D8">{a}&amp;{b}</text>
+    </svg>
+  );
+}
+function SealedRSVP({ data }: { data: WeddingData }) {
+  const L = normalizeLocale(data.locale);
+  const t = (k: string) => tr(L, k);
+  const [broken, setBroken] = useState(false);
+  const [open, setOpen] = useState(false);
+  const crack = () => { if (broken) return; setBroken(true); setTimeout(() => setOpen(true), 550); };
+  const a = data.partner_name_1?.[0] || '';
+  const b = data.partner_name_2?.[0] || '';
+  return (
+    <div>
+      <style>{SEAL_CSS}</style>
+      {!open && (
+        <div className="mh-sealwrap">
+          <button type="button" aria-label={t('breakSeal')} onClick={crack} className={'mh-seal' + (broken ? ' broken' : '')}>
+            <span className="mh-half mh-l"><SealFace a={a} b={b} /></span>
+            <span className="mh-half mh-r"><SealFace a={a} b={b} /></span>
+          </button>
+          <p className="mh-hint">{t('breakSeal')}</p>
+        </div>
+      )}
+      <div className={'mh-form' + (open ? ' open' : '')}>{open && <RSVPForm data={data} />}</div>
+    </div>
+  );
+}
+
 // ─── MAIN TEMPLATE ────────────────────────────────────────
 export default function TheModernHeirloomTemplate({ data = DEMO }: { data?: WeddingData }) {
+  const L = normalizeLocale(data.locale);
+  const t = (k: string, v?: Record<string, string | number>) => tr(L, k, v);
   const [menuOpen, setMenuOpen] = useState(false);
   const countdown = useCountdown(data.wedding_date);
   const initials = `${data.partner_name_1[0]}&${data.partner_name_2[0]}`;
@@ -255,7 +313,7 @@ export default function TheModernHeirloomTemplate({ data = DEMO }: { data?: Wedd
           {initials}
         </div>
         <div className="hidden md:flex gap-10 items-center">
-          {[['#story', 'Story'], ['#events', 'Events'], ['#venue', 'Venue'], ['#rsvp', 'RSVP']].map(([href, label]) => (
+          {[['#story', t('navStory')], ['#events', t('navSchedule')], ['#venue', t('locationLabel')], ['#rsvp', 'RSVP']].map(([href, label]) => (
             <a key={href} href={href}
               style={{ fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.textMuted }}
               className="hover:text-black transition-colors">
@@ -270,12 +328,12 @@ export default function TheModernHeirloomTemplate({ data = DEMO }: { data?: Wedd
         </div>
         <button className="md:hidden" onClick={() => setMenuOpen(o => !o)}
           style={{ fontSize: 11, letterSpacing: '0.15em', textTransform: 'uppercase', color: C.textMuted }}>
-          Menu
+          {t('navMenu')}
         </button>
         {menuOpen && (
           <div className="absolute top-full left-0 w-full flex flex-col py-6 px-8 gap-5 md:hidden"
             style={{ background: C.bgWhite, borderBottom: `1px solid ${C.outlineV}20` }}>
-            {[['#story', 'Story'], ['#events', 'Events'], ['#venue', 'Venue'], ['#rsvp', 'RSVP']].map(([href, label]) => (
+            {[['#story', t('navStory')], ['#events', t('navSchedule')], ['#venue', t('locationLabel')], ['#rsvp', 'RSVP']].map(([href, label]) => (
               <a key={href} href={href} onClick={() => setMenuOpen(false)}
                 style={{ fontSize: 11, letterSpacing: '0.15em', textTransform: 'uppercase', color: C.textMuted }}>
                 {label}
@@ -295,7 +353,7 @@ export default function TheModernHeirloomTemplate({ data = DEMO }: { data?: Wedd
 
         <div className="relative z-10 px-6 max-w-4xl mx-auto fade-in">
           <p style={{ fontSize: 10, letterSpacing: '0.4em', textTransform: 'uppercase', color: C.primary, marginBottom: 16 }}>
-            Save the Date
+            {t('saveTheDate')}
           </p>
           <h1 style={{ fontFamily: "'Noto Serif', serif", fontStyle: 'italic', fontSize: 'clamp(52px, 10vw, 96px)', fontWeight: 300, color: C.text, lineHeight: 1.05, marginBottom: 20 }}>
             {data.partner_name_1} & {data.partner_name_2}
@@ -310,7 +368,7 @@ export default function TheModernHeirloomTemplate({ data = DEMO }: { data?: Wedd
             <a href="#rsvp"
               style={{ background: C.primary, color: '#fff6ef', padding: '16px 48px', fontSize: 11, letterSpacing: '0.15em', textTransform: 'uppercase' }}
               className="hover:opacity-80 transition-opacity">
-              View Details
+              {t('viewDetails')}
             </a>
             <button onClick={() => addToCalendar(data)}
               style={{ border: `1px solid ${C.outlineV}50`, color: C.textMuted, padding: '16px 28px', fontSize: 10, letterSpacing: '0.15em', textTransform: 'uppercase' }}
@@ -318,7 +376,7 @@ export default function TheModernHeirloomTemplate({ data = DEMO }: { data?: Wedd
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
-              Add to Calendar
+              {t('addToCalendar')}
             </button>
           </div>
         </div>
@@ -329,10 +387,10 @@ export default function TheModernHeirloomTemplate({ data = DEMO }: { data?: Wedd
         <div className="max-w-4xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-baseline gap-8 md:gap-0">
             {[
-              { val: countdown.days, label: 'Days' },
-              { val: countdown.hours, label: 'Hours' },
-              { val: countdown.minutes, label: 'Mins' },
-              { val: countdown.seconds, label: 'Secs' },
+              { val: countdown.days, label: t('unitDays') },
+              { val: countdown.hours, label: t('unitHours') },
+              { val: countdown.minutes, label: t('unitMin') },
+              { val: countdown.seconds, label: t('unitSec') },
             ].map(({ val, label }, i) => (
               <>
                 <div key={label} className="flex flex-col">
@@ -366,7 +424,7 @@ export default function TheModernHeirloomTemplate({ data = DEMO }: { data?: Wedd
             {/* Text right — editorial offset */}
             <div style={{ paddingTop: 48 }}>
               <p style={{ fontSize: 10, letterSpacing: '0.3em', textTransform: 'uppercase', color: C.gold, marginBottom: 20 }}>
-                The Monograph
+                {`${t('storyA')} ${t('storyB')}`}
               </p>
               <h2 style={{ fontFamily: "'Noto Serif', serif", fontStyle: 'italic', fontSize: 'clamp(32px, 4vw, 52px)', color: C.text, lineHeight: 1.15, marginBottom: 28, whiteSpace: 'pre-line' }}>
                 {data.story_heading}
@@ -384,10 +442,10 @@ export default function TheModernHeirloomTemplate({ data = DEMO }: { data?: Wedd
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-20">
             <p style={{ fontSize: 10, letterSpacing: '0.4em', textTransform: 'uppercase', color: C.textMuted, marginBottom: 12 }}>
-              The Celebration
+              {t('celebrationLabel')}
             </p>
             <h2 style={{ fontFamily: "'Noto Serif', serif", fontSize: 42, fontWeight: 300, color: C.text }}>
-              Wedding Weekend
+              {t('weekendLabel')}
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -426,7 +484,7 @@ export default function TheModernHeirloomTemplate({ data = DEMO }: { data?: Wedd
                 </div>
                 <div>
                   <p style={{ fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.gold, marginBottom: 6 }}>
-                    Transport
+                    {t('transportLabel')}
                   </p>
                   <p style={{ fontSize: 13, color: C.textMuted, lineHeight: 1.7 }}>{data.transport_description}</p>
                 </div>
@@ -435,7 +493,7 @@ export default function TheModernHeirloomTemplate({ data = DEMO }: { data?: Wedd
                 <a href={data.venue_map_url} target="_blank" rel="noreferrer"
                   style={{ border: `1px solid ${C.outlineV}50`, color: C.text, padding: '12px 28px', fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase' }}
                   className="hover:border-black transition-colors">
-                  View Map
+                  {t('viewMap')}
                 </a>
               </div>
             </div>
@@ -459,7 +517,7 @@ export default function TheModernHeirloomTemplate({ data = DEMO }: { data?: Wedd
             {data.dress_code_title}
           </p>
           <p style={{ fontFamily: "'Noto Serif', serif", fontStyle: 'italic', fontSize: 32, color: C.text, marginBottom: 20 }}>
-            The Attire
+            {t('dressLabel')}
           </p>
           <p style={{ fontSize: 13, color: C.textMuted, lineHeight: 1.8, maxWidth: 480, margin: '0 auto' }}>
             {data.dress_code_description}
@@ -488,7 +546,7 @@ export default function TheModernHeirloomTemplate({ data = DEMO }: { data?: Wedd
       <section style={{ padding: '100px 40px', background: C.bg }}>
         <div className="max-w-3xl mx-auto">
           <p style={{ fontSize: 10, letterSpacing: '0.4em', textTransform: 'uppercase', color: C.textMuted, marginBottom: 64 }}>
-            Common Queries
+            {t('faqTitle')}
           </p>
           <div className="space-y-16">
             {data.faq.map((item, i) => (
@@ -512,13 +570,13 @@ export default function TheModernHeirloomTemplate({ data = DEMO }: { data?: Wedd
                 RSVP
               </p>
               <h2 style={{ fontFamily: "'Noto Serif', serif", fontSize: 52, fontWeight: 300, lineHeight: 1.15, color: C.text }}>
-                Kindly confirm<br />your attendance.
+                {t('kindlyConfirm')}<br />your attendance.
               </h2>
               <p style={{ fontSize: 11, letterSpacing: '0.15em', textTransform: 'uppercase', color: C.textMuted, marginTop: 16 }}>
                 {data.location}
               </p>
             </div>
-            <RSVPForm data={data} />
+            <SealedRSVP data={data} />
           </div>
         </div>
       </section>
