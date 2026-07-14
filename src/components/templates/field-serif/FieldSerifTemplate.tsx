@@ -130,10 +130,10 @@ export default function FieldSerifTemplate({ data }: { data?: Partial<WeddingDat
 
       <div className={'fs-topbar' + (barOn ? ' on' : '')}>
         <div className="fs-links">
-          <button onClick={() => go('fs-story')}>Історія</button>
-          <button onClick={() => go('fs-day')}>Розклад</button>
-          <button onClick={() => go('fs-place')}>Деталі</button>
-          <button onClick={() => go('fs-faq')}>Питання</button>
+          <button onClick={() => go('fs-story')}>{t('navStory')}</button>
+          <button onClick={() => go('fs-day')}>{t('navSchedule')}</button>
+          <button onClick={() => go('fs-place')}>{t('navDetails')}</button>
+          <button onClick={() => go('fs-faq')}>{t('navFaq')}</button>
         </div>
         <button className="fs-mono" onClick={() => go('fs-top')}>
           {d.partner_name_1[0]} &amp; {d.partner_name_2[0]} · {dateDisplay.replace(/ /g, '')}
@@ -164,7 +164,7 @@ export default function FieldSerifTemplate({ data }: { data?: Partial<WeddingDat
       <section className="fs-bignames">
         <span className="fs-caps rv">{t('inviteCaps')}</span>
         <h2 className="rv" style={{ transitionDelay: '.1s' }}>
-          {d.partner_name_1} <span className="fs-amp">та</span> {d.partner_name_2}
+          {d.partner_name_1} <span className="fs-amp">{t('and')}</span> {d.partner_name_2}
         </h2>
       </section>
 

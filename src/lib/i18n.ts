@@ -38,6 +38,7 @@ export function resolveLocaleFromRequest(country?: string | null, acceptLanguage
 type Dict = Record<string, string>;
 
 const uk: Dict = {
+  navStory: 'Історія', navSchedule: 'Розклад', navDetails: 'Деталі', navFaq: 'Питання', and: 'та',
   heroScript: 'ми одружуємось',
   inviteCaps: 'запрошують на святкування свого весілля',
   daysTo: 'до події {n} днів',
@@ -66,6 +67,7 @@ const uk: Dict = {
 };
 
 const en: Dict = {
+  navStory: 'Story', navSchedule: 'Schedule', navDetails: 'Details', navFaq: 'Q&A', and: 'and',
   heroScript: 'we are getting married',
   inviteCaps: 'invite you to celebrate their wedding',
   daysTo: '{n} days to go',
@@ -94,6 +96,7 @@ const en: Dict = {
 };
 
 const fr: Dict = {
+  navStory: 'Histoire', navSchedule: 'Programme', navDetails: 'Détails', navFaq: 'Questions', and: 'et',
   heroScript: 'nous nous marions',
   inviteCaps: 'vous invitent à célébrer leur mariage',
   daysTo: 'plus que {n} jours',
@@ -122,6 +125,7 @@ const fr: Dict = {
 };
 
 const es: Dict = {
+  navStory: 'Historia', navSchedule: 'Programa', navDetails: 'Detalles', navFaq: 'Preguntas', and: 'y',
   heroScript: 'nos casamos',
   inviteCaps: 'los invitan a celebrar su boda',
   daysTo: 'faltan {n} días',
@@ -150,6 +154,7 @@ const es: Dict = {
 };
 
 const de: Dict = {
+  navStory: 'Geschichte', navSchedule: 'Ablauf', navDetails: 'Details', navFaq: 'Fragen', and: 'und',
   heroScript: 'wir heiraten',
   inviteCaps: 'laden zur Feier ihrer Hochzeit ein',
   daysTo: 'noch {n} Tage',
@@ -178,6 +183,7 @@ const de: Dict = {
 };
 
 const pl: Dict = {
+  navStory: 'Historia', navSchedule: 'Plan', navDetails: 'Szczegóły', navFaq: 'Pytania', and: 'i',
   heroScript: 'bierzemy ślub',
   inviteCaps: 'zapraszają na uroczystość swojego ślubu',
   daysTo: 'zostało {n} dni',
@@ -206,6 +212,7 @@ const pl: Dict = {
 };
 
 const ro: Dict = {
+  navStory: 'Povestea', navSchedule: 'Program', navDetails: 'Detalii', navFaq: 'Întrebări', and: 'și',
   heroScript: 'ne căsătorim',
   inviteCaps: 'vă invită la celebrarea nunții lor',
   daysTo: 'au mai rămas {n} zile',
