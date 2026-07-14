@@ -10,6 +10,8 @@ import TheStationeryTemplate from '@/components/templates/the-stationery/TheStat
 import EvergreenTemplate from '@/components/templates/evergreen/EvergreenTemplate';
 import EtherealConservatoryTemplate from '@/components/templates/ethereal-conservatory/EtherealConservatoryTemplate';
 import FieldSerifTemplate from '@/components/templates/field-serif/FieldSerifTemplate';
+import NoirTemplate from '@/components/templates/noir/NoirTemplate';
+import BotaniqueTemplate from '@/components/templates/botanique/BotaniqueTemplate';
 
 export const TEMPLATE_MAP: Record<string, React.ComponentType<{ data?: any }>> = {
   'cote-dazur':             CoteDazurTemplate,
@@ -22,6 +24,8 @@ export const TEMPLATE_MAP: Record<string, React.ComponentType<{ data?: any }>> =
   'evergreen':              EvergreenTemplate,
   'ethereal-conservatory':  EtherealConservatoryTemplate,
   'field-serif':            FieldSerifTemplate,
+  'noir':                   NoirTemplate,
+  'botanique':              BotaniqueTemplate,
 };
 
 export const TEMPLATE_NAMES: Record<string, string> = {
@@ -35,6 +39,8 @@ export const TEMPLATE_NAMES: Record<string, string> = {
   'evergreen':              'Evergreen',
   'ethereal-conservatory':  'Ethereal Conservatory',
   'field-serif':            'Field & Serif',
+  'noir':                   'Noir',
+  'botanique':              'Botanique',
 };
 
 export const DEFAULT_TEMPLATE = CoteDazurTemplate;

@@ -15,6 +15,8 @@ const TEMPLATE_PREVIEW: Record<string, { bg: string; text: string; accent: strin
   'evergreen':             { bg: '#fdf9f4', text: '#270002', accent: '#546430', names: 'Lauren & Paul',     font: 'Noto Serif',       mood: 'Burgundy & Green'},
   'ethereal-conservatory': { bg: '#fcf9f6', text: '#1c1c1a', accent: '#496455', names: 'Henry & Amelia',   font: 'Noto Serif',       mood: 'Botanical Green' },
   'field-serif':           { bg: '#FAF7F1', text: '#23241F', accent: '#B7674B', names: 'Соломія & Марко',  font: 'Playfair Display', mood: 'Photo Editorial' },
+  'noir':                  { bg: '#0E0E0E', text: '#F4F2ED', accent: '#F4F2ED', names: 'Аліса × Данило',   font: 'Prata',            mood: 'B&W Fashion' },
+  'botanique':             { bg: '#F2F4EC', text: '#252B21', accent: '#55603F', names: 'Ірина та Остап',   font: 'Cormorant',        mood: 'Garden Sage' },
 };
 
 const CATEGORY_FILTERS = [

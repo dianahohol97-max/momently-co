@@ -14,6 +14,8 @@ const TEMPLATES = [
   { id: '8', slug: 'evergreen',             name: 'Evergreen',              category: 'elegant',  display_order: 8 },
   { id: '9', slug: 'ethereal-conservatory', name: 'Ethereal Conservatory',  category: 'modern',   display_order: 9 },
   { id: '10', slug: 'field-serif',          name: 'Field & Serif',          category: 'elegant',  display_order: 0 },
+  { id: '11', slug: 'noir',                 name: 'Noir',                   category: 'bold',     display_order: 10 },
+  { id: '12', slug: 'botanique',            name: 'Botanique',              category: 'romantic', display_order: 11 },
 ];
 
 export default function TemplatesPage() {
