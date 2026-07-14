@@ -144,7 +144,7 @@ function RSVPForm({ data }: { data: WeddingData }) {
   };
 
   if (status === 'success') return (
-    <div className="text-center py-16">
+    <div className="text-center py-24">
       <h3 className="font-headline text-4xl mb-4" style={{ fontFamily: "'Newsreader', serif", fontStyle: 'italic' }}>Thank you.</h3>
       <p className="text-xs uppercase tracking-widest text-[#7f756a]">We look forward to celebrating with you.</p>
     </div>
@@ -198,7 +198,7 @@ function RSVPForm({ data }: { data: WeddingData }) {
       </div>
       <button
         type="submit" disabled={status === 'loading'}
-        className="w-full py-5 bg-[#735a39] text-white text-sm uppercase tracking-[0.3em] hover:bg-[#594323] transition-colors rounded-lg shadow-lg shadow-[#735a39]/10 disabled:opacity-40"
+        className="w-full py-5 bg-[#735a39] text-white text-sm uppercase tracking-[0.3em] hover:bg-[#594323] transition-colors rounded-none shadow-[#735a39]/10 disabled:opacity-40"
       >
         {status === 'loading' ? 'Sending...' : 'Submit Response'}
       </button>
@@ -245,7 +245,7 @@ export default function LagoDoroTemplate({ data = DEMO }: { data?: WeddingData }
         </div>
         <div className="space-y-4 relative z-10">
           <p className="uppercase tracking-[0.3em] text-white/80 text-xs">A Celebration of Love</p>
-          <h2 className="text-6xl md:text-8xl font-headline text-white leading-tight">
+          <h2 className="text-[clamp(2.6rem,6vw,4.5rem)] md:text-8xl font-headline text-white leading-tight">
             {data.partner_name_1} <span className="font-serif-italic">&</span> {data.partner_name_2}
           </h2>
           <div className="pt-6 space-y-2">
@@ -256,11 +256,11 @@ export default function LagoDoroTemplate({ data = DEMO }: { data?: WeddingData }
           </div>
           <div className="pt-8 flex flex-col sm:flex-row gap-4 justify-center">
             <a href="#rsvp"
-              className="inline-block px-10 py-4 bg-[#735a39] text-white tracking-widest text-xs uppercase hover:bg-[#594323] transition-colors rounded-lg shadow-lg">
+              className="inline-block px-10 py-4 bg-[#735a39] text-white tracking-widest text-xs uppercase hover:bg-[#594323] transition-colors rounded-none">
               RSVP
             </a>
             <button onClick={() => addToCalendar(data)}
-              className="inline-flex items-center gap-2 px-8 py-4 border border-white/40 text-white text-xs uppercase tracking-widest hover:border-white transition-colors rounded-lg">
+              className="inline-flex items-center gap-2 px-8 py-4 border border-white/40 text-white text-xs uppercase tracking-widest hover:border-white transition-colors rounded-none">
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
@@ -281,7 +281,7 @@ export default function LagoDoroTemplate({ data = DEMO }: { data?: WeddingData }
             { val: countdown.seconds, label: 'Secs' },
           ].map(({ val, label }) => (
             <div key={label} className="text-center">
-              <span className="block font-headline text-5xl md:text-7xl font-light text-[#735a39] tabular-nums">
+              <span className="block font-headline text-[clamp(2.2rem,4.6vw,3.4rem)] md:text-[clamp(4rem,11vw,9.5rem)] font-light text-[#735a39] tabular-nums">
                 {String(val).padStart(2, '0')}
               </span>
               <span className="text-[10px] uppercase tracking-widest text-[#7f756a] mt-1 block">{label}</span>
@@ -296,15 +296,15 @@ export default function LagoDoroTemplate({ data = DEMO }: { data?: WeddingData }
           {/* Image cluster */}
           <div className="relative">
             <div className="relative w-full aspect-[4/5] z-10">
-              <img src={data.story_image_1_url} alt="" className="w-full h-full object-cover rounded-xl shadow-xl" />
+              <img src={data.story_image_1_url} alt="" className="w-full h-full object-cover rounded-none" />
             </div>
-            <div className="absolute -bottom-10 -right-6 w-2/5 aspect-square z-20 border-[10px] border-[#faf9f6] rounded-lg overflow-hidden shadow-lg">
+            <div className="absolute -bottom-10 -right-6 w-2/5 aspect-square z-20 border-[10px] border-[#faf9f6] rounded-none overflow-hidden">
               <img src={data.story_image_2_url} alt="" className="w-full h-full object-cover" />
             </div>
           </div>
           {/* Text */}
           <div className="space-y-7 md:pt-0 pt-12">
-            <h3 className="font-headline text-4xl md:text-5xl leading-tight"
+            <h3 className="font-headline text-4xl md:text-[clamp(2.2rem,4.6vw,3.4rem)] leading-tight"
               dangerouslySetInnerHTML={{ __html: data.story_heading.replace(/\*(.*?)\*/g, '<span style="font-style:italic">$1</span>') }}
             />
             <div className="space-y-5 text-[#4e453c] leading-relaxed text-sm">
@@ -312,7 +312,7 @@ export default function LagoDoroTemplate({ data = DEMO }: { data?: WeddingData }
               <p>{data.story_paragraph_2}</p>
             </div>
             {data.story_image_3_url && (
-              <img src={data.story_image_3_url} alt="" className="w-full h-40 object-cover opacity-80 rounded-lg" />
+              <img src={data.story_image_3_url} alt="" className="w-full h-40 object-cover opacity-80 rounded-none" />
             )}
           </div>
         </div>
@@ -328,7 +328,7 @@ export default function LagoDoroTemplate({ data = DEMO }: { data?: WeddingData }
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {data.events.map((ev, i) => (
               <div key={i}
-                className={`bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow ${ev.highlight ? 'border-t-2 border-[#735a39]' : ''}`}>
+                className={`bg-white p-8 rounded-none hover: transition-shadow ${ev.highlight ? 'border-t-2 border-[#735a39]' : ''}`}>
                 <p className="text-xs uppercase tracking-widest text-[#735a39] mb-2">{ev.date_time}</p>
                 <h4 className="font-headline text-2xl mb-3">{ev.title}</h4>
                 <p className="text-sm text-[#4e453c] mb-4 italic leading-relaxed">{ev.venue}</p>
@@ -368,11 +368,11 @@ export default function LagoDoroTemplate({ data = DEMO }: { data?: WeddingData }
               ))}
             </div>
           </div>
-          <div className="lg:col-span-3 h-[400px] bg-[#efeeeb] rounded-2xl overflow-hidden relative group shadow-inner">
+          <div className="lg:col-span-3 h-[400px] bg-[#efeeeb] rounded-none overflow-hidden relative group">
             <img src={data.venue_image_url} alt={data.venue_name}
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="bg-white/90 backdrop-blur-sm px-5 py-3 rounded-full shadow-xl flex items-center gap-2">
+              <div className="bg-white/90 backdrop-blur-sm px-5 py-3 rounded-full flex items-center gap-2">
                 <span className="text-[#735a39]">📍</span>
                 <span className="text-xs font-semibold uppercase tracking-widest">{data.venue_name}</span>
               </div>
@@ -398,8 +398,8 @@ export default function LagoDoroTemplate({ data = DEMO }: { data?: WeddingData }
               </h3>
               <p className="text-[#4e453c] text-sm mb-10 leading-relaxed">{data.dress_code_description}</p>
               <div className="grid grid-cols-2 gap-4">
-                <img src={data.dress_code_image_1_url} alt="" className="aspect-square object-cover rounded-lg" />
-                <img src={data.dress_code_image_2_url} alt="" className="aspect-square object-cover rounded-lg" />
+                <img src={data.dress_code_image_1_url} alt="" className="aspect-square object-cover rounded-none" />
+                <img src={data.dress_code_image_2_url} alt="" className="aspect-square object-cover rounded-none" />
               </div>
             </div>
             {/* FAQ */}
@@ -421,7 +421,7 @@ export default function LagoDoroTemplate({ data = DEMO }: { data?: WeddingData }
       {/* RSVP */}
       <section className="py-24 px-6 max-w-2xl mx-auto" id="rsvp">
         <div className="text-center mb-14">
-          <h2 className="font-headline text-5xl mb-3">
+          <h2 className="font-headline text-[clamp(2.2rem,4.6vw,3.4rem)] mb-3">
             Will You Join <span className="font-serif-italic">Us?</span>
           </h2>
           <p className="text-[#7f756a] uppercase tracking-widest text-[10px]">

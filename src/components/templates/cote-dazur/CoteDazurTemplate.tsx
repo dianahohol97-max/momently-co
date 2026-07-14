@@ -245,7 +245,7 @@ export default function CoteDazurTemplate({ data = DEMO }: { data?: WeddingData 
         {/* Mobile menu */}
         <button className="md:hidden text-2xl" onClick={() => setMenuOpen(o => !o)}>☰</button>
         {menuOpen && (
-          <div className="absolute top-full left-0 w-full bg-white border-t border-black/5 flex flex-col py-6 px-8 gap-6 md:hidden shadow-lg">
+          <div className="absolute top-full left-0 w-full bg-white border-t border-black/5 flex flex-col py-6 px-8 gap-6 md:hidden">
             {['story', 'itinerary', 'venue', 'gifts', 'rsvp'].map(s => (
               <a key={s} href={`#${s}`} onClick={() => setMenuOpen(false)}
                 className="text-black/60 font-body tracking-widest uppercase text-xs hover:text-black transition-colors">
@@ -262,7 +262,7 @@ export default function CoteDazurTemplate({ data = DEMO }: { data?: WeddingData 
           <img src={data.hero_bg_url} alt="" className="w-full h-full object-cover opacity-20 grayscale" />
         </div>
         <div className="relative z-10 space-y-8">
-          <h1 className="font-headline text-6xl md:text-9xl tracking-tighter italic">
+          <h1 className="font-headline text-[clamp(2.6rem,6vw,4.5rem)] md:text-9xl tracking-tighter italic">
             {data.partner_name_1} & {data.partner_name_2}
           </h1>
           <p className="tracking-[0.4em] uppercase text-sm opacity-60 font-body">
@@ -278,7 +278,7 @@ export default function CoteDazurTemplate({ data = DEMO }: { data?: WeddingData 
               { val: countdown.seconds, label: 'Secs' },
             ].map(({ val, label }) => (
               <div key={label} className="flex flex-col items-center">
-                <span className="font-headline text-5xl md:text-7xl tabular-nums">{String(val).padStart(2, '0')}</span>
+                <span className="font-headline text-[clamp(2.2rem,4.6vw,3.4rem)] md:text-[clamp(4rem,11vw,9.5rem)] tabular-nums">{String(val).padStart(2, '0')}</span>
                 <span className="font-body text-[10px] tracking-[0.2em] uppercase opacity-50 mt-1">{label}</span>
               </div>
             ))}
@@ -305,7 +305,7 @@ export default function CoteDazurTemplate({ data = DEMO }: { data?: WeddingData 
       {/* POLAROID + INVITE */}
       <section className="py-32 px-6 max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center" id="story">
         <div className="relative flex justify-center">
-          <div className="bg-white p-4 pb-16 shadow-xl rotate-[-2deg] max-w-sm w-full hover:rotate-0 transition-transform duration-500">
+          <div className="bg-white p-4 pb-16 rotate-[-2deg] max-w-sm w-full hover:rotate-0 transition-transform duration-500">
             <img src={data.polaroid_url} alt={data.polaroid_caption}
               className="w-full aspect-square object-cover grayscale" />
             <p className="font-headline italic text-center pt-6 text-lg opacity-70">{data.polaroid_caption}</p>
@@ -327,7 +327,7 @@ export default function CoteDazurTemplate({ data = DEMO }: { data?: WeddingData 
           <img src={data.story_bg_url} alt="" className="w-full h-full object-cover grayscale brightness-50" />
         </div>
         <div className="relative z-10 text-center px-6 max-w-4xl">
-          <h2 className="font-headline italic text-white text-4xl md:text-6xl mb-8">{data.story_quote}</h2>
+          <h2 className="font-headline italic text-white text-4xl md:text-[clamp(2.6rem,6vw,4.5rem)] mb-8">{data.story_quote}</h2>
           <p className="font-body text-white/70 text-base md:text-lg leading-relaxed max-w-2xl mx-auto">{data.story_long}</p>
         </div>
       </section>
@@ -337,7 +337,7 @@ export default function CoteDazurTemplate({ data = DEMO }: { data?: WeddingData 
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-24">
             <p className="tracking-[0.4em] uppercase text-xs opacity-50 mb-4 font-body">The Weekend</p>
-            <h3 className="font-headline text-5xl italic">Itinerary</h3>
+            <h3 className="font-headline text-[clamp(2.2rem,4.6vw,3.4rem)] italic">Itinerary</h3>
           </div>
           <div className="relative">
             <div className="hidden md:block absolute top-1/2 left-0 w-full h-px bg-black/10 -translate-y-1/2" />
@@ -363,8 +363,8 @@ export default function CoteDazurTemplate({ data = DEMO }: { data?: WeddingData 
       <section className="py-32 px-6 max-w-7xl mx-auto" id="venue">
         <div className="grid lg:grid-cols-2 gap-24 items-start">
           <div>
-            <h3 className="font-headline text-5xl mb-12">The Venue</h3>
-            <div className="aspect-video w-full grayscale contrast-125 mb-8 overflow-hidden shadow-sm">
+            <h3 className="font-headline text-[clamp(2.2rem,4.6vw,3.4rem)] mb-12">The Venue</h3>
+            <div className="aspect-video w-full grayscale contrast-125 mb-8 overflow-hidden">
               <img src={data.venue_map_url} alt={data.venue_name} className="w-full h-full object-cover" />
             </div>
             <p className="font-headline text-xl mb-2">{data.venue_name}</p>
@@ -415,7 +415,7 @@ export default function CoteDazurTemplate({ data = DEMO }: { data?: WeddingData 
       <section className="py-32 bg-white px-6" id="gifts">
         <div className="max-w-4xl mx-auto text-center">
           <p className="tracking-[0.4em] uppercase text-xs opacity-50 mb-6 font-body">Gifting</p>
-          <h3 className="font-headline text-5xl italic mb-12">Registry</h3>
+          <h3 className="font-headline text-[clamp(2.2rem,4.6vw,3.4rem)] italic mb-12">Registry</h3>
           <p className="font-body text-[#474747] mb-16 text-lg leading-relaxed max-w-2xl mx-auto">
             Your presence is our greatest gift. However, if you wish to honor us with a gesture, we have curated a selection of items for our home and a fund for our first adventure as a married couple.
           </p>
@@ -451,7 +451,7 @@ export default function CoteDazurTemplate({ data = DEMO }: { data?: WeddingData 
 
       {/* RSVP */}
       <section className="py-32 px-6" id="rsvp">
-        <div className="max-w-xl mx-auto bg-white p-12 md:p-20 shadow-sm border border-black/5 relative">
+        <div className="max-w-xl mx-auto bg-white p-12 md:p-20 border border-black/5 relative">
           <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-black text-white px-8 py-2.5 font-body text-[10px] tracking-[0.3em] uppercase whitespace-nowrap">
             RSVP by {data.rsvp_deadline}
           </div>
