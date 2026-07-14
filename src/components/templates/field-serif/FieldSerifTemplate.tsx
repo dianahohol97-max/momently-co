@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
+import { t as tr, normalizeLocale } from '@/lib/i18n';
 
 // ─── COLORS ──────────────────────────────────────────────
 const C = {
@@ -15,6 +16,7 @@ interface ScheduleItem { time: string; title: string }
 interface FaqItem { question: string; answer: string }
 
 interface WeddingData {
+  locale?: string;
   partner_name_1: string;
   partner_name_2: string;
   wedding_date: string;
@@ -88,6 +90,8 @@ const DEMO: WeddingData = {
 // ─── COMPONENT ────────────────────────────────────────────
 export default function FieldSerifTemplate({ data }: { data?: Partial<WeddingData> }) {
   const d: WeddingData = { ...DEMO, ...(data || {}) };
+  const L = normalizeLocale(d.locale);
+  const t = (k: string, v?: Record<string, string | number>) => tr(L, k, v);
   const rootRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLElement>(null);
   const [barOn, setBarOn] = useState(false);
@@ -143,7 +147,7 @@ export default function FieldSerifTemplate({ data }: { data?: Partial<WeddingDat
         </div>
         <div className="fs-veil" />
         <div className="fs-hero-inner">
-          <p className="fs-script rv">ми одружуємось</p>
+          <p className="fs-script rv">{t('heroScript')}</p>
           <h1 className="rv" style={{ transitionDelay: '.1s' }}>
             {d.partner_name_1} <span className="fs-amp">&amp;</span> {d.partner_name_2}
           </h1>
@@ -151,14 +155,14 @@ export default function FieldSerifTemplate({ data }: { data?: Partial<WeddingDat
             {dateDisplay}&nbsp;&nbsp;·&nbsp;&nbsp;{d.location}
           </p>
           {days !== null && (
-            <p className="fs-count rv" style={{ transitionDelay: '.3s' }}>до події {days} днів</p>
+            <p className="fs-count rv" style={{ transitionDelay: '.3s' }}>{t('daysTo', { n: days })}</p>
           )}
         </div>
         <span className="fs-down" aria-hidden="true" />
       </header>
 
       <section className="fs-bignames">
-        <span className="fs-caps rv">запрошують на святкування свого весілля</span>
+        <span className="fs-caps rv">{t('inviteCaps')}</span>
         <h2 className="rv" style={{ transitionDelay: '.1s' }}>
           {d.partner_name_1} <span className="fs-amp">та</span> {d.partner_name_2}
         </h2>
@@ -170,7 +174,7 @@ export default function FieldSerifTemplate({ data }: { data?: Partial<WeddingDat
             {d.story_image_url && <img src={d.story_image_url} alt="" loading="lazy" />}
           </div>
           <div>
-            <p className="fs-lbl rv">наша <em>історія</em></p>
+            <p className="fs-lbl rv">{t('storyA')} <em>{t('storyB')}</em></p>
             {d.story_heading && <h3 className="rv" style={{ transitionDelay: '.08s' }}>{d.story_heading}</h3>}
             {d.story_paragraph_1 && <p className="fs-body rv" style={{ transitionDelay: '.16s' }}>{d.story_paragraph_1}</p>}
             {d.story_paragraph_2 && <p className="fs-body rv" style={{ transitionDelay: '.22s' }}>{d.story_paragraph_2}</p>}
@@ -194,7 +198,7 @@ export default function FieldSerifTemplate({ data }: { data?: Partial<WeddingDat
         <section className="fs-day" id="fs-day">
           <div className="fs-wrap">
             <span className="fs-caps fs-center rv">{d.location}</span>
-            <h3 className="fs-h rv" style={{ transitionDelay: '.06s' }}>Розклад дня</h3>
+            <h3 className="fs-h rv" style={{ transitionDelay: '.06s' }}>{t('scheduleTitle')}</h3>
             <div className="fs-daylist">
               {d.schedule.map((s, i) => (
                 <div key={i} className="fs-dayrow rv" style={{ transitionDelay: `${i * 0.05}s` }}>
@@ -211,21 +215,21 @@ export default function FieldSerifTemplate({ data }: { data?: Partial<WeddingDat
         <div className="fs-wrap fs-det-grid">
           {d.venue_name && (
             <div className="rv">
-              <span className="fs-caps">Локація</span>
+              <span className="fs-caps">{t('locationLabel')}</span>
               <h3>{d.venue_name}</h3>
               <p className="fs-body">
                 {d.venue_address}{d.venue_description ? '. ' + d.venue_description : ''}
               </p>
               {d.venue_directions_url && d.venue_directions_url !== '#' && (
                 <a className="fs-linku" href={d.venue_directions_url} target="_blank" rel="noopener noreferrer">
-                  Прокласти маршрут
+                  {t('routeBtn')}
                 </a>
               )}
             </div>
           )}
           {d.dress_code_title && (
             <div className="rv" style={{ transitionDelay: '.12s' }}>
-              <span className="fs-caps">Дрес-код</span>
+              <span className="fs-caps">{t('dressLabel')}</span>
               <h3>{d.dress_code_title}</h3>
               {d.dress_code_description && <p className="fs-body">{d.dress_code_description}</p>}
               {!!d.dress_code_colors?.length && (
@@ -246,8 +250,8 @@ export default function FieldSerifTemplate({ data }: { data?: Partial<WeddingDat
       {!!d.faq?.length && (
         <section className="fs-faqsec" id="fs-faq">
           <div className="fs-wrap">
-            <span className="fs-caps fs-center rv">Корисне</span>
-            <h3 className="fs-h rv" style={{ transitionDelay: '.06s' }}>Часті питання</h3>
+            <span className="fs-caps fs-center rv">{t('usefulLabel')}</span>
+            <h3 className="fs-h rv" style={{ transitionDelay: '.06s' }}>{t('faqTitle')}</h3>
             <div className="fs-faq rv" style={{ transitionDelay: '.12s' }}>
               {d.faq.map((f, i) => (
                 <details key={i}>
@@ -266,7 +270,7 @@ export default function FieldSerifTemplate({ data }: { data?: Partial<WeddingDat
         <p className="fs-script2">{d.closing_message || 'з любов’ю,'}</p>
         <p className="fs-fnames">{d.partner_name_1} та {d.partner_name_2}</p>
         <p className="fs-cred">
-          створено на <a href="https://momently.co" target="_blank" rel="noopener noreferrer">momently.co</a>
+          {t('createdOn')} <a href="https://momently.co" target="_blank" rel="noopener noreferrer">momently.co</a>
         </p>
       </footer>
     </div>
@@ -275,12 +279,14 @@ export default function FieldSerifTemplate({ data }: { data?: Partial<WeddingDat
 
 // ─── RSVP ─────────────────────────────────────────────────
 function RsvpSection({ d }: { d: WeddingData }) {
+  const L = normalizeLocale(d.locale);
+  const t = (k: string, v?: Record<string, string | number>) => tr(L, k, v);
   const [status, setStatus] = useState<'form' | 'sending' | 'success' | 'error'>('form');
   const [attending, setAttending] = useState(true);
   const [name, setName] = useState('');
   const [nameErr, setNameErr] = useState(false);
-  const [guests, setGuests] = useState('1 гість');
-  const [meal, setMeal] = useState('звичайне');
+  const [guests, setGuests] = useState(tr(normalizeLocale(d.locale), 'guest1'));
+  const [meal, setMeal] = useState(tr(normalizeLocale(d.locale), 'menuRegular'));
   const [wish, setWish] = useState('');
   const [song, setSong] = useState('');
 
@@ -288,9 +294,9 @@ function RsvpSection({ d }: { d: WeddingData }) {
     if (!name.trim()) { setNameErr(true); return; }
     setStatus('sending');
     const dietary = [
-      attending ? 'меню: ' + meal : '',
-      wish.trim() ? 'побажання: ' + wish.trim() : '',
-      song.trim() ? 'пісня: ' + song.trim() : '',
+      attending ? t('menuWord') + ': ' + meal : '',
+      wish.trim() ? t('wishesWord') + ': ' + wish.trim() : '',
+      song.trim() ? t('songWord') + ': ' + song.trim() : '',
     ].filter(Boolean).join(' · ') || undefined;
     try {
       const res = await fetch('/api/rsvp', {
@@ -300,7 +306,7 @@ function RsvpSection({ d }: { d: WeddingData }) {
           name: name.trim(),
           attendance: attending ? 'attending' : 'declined',
           dietary,
-          plus_one: attending && guests === '2 гості',
+          plus_one: attending && guests === t('guest2'),
           wedding_slug: d.slug,
         }),
       });
@@ -319,70 +325,70 @@ function RsvpSection({ d }: { d: WeddingData }) {
       <div className="fs-veil" />
       <div className="fs-card">
         <span className="fs-caps fs-center">rsvp</span>
-        <h2>Будете з нами?</h2>
-        {d.rsvp_deadline && <p className="fs-dl">Дайте відповідь, будь ласка, до {d.rsvp_deadline}.</p>}
+        <h2>{t('rsvpTitle')}</h2>
+        {d.rsvp_deadline && <p className="fs-dl">{t('rsvpDeadline', { date: d.rsvp_deadline })}</p>}
 
         {status === 'success' ? (
           <div className="fs-done">
-            <p className="fs-done-t">{attending ? `Дякуємо, ${name.trim()}!` : `Дякуємо за відповідь, ${name.trim()}`}</p>
+            <p className="fs-done-t">{attending ? t('thanksYes', { name: name.trim() }) : t('thanksNo', { name: name.trim() })}</p>
             <p className="fs-done-s">
               {attending
-                ? `Чекаємо на вас · ${guests} · ${meal} меню.`
-                : 'Шкода, що не побачимось — ви будете з нами подумки.'}
+                ? t('waitingFor', { guests, menu: meal })
+                : t('thanksNoSub')}
             </p>
           </div>
         ) : (
           <div>
-            <label className="fs-f" htmlFor="fs-name">Ім’я та прізвище</label>
+            <label className="fs-f" htmlFor="fs-name">{t('nameLabel')}</label>
             <input
               id="fs-name"
               className={'fs-in' + (nameErr ? ' err' : '')}
               type="text"
               autoComplete="name"
-              placeholder="Оксана Коваль"
+              placeholder={t('namePlaceholder')}
               value={name}
               onChange={(e) => { setName(e.target.value); setNameErr(false); }}
             />
 
-            <label className="fs-f">Присутність</label>
+            <label className="fs-f">{t('presenceLabel')}</label>
             <div className="fs-chips">
-              <button type="button" className={'fs-chip' + (attending ? ' on' : '')} onClick={() => setAttending(true)}>Так, буду</button>
-              <button type="button" className={'fs-chip' + (!attending ? ' on' : '')} onClick={() => setAttending(false)}>На жаль, ні</button>
+              <button type="button" className={'fs-chip' + (attending ? ' on' : '')} onClick={() => setAttending(true)}>{t('yes')}</button>
+              <button type="button" className={'fs-chip' + (!attending ? ' on' : '')} onClick={() => setAttending(false)}>{t('no')}</button>
             </div>
 
             {attending && (
               <div>
                 <div className="fs-two">
                   <div>
-                    <label className="fs-f" htmlFor="fs-guests">Кількість гостей</label>
+                    <label className="fs-f" htmlFor="fs-guests">{t('guestsLabel')}</label>
                     <select id="fs-guests" className="fs-in" value={guests} onChange={(e) => setGuests(e.target.value)}>
-                      <option>1 гість</option>
-                      <option>2 гості</option>
+                      <option>{t('guest1')}</option>
+                      <option>{t('guest2')}</option>
                     </select>
                   </div>
                   <div>
-                    <label className="fs-f" htmlFor="fs-meal">Меню</label>
+                    <label className="fs-f" htmlFor="fs-meal">{t('menuLabel')}</label>
                     <select id="fs-meal" className="fs-in" value={meal} onChange={(e) => setMeal(e.target.value)}>
-                      <option>звичайне</option>
-                      <option>вегетаріанське</option>
-                      <option>дитяче</option>
+                      <option>{t('menuRegular')}</option>
+                      <option>{t('menuVeg')}</option>
+                      <option>{t('menuKids')}</option>
                     </select>
                   </div>
                 </div>
-                <label className="fs-f" htmlFor="fs-wish">Алергії або побажання</label>
-                <input id="fs-wish" className="fs-in" type="text" placeholder="без горіхів" value={wish} onChange={(e) => setWish(e.target.value)} />
-                <label className="fs-f" htmlFor="fs-song">Пісня, під яку ви точно танцюєте</label>
-                <input id="fs-song" className="fs-in" type="text" placeholder="ДахаБраха — Весна" value={song} onChange={(e) => setSong(e.target.value)} />
+                <label className="fs-f" htmlFor="fs-wish">{t('wishesLabel')}</label>
+                <input id="fs-wish" className="fs-in" type="text" placeholder={t('wishesPlaceholder')} value={wish} onChange={(e) => setWish(e.target.value)} />
+                <label className="fs-f" htmlFor="fs-song">{t('songLabel')}</label>
+                <input id="fs-song" className="fs-in" type="text" placeholder={t('songPlaceholder')} value={song} onChange={(e) => setSong(e.target.value)} />
               </div>
             )}
 
             <div className="fs-send">
               <button className="fs-btn" onClick={submit} disabled={status === 'sending'}>
-                {status === 'sending' ? 'Надсилаємо…' : 'Надіслати відповідь'}
+                {status === 'sending' ? t('sending') : t('submit')}
               </button>
             </div>
-            {status === 'error' && <p className="fs-errmsg">Не вдалося надіслати — спробуйте ще раз.</p>}
-            <p className="fs-note">Відповідь можна змінити до {d.rsvp_deadline || 'дня події'} — відкрийте сайт ще раз.</p>
+            {status === 'error' && <p className="fs-errmsg">{t('errSend')}</p>}
+            <p className="fs-note">{t('changeNote', { date: d.rsvp_deadline || '' })}</p>
           </div>
         )}
       </div>

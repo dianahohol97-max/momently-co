@@ -65,6 +65,7 @@ export default async function WeddingPage({ params }: Props) {
 
   // Build unified data shape (covers all template fields)
   const templateData = {
+    locale: wedding.locale,
     // Core
     partner_name_1:         wedding.partner_name_1 || 'Partner',
     partner_name_2:         wedding.partner_name_2 || 'Partner',

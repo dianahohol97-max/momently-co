@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { cookies } from 'next/headers';
 import { TEMPLATE_MAP, TEMPLATE_NAMES } from '@/components/templates/template-map';
 
 export const dynamic = 'force-dynamic';
@@ -71,6 +72,7 @@ export default async function TemplateDemoPage({ params }: { params: { slug: str
   // 3) Fallback: render the React component with its built-in demo data (works without DB).
   const TemplateComponent = TEMPLATE_MAP[params.slug];
   if (TemplateComponent) {
+    const locale = cookies().get('ml_locale')?.value;
     return (
       <div>
         <DemoBar
@@ -80,7 +82,7 @@ export default async function TemplateDemoPage({ params }: { params: { slug: str
           priceUah={template?.price_uah}
         />
         <div style={{ marginTop: 48 }}>
-          <TemplateComponent />
+          <TemplateComponent data={locale ? { locale } : undefined} />
         </div>
       </div>
     );

@@ -1,0 +1,243 @@
+// ─── Momently i18n ───────────────────────────────────────────
+// UI-chrome translations for wedding templates and marketing pages.
+// Couple-authored content (story, schedule) is never auto-translated.
+
+export const APP_LOCALES = ['uk', 'en', 'fr', 'es', 'de', 'pl', 'ro'] as const;
+export type AppLocale = (typeof APP_LOCALES)[number];
+
+export function normalizeLocale(x?: string | null, fallback: AppLocale = 'uk'): AppLocale {
+  if (!x) return fallback;
+  const v = x.toLowerCase().slice(0, 2);
+  if (v === 'ua') return 'uk';
+  return (APP_LOCALES as readonly string[]).includes(v) ? (v as AppLocale) : fallback;
+}
+
+const COUNTRY_TO_LOCALE: Record<string, AppLocale> = {
+  UA: 'uk',
+  PL: 'pl',
+  RO: 'ro', MD: 'ro',
+  DE: 'de', AT: 'de', CH: 'de', LI: 'de',
+  FR: 'fr', BE: 'fr', LU: 'fr', MC: 'fr',
+  ES: 'es', MX: 'es', AR: 'es', CO: 'es', CL: 'es', PE: 'es',
+  VE: 'es', EC: 'es', UY: 'es', GT: 'es', DO: 'es', BO: 'es',
+  PY: 'es', SV: 'es', HN: 'es', NI: 'es', CR: 'es', PA: 'es', CU: 'es',
+};
+
+export function resolveLocaleFromRequest(country?: string | null, acceptLanguage?: string | null): AppLocale {
+  if (country && COUNTRY_TO_LOCALE[country.toUpperCase()]) return COUNTRY_TO_LOCALE[country.toUpperCase()];
+  if (acceptLanguage) {
+    for (const part of acceptLanguage.split(',')) {
+      const code = part.trim().slice(0, 2).toLowerCase();
+      const n = code === 'ua' ? 'uk' : code;
+      if ((APP_LOCALES as readonly string[]).includes(n)) return n as AppLocale;
+    }
+  }
+  return 'en';
+}
+
+type Dict = Record<string, string>;
+
+const uk: Dict = {
+  heroScript: 'ми одружуємось',
+  inviteCaps: 'запрошують на святкування свого весілля',
+  daysTo: 'до події {n} днів',
+  rsvpBtn: 'Підтвердити присутність',
+  storyA: 'наша', storyB: 'історія',
+  scheduleTitle: 'Розклад дня',
+  locationLabel: 'Локація', dressLabel: 'Дрес-код',
+  routeBtn: 'Прокласти маршрут',
+  usefulLabel: 'Корисне', faqTitle: 'Часті питання',
+  rsvpTitle: 'Будете з нами?',
+  rsvpDeadline: 'Дайте відповідь, будь ласка, до {date}.',
+  nameLabel: 'Ім’я та прізвище', namePlaceholder: 'Оксана Коваль',
+  presenceLabel: 'Присутність', yes: 'Так, буду', no: 'На жаль, ні',
+  guestsLabel: 'Кількість гостей', guest1: '1 гість', guest2: '2 гості',
+  menuLabel: 'Меню', menuRegular: 'звичайне', menuVeg: 'вегетаріанське', menuKids: 'дитяче',
+  wishesLabel: 'Алергії або побажання', wishesPlaceholder: 'без горіхів',
+  songLabel: 'Пісня, під яку ви точно танцюєте', songPlaceholder: 'ДахаБраха — Весна',
+  submit: 'Надіслати відповідь', sending: 'Надсилаємо…',
+  changeNote: 'Відповідь можна змінити до {date} — відкрийте сайт ще раз.',
+  thanksYes: 'Дякуємо, {name}!', waitingFor: 'Чекаємо на вас · {guests} · {menu}',
+  thanksNo: 'Дякуємо за відповідь, {name}',
+  thanksNoSub: 'Шкода, що не побачимось — ви будете з нами подумки.',
+  errSend: 'Не вдалося надіслати — спробуйте ще раз.',
+  menuWord: 'меню', wishesWord: 'побажання', songWord: 'пісня',
+  createdOn: 'створено на', addToCalendar: 'Додати в календар',
+};
+
+const en: Dict = {
+  heroScript: 'we are getting married',
+  inviteCaps: 'invite you to celebrate their wedding',
+  daysTo: '{n} days to go',
+  rsvpBtn: 'RSVP',
+  storyA: 'our', storyB: 'story',
+  scheduleTitle: 'Schedule of the day',
+  locationLabel: 'Venue', dressLabel: 'Dress code',
+  routeBtn: 'Get directions',
+  usefulLabel: 'Good to know', faqTitle: 'Questions & answers',
+  rsvpTitle: 'Will you join us?',
+  rsvpDeadline: 'Please reply by {date}.',
+  nameLabel: 'Full name', namePlaceholder: 'Anna Smith',
+  presenceLabel: 'Attendance', yes: 'Joyfully accept', no: 'Regretfully decline',
+  guestsLabel: 'Number of guests', guest1: '1 guest', guest2: '2 guests',
+  menuLabel: 'Menu', menuRegular: 'regular', menuVeg: 'vegetarian', menuKids: 'kids',
+  wishesLabel: 'Allergies or notes', wishesPlaceholder: 'no nuts, please',
+  songLabel: 'A song that gets you dancing', songPlaceholder: 'ABBA — Dancing Queen',
+  submit: 'Send reply', sending: 'Sending…',
+  changeNote: 'You can change your reply until {date} — just open the site again.',
+  thanksYes: 'Thank you, {name}!', waitingFor: 'See you there · {guests} · {menu}',
+  thanksNo: 'Thank you for replying, {name}',
+  thanksNoSub: 'We will miss you — you will be with us in spirit.',
+  errSend: 'Could not send — please try again.',
+  menuWord: 'menu', wishesWord: 'notes', songWord: 'song',
+  createdOn: 'created on', addToCalendar: 'Add to calendar',
+};
+
+const fr: Dict = {
+  heroScript: 'nous nous marions',
+  inviteCaps: 'vous invitent à célébrer leur mariage',
+  daysTo: 'plus que {n} jours',
+  rsvpBtn: 'Confirmer ma présence',
+  storyA: 'notre', storyB: 'histoire',
+  scheduleTitle: 'Programme de la journée',
+  locationLabel: 'Lieu', dressLabel: 'Dress code',
+  routeBtn: 'Voir l’itinéraire',
+  usefulLabel: 'Bon à savoir', faqTitle: 'Questions fréquentes',
+  rsvpTitle: 'Serez-vous des nôtres ?',
+  rsvpDeadline: 'Merci de répondre avant le {date}.',
+  nameLabel: 'Nom et prénom', namePlaceholder: 'Anne Martin',
+  presenceLabel: 'Présence', yes: 'Avec joie', no: 'À regret, non',
+  guestsLabel: 'Nombre d’invités', guest1: '1 invité', guest2: '2 invités',
+  menuLabel: 'Menu', menuRegular: 'classique', menuVeg: 'végétarien', menuKids: 'enfant',
+  wishesLabel: 'Allergies ou remarques', wishesPlaceholder: 'sans noix, merci',
+  songLabel: 'La chanson qui vous fait danser', songPlaceholder: 'Daft Punk — One More Time',
+  submit: 'Envoyer la réponse', sending: 'Envoi…',
+  changeNote: 'Vous pouvez modifier votre réponse jusqu’au {date} — il suffit de rouvrir le site.',
+  thanksYes: 'Merci, {name} !', waitingFor: 'À très vite · {guests} · {menu}',
+  thanksNo: 'Merci pour votre réponse, {name}',
+  thanksNoSub: 'Vous nous manquerez — vous serez avec nous par la pensée.',
+  errSend: 'Échec de l’envoi — veuillez réessayer.',
+  menuWord: 'menu', wishesWord: 'remarques', songWord: 'chanson',
+  createdOn: 'créé sur', addToCalendar: 'Ajouter au calendrier',
+};
+
+const es: Dict = {
+  heroScript: 'nos casamos',
+  inviteCaps: 'los invitan a celebrar su boda',
+  daysTo: 'faltan {n} días',
+  rsvpBtn: 'Confirmar asistencia',
+  storyA: 'nuestra', storyB: 'historia',
+  scheduleTitle: 'Programa del día',
+  locationLabel: 'Lugar', dressLabel: 'Código de vestimenta',
+  routeBtn: 'Cómo llegar',
+  usefulLabel: 'Bueno saber', faqTitle: 'Preguntas frecuentes',
+  rsvpTitle: '¿Nos acompañas?',
+  rsvpDeadline: 'Por favor responde antes del {date}.',
+  nameLabel: 'Nombre y apellido', namePlaceholder: 'Ana García',
+  presenceLabel: 'Asistencia', yes: 'Sí, asistiré', no: 'Lamentablemente, no',
+  guestsLabel: 'Número de invitados', guest1: '1 invitado', guest2: '2 invitados',
+  menuLabel: 'Menú', menuRegular: 'clásico', menuVeg: 'vegetariano', menuKids: 'infantil',
+  wishesLabel: 'Alergias o comentarios', wishesPlaceholder: 'sin nueces, por favor',
+  songLabel: 'La canción que te hace bailar', songPlaceholder: 'Gipsy Kings — Volare',
+  submit: 'Enviar respuesta', sending: 'Enviando…',
+  changeNote: 'Puedes cambiar tu respuesta hasta el {date} — solo vuelve a abrir el sitio.',
+  thanksYes: '¡Gracias, {name}!', waitingFor: 'Te esperamos · {guests} · {menu}',
+  thanksNo: 'Gracias por responder, {name}',
+  thanksNoSub: 'Te echaremos de menos — estarás con nosotros en espíritu.',
+  errSend: 'No se pudo enviar — inténtalo de nuevo.',
+  menuWord: 'menú', wishesWord: 'comentarios', songWord: 'canción',
+  createdOn: 'creado en', addToCalendar: 'Añadir al calendario',
+};
+
+const de: Dict = {
+  heroScript: 'wir heiraten',
+  inviteCaps: 'laden zur Feier ihrer Hochzeit ein',
+  daysTo: 'noch {n} Tage',
+  rsvpBtn: 'Teilnahme bestätigen',
+  storyA: 'unsere', storyB: 'Geschichte',
+  scheduleTitle: 'Tagesablauf',
+  locationLabel: 'Location', dressLabel: 'Dresscode',
+  routeBtn: 'Route anzeigen',
+  usefulLabel: 'Gut zu wissen', faqTitle: 'Häufige Fragen',
+  rsvpTitle: 'Seid ihr dabei?',
+  rsvpDeadline: 'Bitte antwortet bis zum {date}.',
+  nameLabel: 'Vor- und Nachname', namePlaceholder: 'Anna Schmidt',
+  presenceLabel: 'Teilnahme', yes: 'Ja, ich komme', no: 'Leider nein',
+  guestsLabel: 'Anzahl der Gäste', guest1: '1 Gast', guest2: '2 Gäste',
+  menuLabel: 'Menü', menuRegular: 'klassisch', menuVeg: 'vegetarisch', menuKids: 'Kinder',
+  wishesLabel: 'Allergien oder Wünsche', wishesPlaceholder: 'bitte ohne Nüsse',
+  songLabel: 'Der Song, zu dem ihr tanzt', songPlaceholder: 'Robbie Williams — Angels',
+  submit: 'Antwort senden', sending: 'Wird gesendet…',
+  changeNote: 'Ihr könnt eure Antwort bis zum {date} ändern — einfach die Seite erneut öffnen.',
+  thanksYes: 'Danke, {name}!', waitingFor: 'Wir freuen uns · {guests} · {menu}',
+  thanksNo: 'Danke für eure Antwort, {name}',
+  thanksNoSub: 'Schade — ihr seid in Gedanken bei uns.',
+  errSend: 'Senden fehlgeschlagen — bitte erneut versuchen.',
+  menuWord: 'Menü', wishesWord: 'Wünsche', songWord: 'Song',
+  createdOn: 'erstellt auf', addToCalendar: 'Zum Kalender hinzufügen',
+};
+
+const pl: Dict = {
+  heroScript: 'bierzemy ślub',
+  inviteCaps: 'zapraszają na uroczystość swojego ślubu',
+  daysTo: 'zostało {n} dni',
+  rsvpBtn: 'Potwierdź obecność',
+  storyA: 'nasza', storyB: 'historia',
+  scheduleTitle: 'Plan dnia',
+  locationLabel: 'Miejsce', dressLabel: 'Dress code',
+  routeBtn: 'Wyznacz trasę',
+  usefulLabel: 'Warto wiedzieć', faqTitle: 'Częste pytania',
+  rsvpTitle: 'Będziecie z nami?',
+  rsvpDeadline: 'Prosimy o odpowiedź do {date}.',
+  nameLabel: 'Imię i nazwisko', namePlaceholder: 'Anna Kowalska',
+  presenceLabel: 'Obecność', yes: 'Tak, będę', no: 'Niestety nie',
+  guestsLabel: 'Liczba gości', guest1: '1 gość', guest2: '2 gości',
+  menuLabel: 'Menu', menuRegular: 'klasyczne', menuVeg: 'wegetariańskie', menuKids: 'dziecięce',
+  wishesLabel: 'Alergie lub uwagi', wishesPlaceholder: 'proszę bez orzechów',
+  songLabel: 'Piosenka, przy której tańczysz', songPlaceholder: 'Kult — Baranek',
+  submit: 'Wyślij odpowiedź', sending: 'Wysyłanie…',
+  changeNote: 'Odpowiedź można zmienić do {date} — wystarczy ponownie otworzyć stronę.',
+  thanksYes: 'Dziękujemy, {name}!', waitingFor: 'Do zobaczenia · {guests} · {menu}',
+  thanksNo: 'Dziękujemy za odpowiedź, {name}',
+  thanksNoSub: 'Szkoda — będziecie z nami myślami.',
+  errSend: 'Nie udało się wysłać — spróbuj ponownie.',
+  menuWord: 'menu', wishesWord: 'uwagi', songWord: 'piosenka',
+  createdOn: 'utworzono na', addToCalendar: 'Dodaj do kalendarza',
+};
+
+const ro: Dict = {
+  heroScript: 'ne căsătorim',
+  inviteCaps: 'vă invită la celebrarea nunții lor',
+  daysTo: 'au mai rămas {n} zile',
+  rsvpBtn: 'Confirmă prezența',
+  storyA: 'povestea', storyB: 'noastră',
+  scheduleTitle: 'Programul zilei',
+  locationLabel: 'Locație', dressLabel: 'Dress code',
+  routeBtn: 'Vezi traseul',
+  usefulLabel: 'Bine de știut', faqTitle: 'Întrebări frecvente',
+  rsvpTitle: 'Veți fi alături de noi?',
+  rsvpDeadline: 'Vă rugăm să răspundeți până la {date}.',
+  nameLabel: 'Nume și prenume', namePlaceholder: 'Ana Popescu',
+  presenceLabel: 'Prezență', yes: 'Da, voi veni', no: 'Din păcate, nu',
+  guestsLabel: 'Număr de invitați', guest1: '1 invitat', guest2: '2 invitați',
+  menuLabel: 'Meniu', menuRegular: 'clasic', menuVeg: 'vegetarian', menuKids: 'pentru copii',
+  wishesLabel: 'Alergii sau mențiuni', wishesPlaceholder: 'fără nuci, vă rog',
+  songLabel: 'Melodia care vă scoate la dans', songPlaceholder: 'Holograf — Să nu-mi iei niciodată dragostea',
+  submit: 'Trimite răspunsul', sending: 'Se trimite…',
+  changeNote: 'Puteți modifica răspunsul până la {date} — redeschideți site-ul.',
+  thanksYes: 'Mulțumim, {name}!', waitingFor: 'Vă așteptăm · {guests} · {menu}',
+  thanksNo: 'Mulțumim pentru răspuns, {name}',
+  thanksNoSub: 'Ne va fi dor de voi — veți fi cu noi cu gândul.',
+  errSend: 'Trimiterea a eșuat — încercați din nou.',
+  menuWord: 'meniu', wishesWord: 'mențiuni', songWord: 'melodie',
+  createdOn: 'creat pe', addToCalendar: 'Adaugă în calendar',
+};
+
+const DICTS: Record<AppLocale, Dict> = { uk, en, fr, es, de, pl, ro };
+
+export function t(locale: AppLocale | string | undefined, key: string, vars?: Record<string, string | number>): string {
+  const L = normalizeLocale(typeof locale === 'string' ? locale : undefined);
+  let s = DICTS[L]?.[key] ?? DICTS.uk[key] ?? key;
+  if (vars) for (const [k, v] of Object.entries(vars)) s = s.replaceAll('{' + k + '}', String(v));
+  return s;
+}

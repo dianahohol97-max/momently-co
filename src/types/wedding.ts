@@ -1,6 +1,6 @@
 // ─── Core Wedding Types ───────────────────────────────────────
 
-export type Locale = 'ua' | 'en' | 'ro';
+export type Locale = 'uk' | 'ua' | 'en' | 'fr' | 'es' | 'de' | 'pl' | 'ro';
 export type WeddingStatus = 'draft' | 'active' | 'published' | 'completed' | 'archived';
 export type DisplayFormat = 'first-names' | 'full-names' | 'custom';
 export type RSVPStatus = 'pending' | 'yes' | 'no' | 'maybe';
