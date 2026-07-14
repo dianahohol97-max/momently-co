@@ -33,7 +33,7 @@ export const TEMPLATE_NAMES: Record<string, string> = {
   'il-monografo':           'Il Monografo',
   'lago-doro':              "Lago d'Oro",
   'the-manor':              'The Manor',
-  'the-modern-heirloom':    'The Modern Heirloom',
+  'the-modern-heirloom':    'Le Voyage',
   'the-digital-salon':      'The Digital Salon',
   'the-stationery':         'The Stationery',
   'evergreen':              'Evergreen',

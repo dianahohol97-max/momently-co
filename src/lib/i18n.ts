@@ -38,6 +38,7 @@ export function resolveLocaleFromRequest(country?: string | null, acceptLanguage
 type Dict = Record<string, string>;
 
 const uk: Dict = {
+  boardingPass: 'Посадковий талон гостя', passenger: 'Пасажир',
   navMenu: 'Меню', unitDays: 'днів', unitHours: 'годин', unitMin: 'хвилин', unitSec: 'секунд', saveTheDate: 'Збережіть дату', kindlyConfirm: 'Просимо підтвердити', celebrationLabel: 'Святкування', transportLabel: 'Як дістатися', viewDetails: 'Деталі', viewMap: 'Мапа', weekendLabel: 'Весільні вихідні',
   emailLabel: 'Електронна пошта', thanksSub: 'Чекаємо на вас на святі.', breakSeal: 'Торкніться печатки, щоб відповісти',
   navStory: 'Історія', navSchedule: 'Розклад', navDetails: 'Деталі', navFaq: 'Питання', and: 'та',
@@ -69,6 +70,7 @@ const uk: Dict = {
 };
 
 const en: Dict = {
+  boardingPass: 'Guest boarding pass', passenger: 'Passenger',
   navMenu: 'Menu', unitDays: 'days', unitHours: 'hours', unitMin: 'minutes', unitSec: 'seconds', saveTheDate: 'Save the date', kindlyConfirm: 'Kindly confirm', celebrationLabel: 'The celebration', transportLabel: 'Getting there', viewDetails: 'View details', viewMap: 'View map', weekendLabel: 'Wedding weekend',
   emailLabel: 'Email address', thanksSub: 'We look forward to celebrating with you.', breakSeal: 'Tap the seal to reply',
   navStory: 'Story', navSchedule: 'Schedule', navDetails: 'Details', navFaq: 'Q&A', and: 'and',
@@ -100,6 +102,7 @@ const en: Dict = {
 };
 
 const fr: Dict = {
+  boardingPass: 'Carte d’embarquement de l’invité', passenger: 'Passager',
   navMenu: 'Menu', unitDays: 'jours', unitHours: 'heures', unitMin: 'minutes', unitSec: 'secondes', saveTheDate: 'Réservez la date', kindlyConfirm: 'Merci de confirmer', celebrationLabel: 'La célébration', transportLabel: 'S’y rendre', viewDetails: 'Voir les détails', viewMap: 'Voir la carte', weekendLabel: 'Week-end de mariage',
   emailLabel: 'Adresse e-mail', thanksSub: 'Nous avons hâte de célébrer avec vous.', breakSeal: 'Touchez le sceau pour répondre',
   navStory: 'Histoire', navSchedule: 'Programme', navDetails: 'Détails', navFaq: 'Questions', and: 'et',
@@ -131,6 +134,7 @@ const fr: Dict = {
 };
 
 const es: Dict = {
+  boardingPass: 'Tarjeta de embarque del invitado', passenger: 'Pasajero',
   navMenu: 'Menú', unitDays: 'días', unitHours: 'horas', unitMin: 'minutos', unitSec: 'segundos', saveTheDate: 'Reserva la fecha', kindlyConfirm: 'Por favor confirma', celebrationLabel: 'La celebración', transportLabel: 'Cómo llegar', viewDetails: 'Ver detalles', viewMap: 'Ver mapa', weekendLabel: 'Fin de semana de boda',
   emailLabel: 'Correo electrónico', thanksSub: 'Estamos deseando celebrarlo contigo.', breakSeal: 'Toca el sello para responder',
   navStory: 'Historia', navSchedule: 'Programa', navDetails: 'Detalles', navFaq: 'Preguntas', and: 'y',
@@ -162,6 +166,7 @@ const es: Dict = {
 };
 
 const de: Dict = {
+  boardingPass: 'Bordkarte des Gastes', passenger: 'Passagier',
   navMenu: 'Menü', unitDays: 'Tage', unitHours: 'Stunden', unitMin: 'Minuten', unitSec: 'Sekunden', saveTheDate: 'Save the Date', kindlyConfirm: 'Bitte bestätigt', celebrationLabel: 'Die Feier', transportLabel: 'Anreise', viewDetails: 'Details ansehen', viewMap: 'Karte ansehen', weekendLabel: 'Hochzeitswochenende',
   emailLabel: 'E-Mail-Adresse', thanksSub: 'Wir freuen uns darauf, mit euch zu feiern.', breakSeal: 'Tippe auf das Siegel zum Antworten',
   navStory: 'Geschichte', navSchedule: 'Ablauf', navDetails: 'Details', navFaq: 'Fragen', and: 'und',
@@ -193,6 +198,7 @@ const de: Dict = {
 };
 
 const pl: Dict = {
+  boardingPass: 'Karta pokładowa gościa', passenger: 'Pasażer',
   navMenu: 'Menu', unitDays: 'dni', unitHours: 'godzin', unitMin: 'minut', unitSec: 'sekund', saveTheDate: 'Zarezerwuj datę', kindlyConfirm: 'Prosimy o potwierdzenie', celebrationLabel: 'Uroczystość', transportLabel: 'Dojazd', viewDetails: 'Zobacz szczegóły', viewMap: 'Zobacz mapę', weekendLabel: 'Weselny weekend',
   emailLabel: 'Adres e-mail', thanksSub: 'Nie możemy się doczekać wspólnego świętowania.', breakSeal: 'Dotknij pieczęci, aby odpowiedzieć',
   navStory: 'Historia', navSchedule: 'Plan', navDetails: 'Szczegóły', navFaq: 'Pytania', and: 'i',
@@ -224,6 +230,7 @@ const pl: Dict = {
 };
 
 const ro: Dict = {
+  boardingPass: 'Cartea de îmbarcare a invitatului', passenger: 'Pasager',
   navMenu: 'Meniu', unitDays: 'zile', unitHours: 'ore', unitMin: 'minute', unitSec: 'secunde', saveTheDate: 'Rezervați data', kindlyConfirm: 'Vă rugăm să confirmați', celebrationLabel: 'Celebrarea', transportLabel: 'Cum ajungeți', viewDetails: 'Vezi detalii', viewMap: 'Vezi harta', weekendLabel: 'Weekend de nuntă',
   emailLabel: 'Adresă de e-mail', thanksSub: 'Abia așteptăm să sărbătorim împreună.', breakSeal: 'Atinge sigiliul pentru a răspunde',
   navStory: 'Povestea', navSchedule: 'Program', navDetails: 'Detalii', navFaq: 'Întrebări', and: 'și',
