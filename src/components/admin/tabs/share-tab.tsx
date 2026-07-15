@@ -22,7 +22,6 @@ export function ShareTab({ wedding }: ShareTabProps) {
   const weddingUrl = (typeof window !== 'undefined' ? window.location.origin : 'https://momently-co.vercel.app') + '/w/' + wedding.slug;
   const cameraUrl = weddingUrl + '/camera';
   const stdUrl = (typeof window !== 'undefined' ? window.location.origin : 'https://momently-co.vercel.app') + '/std/' + wedding.slug;
-  const stdUrl = (typeof window !== 'undefined' ? window.location.origin : 'https://momently-co.vercel.app') + '/std/' + wedding.slug;
   const names = wedding.partner_name_1 + ' & ' + wedding.partner_name_2;
   const isPublished = wedding.status === 'published';
 

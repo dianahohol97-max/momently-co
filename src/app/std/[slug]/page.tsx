@@ -44,7 +44,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 export default async function StdPage({ params }: { params: { slug: string } }) {
   const data = await getStdData(params.slug);
   if (!data) notFound();
-  const { w, theme } = data;
+  const { w, theme } = data!;
   return (
     <SaveTheDate
       slug={w.slug}
