@@ -38,6 +38,7 @@ export function resolveLocaleFromRequest(country?: string | null, acceptLanguage
 type Dict = Record<string, string>;
 
 const uk: Dict = {
+  detailsSoon: 'Деталі — незабаром на нашому сайті', stdOnSite: 'Всі деталі — на нашому сайті',
   pgTitle: 'Ця сторінка — лише для гостей', pgPlaceholder: 'Пароль із запрошення', pgSubmit: 'Увійти', pgWrong: 'Невірний пароль — звіртеся із запрошенням',
   boardingPass: 'Посадковий талон гостя', passenger: 'Пасажир',
   navMenu: 'Меню', unitDays: 'днів', unitHours: 'годин', unitMin: 'хвилин', unitSec: 'секунд', saveTheDate: 'Збережіть дату', kindlyConfirm: 'Просимо підтвердити', celebrationLabel: 'Святкування', transportLabel: 'Як дістатися', viewDetails: 'Деталі', viewMap: 'Мапа', weekendLabel: 'Весільні вихідні',
@@ -71,6 +72,7 @@ const uk: Dict = {
 };
 
 const en: Dict = {
+  detailsSoon: 'Details coming soon on our website', stdOnSite: 'All details on our website',
   pgTitle: 'This page is for guests only', pgPlaceholder: 'Password from your invitation', pgSubmit: 'Enter', pgWrong: 'Wrong password — please check your invitation',
   boardingPass: 'Guest boarding pass', passenger: 'Passenger',
   navMenu: 'Menu', unitDays: 'days', unitHours: 'hours', unitMin: 'minutes', unitSec: 'seconds', saveTheDate: 'Save the date', kindlyConfirm: 'Kindly confirm', celebrationLabel: 'The celebration', transportLabel: 'Getting there', viewDetails: 'View details', viewMap: 'View map', weekendLabel: 'Wedding weekend',
@@ -104,6 +106,7 @@ const en: Dict = {
 };
 
 const fr: Dict = {
+  detailsSoon: 'Les détails arrivent bientôt sur notre site', stdOnSite: 'Tous les détails sur notre site',
   pgTitle: 'Cette page est réservée aux invités', pgPlaceholder: 'Mot de passe de l’invitation', pgSubmit: 'Entrer', pgWrong: 'Mot de passe incorrect — vérifiez votre invitation',
   boardingPass: 'Carte d’embarquement de l’invité', passenger: 'Passager',
   navMenu: 'Menu', unitDays: 'jours', unitHours: 'heures', unitMin: 'minutes', unitSec: 'secondes', saveTheDate: 'Réservez la date', kindlyConfirm: 'Merci de confirmer', celebrationLabel: 'La célébration', transportLabel: 'S’y rendre', viewDetails: 'Voir les détails', viewMap: 'Voir la carte', weekendLabel: 'Week-end de mariage',
@@ -137,6 +140,7 @@ const fr: Dict = {
 };
 
 const es: Dict = {
+  detailsSoon: 'Los detalles llegarán pronto a nuestra web', stdOnSite: 'Todos los detalles en nuestra web',
   pgTitle: 'Esta página es solo para invitados', pgPlaceholder: 'Contraseña de la invitación', pgSubmit: 'Entrar', pgWrong: 'Contraseña incorrecta — revisa tu invitación',
   boardingPass: 'Tarjeta de embarque del invitado', passenger: 'Pasajero',
   navMenu: 'Menú', unitDays: 'días', unitHours: 'horas', unitMin: 'minutos', unitSec: 'segundos', saveTheDate: 'Reserva la fecha', kindlyConfirm: 'Por favor confirma', celebrationLabel: 'La celebración', transportLabel: 'Cómo llegar', viewDetails: 'Ver detalles', viewMap: 'Ver mapa', weekendLabel: 'Fin de semana de boda',
@@ -170,6 +174,7 @@ const es: Dict = {
 };
 
 const de: Dict = {
+  detailsSoon: 'Details folgen bald auf unserer Website', stdOnSite: 'Alle Details auf unserer Website',
   pgTitle: 'Diese Seite ist nur für Gäste', pgPlaceholder: 'Passwort aus der Einladung', pgSubmit: 'Öffnen', pgWrong: 'Falsches Passwort — bitte prüft eure Einladung',
   boardingPass: 'Bordkarte des Gastes', passenger: 'Passagier',
   navMenu: 'Menü', unitDays: 'Tage', unitHours: 'Stunden', unitMin: 'Minuten', unitSec: 'Sekunden', saveTheDate: 'Save the Date', kindlyConfirm: 'Bitte bestätigt', celebrationLabel: 'Die Feier', transportLabel: 'Anreise', viewDetails: 'Details ansehen', viewMap: 'Karte ansehen', weekendLabel: 'Hochzeitswochenende',
@@ -203,6 +208,7 @@ const de: Dict = {
 };
 
 const pl: Dict = {
+  detailsSoon: 'Szczegóły wkrótce na naszej stronie', stdOnSite: 'Wszystkie szczegóły na naszej stronie',
   pgTitle: 'Ta strona jest tylko dla gości', pgPlaceholder: 'Hasło z zaproszenia', pgSubmit: 'Wejdź', pgWrong: 'Błędne hasło — sprawdź zaproszenie',
   boardingPass: 'Karta pokładowa gościa', passenger: 'Pasażer',
   navMenu: 'Menu', unitDays: 'dni', unitHours: 'godzin', unitMin: 'minut', unitSec: 'sekund', saveTheDate: 'Zarezerwuj datę', kindlyConfirm: 'Prosimy o potwierdzenie', celebrationLabel: 'Uroczystość', transportLabel: 'Dojazd', viewDetails: 'Zobacz szczegóły', viewMap: 'Zobacz mapę', weekendLabel: 'Weselny weekend',
@@ -236,6 +242,7 @@ const pl: Dict = {
 };
 
 const ro: Dict = {
+  detailsSoon: 'Detaliile vin în curând pe site-ul nostru', stdOnSite: 'Toate detaliile pe site-ul nostru',
   pgTitle: 'Această pagină este doar pentru invitați', pgPlaceholder: 'Parola din invitație', pgSubmit: 'Intră', pgWrong: 'Parolă greșită — verificați invitația',
   boardingPass: 'Cartea de îmbarcare a invitatului', passenger: 'Pasager',
   navMenu: 'Meniu', unitDays: 'zile', unitHours: 'ore', unitMin: 'minute', unitSec: 'secunde', saveTheDate: 'Rezervați data', kindlyConfirm: 'Vă rugăm să confirmați', celebrationLabel: 'Celebrarea', transportLabel: 'Cum ajungeți', viewDetails: 'Vezi detalii', viewMap: 'Vezi harta', weekendLabel: 'Weekend de nuntă',

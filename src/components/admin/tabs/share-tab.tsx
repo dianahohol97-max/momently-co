@@ -21,6 +21,7 @@ export function ShareTab({ wedding }: ShareTabProps) {
   const qrRef = useRef<HTMLDivElement>(null);
   const weddingUrl = (typeof window !== 'undefined' ? window.location.origin : 'https://momently-co.vercel.app') + '/w/' + wedding.slug;
   const cameraUrl = weddingUrl + '/camera';
+  const stdUrl = (typeof window !== 'undefined' ? window.location.origin : 'https://momently-co.vercel.app') + '/std/' + wedding.slug;
   const names = wedding.partner_name_1 + ' & ' + wedding.partner_name_2;
   const isPublished = wedding.status === 'published';
 
@@ -50,6 +51,16 @@ export function ShareTab({ wedding }: ShareTabProps) {
           <p className="text-sm text-amber-700">Весілля ще не опубліковано. Опублікуйте, щоб гості могли бачити запрошення.</p>
         </div>
       )}
+
+      <section className="bg-white border border-gray-200 rounded-xl p-6">
+        <h3 className="text-sm font-medium text-[#1a1a2e]">Save the Date</h3>
+        <p className="text-xs text-gray-400 mt-1">Односторінкове оголошення дати у стилі вашого шаблону. Працює ще до публікації сайту — надішліть гостям першим.</p>
+        <div className="mt-4 flex items-center gap-3 flex-wrap">
+          <code className="text-xs bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5">{stdUrl}</code>
+          <button onClick={() => copyLink(stdUrl)} className="px-4 py-2.5 bg-[#1a1a2e] text-white text-xs uppercase tracking-widest rounded-lg">{copied ? 'Скопійовано' : 'Копіювати'}</button>
+          <a href={stdUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-[#b8956a] underline">Відкрити</a>
+        </div>
+      </section>
 
       <section className="bg-white border border-gray-200 rounded-xl p-6">
         <div className="flex items-center justify-between gap-4 flex-wrap">
