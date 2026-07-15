@@ -38,6 +38,8 @@ export function resolveLocaleFromRequest(country?: string | null, acceptLanguage
 type Dict = Record<string, string>;
 
 const uk: Dict = {
+  stdSoon: 'Деталі — незабаром на нашому сайті', stdSite: 'Перейти на сайт весілля', stdCal: 'Додати в календар', stdGoogle: 'Google Календар', stdIcs: 'Apple / Outlook', stdEvent: 'Весілля — {names}', stdShareText: '{names} — збережіть дату: {date}!',
+  stdComing: 'Деталі — незабаром на нашому сайті', stdOpenSite: 'Відкрити сайт весілля', stdShare: 'Поділитися',
   detailsSoon: 'Деталі — незабаром на нашому сайті', stdOnSite: 'Всі деталі — на нашому сайті',
   pgTitle: 'Ця сторінка — лише для гостей', pgPlaceholder: 'Пароль із запрошення', pgSubmit: 'Увійти', pgWrong: 'Невірний пароль — звіртеся із запрошенням',
   boardingPass: 'Посадковий талон гостя', passenger: 'Пасажир',
@@ -72,6 +74,8 @@ const uk: Dict = {
 };
 
 const en: Dict = {
+  stdSoon: 'Details coming soon on our website', stdSite: 'Visit the wedding site', stdCal: 'Add to calendar', stdGoogle: 'Google Calendar', stdIcs: 'Apple / Outlook', stdEvent: 'Wedding — {names}', stdShareText: '{names} — save the date: {date}!',
+  stdComing: 'Details coming soon on our website', stdOpenSite: 'Open the wedding site', stdShare: 'Share',
   detailsSoon: 'Details coming soon on our website', stdOnSite: 'All details on our website',
   pgTitle: 'This page is for guests only', pgPlaceholder: 'Password from your invitation', pgSubmit: 'Enter', pgWrong: 'Wrong password — please check your invitation',
   boardingPass: 'Guest boarding pass', passenger: 'Passenger',
@@ -106,6 +110,8 @@ const en: Dict = {
 };
 
 const fr: Dict = {
+  stdSoon: 'Détails bientôt sur notre site', stdSite: 'Voir le site du mariage', stdCal: 'Ajouter au calendrier', stdGoogle: 'Google Agenda', stdIcs: 'Apple / Outlook', stdEvent: 'Mariage — {names}', stdShareText: '{names} — réservez la date : {date} !',
+  stdComing: 'Les détails arrivent bientôt sur notre site', stdOpenSite: 'Ouvrir le site du mariage', stdShare: 'Partager',
   detailsSoon: 'Les détails arrivent bientôt sur notre site', stdOnSite: 'Tous les détails sur notre site',
   pgTitle: 'Cette page est réservée aux invités', pgPlaceholder: 'Mot de passe de l’invitation', pgSubmit: 'Entrer', pgWrong: 'Mot de passe incorrect — vérifiez votre invitation',
   boardingPass: 'Carte d’embarquement de l’invité', passenger: 'Passager',
@@ -140,6 +146,8 @@ const fr: Dict = {
 };
 
 const es: Dict = {
+  stdSoon: 'Detalles pronto en nuestra web', stdSite: 'Ver la web de la boda', stdCal: 'Añadir al calendario', stdGoogle: 'Google Calendar', stdIcs: 'Apple / Outlook', stdEvent: 'Boda — {names}', stdShareText: '{names} — reserva la fecha: {date}!',
+  stdComing: 'Pronto más detalles en nuestra web', stdOpenSite: 'Abrir la web de la boda', stdShare: 'Compartir',
   detailsSoon: 'Los detalles llegarán pronto a nuestra web', stdOnSite: 'Todos los detalles en nuestra web',
   pgTitle: 'Esta página es solo para invitados', pgPlaceholder: 'Contraseña de la invitación', pgSubmit: 'Entrar', pgWrong: 'Contraseña incorrecta — revisa tu invitación',
   boardingPass: 'Tarjeta de embarque del invitado', passenger: 'Pasajero',
@@ -174,6 +182,8 @@ const es: Dict = {
 };
 
 const de: Dict = {
+  stdSoon: 'Details bald auf unserer Website', stdSite: 'Zur Hochzeitswebsite', stdCal: 'Zum Kalender hinzufügen', stdGoogle: 'Google Kalender', stdIcs: 'Apple / Outlook', stdEvent: 'Hochzeit — {names}', stdShareText: '{names} — save the date: {date}!',
+  stdComing: 'Details folgen bald auf unserer Website', stdOpenSite: 'Hochzeitswebsite öffnen', stdShare: 'Teilen',
   detailsSoon: 'Details folgen bald auf unserer Website', stdOnSite: 'Alle Details auf unserer Website',
   pgTitle: 'Diese Seite ist nur für Gäste', pgPlaceholder: 'Passwort aus der Einladung', pgSubmit: 'Öffnen', pgWrong: 'Falsches Passwort — bitte prüft eure Einladung',
   boardingPass: 'Bordkarte des Gastes', passenger: 'Passagier',
@@ -208,6 +218,8 @@ const de: Dict = {
 };
 
 const pl: Dict = {
+  stdSoon: 'Szczegóły wkrótce na naszej stronie', stdSite: 'Zobacz stronę ślubu', stdCal: 'Dodaj do kalendarza', stdGoogle: 'Kalendarz Google', stdIcs: 'Apple / Outlook', stdEvent: 'Ślub — {names}', stdShareText: '{names} — zarezerwuj datę: {date}!',
+  stdComing: 'Szczegóły wkrótce na naszej stronie', stdOpenSite: 'Otwórz stronę ślubu', stdShare: 'Udostępnij',
   detailsSoon: 'Szczegóły wkrótce na naszej stronie', stdOnSite: 'Wszystkie szczegóły na naszej stronie',
   pgTitle: 'Ta strona jest tylko dla gości', pgPlaceholder: 'Hasło z zaproszenia', pgSubmit: 'Wejdź', pgWrong: 'Błędne hasło — sprawdź zaproszenie',
   boardingPass: 'Karta pokładowa gościa', passenger: 'Pasażer',
@@ -242,6 +254,8 @@ const pl: Dict = {
 };
 
 const ro: Dict = {
+  stdSoon: 'Detalii în curând pe site-ul nostru', stdSite: 'Vezi site-ul nunții', stdCal: 'Adaugă în calendar', stdGoogle: 'Google Calendar', stdIcs: 'Apple / Outlook', stdEvent: 'Nuntă — {names}', stdShareText: '{names} — rezervați data: {date}!',
+  stdComing: 'Detalii în curând pe site-ul nostru', stdOpenSite: 'Deschide site-ul nunții', stdShare: 'Distribuie',
   detailsSoon: 'Detaliile vin în curând pe site-ul nostru', stdOnSite: 'Toate detaliile pe site-ul nostru',
   pgTitle: 'Această pagină este doar pentru invitați', pgPlaceholder: 'Parola din invitație', pgSubmit: 'Intră', pgWrong: 'Parolă greșită — verificați invitația',
   boardingPass: 'Cartea de îmbarcare a invitatului', passenger: 'Pasager',
