@@ -2,6 +2,9 @@ import { notFound } from 'next/navigation';
 import { createServerSupabase } from '@/lib/supabase/server';
 
 import { TEMPLATE_MAP, DEFAULT_TEMPLATE } from '@/components/templates/template-map';
+import { cookies } from 'next/headers';
+import { createHash } from 'crypto';
+import PasswordGate from '@/components/wedding/password-gate';
 
 interface Props {
   params: { slug: string };
@@ -45,6 +48,15 @@ export default async function WeddingPage({ params }: Props) {
     .single();
 
   if (!wedding) notFound();
+
+  if (wedding.guest_password) {
+    const expected = createHash('sha256').update(wedding.guest_password).digest('hex');
+    const got = cookies().get('wg_' + wedding.slug)?.value;
+    if (got !== expected) {
+      const names = [wedding.partner_name_1, wedding.partner_name_2].filter(Boolean).join(' & ');
+      return <PasswordGate slug={wedding.slug} locale={wedding.locale} names={names} />;
+    }
+  }
 
   // Get template slug from templates table
   let templateSlug = 'cote-dazur';

@@ -38,6 +38,7 @@ export function resolveLocaleFromRequest(country?: string | null, acceptLanguage
 type Dict = Record<string, string>;
 
 const uk: Dict = {
+  pgTitle: 'Ця сторінка — лише для гостей', pgPlaceholder: 'Пароль із запрошення', pgSubmit: 'Увійти', pgWrong: 'Невірний пароль — звіртеся із запрошенням',
   boardingPass: 'Посадковий талон гостя', passenger: 'Пасажир',
   navMenu: 'Меню', unitDays: 'днів', unitHours: 'годин', unitMin: 'хвилин', unitSec: 'секунд', saveTheDate: 'Збережіть дату', kindlyConfirm: 'Просимо підтвердити', celebrationLabel: 'Святкування', transportLabel: 'Як дістатися', viewDetails: 'Деталі', viewMap: 'Мапа', weekendLabel: 'Весільні вихідні',
   emailLabel: 'Електронна пошта', thanksSub: 'Чекаємо на вас на святі.', breakSeal: 'Торкніться печатки, щоб відповісти',
@@ -70,6 +71,7 @@ const uk: Dict = {
 };
 
 const en: Dict = {
+  pgTitle: 'This page is for guests only', pgPlaceholder: 'Password from your invitation', pgSubmit: 'Enter', pgWrong: 'Wrong password — please check your invitation',
   boardingPass: 'Guest boarding pass', passenger: 'Passenger',
   navMenu: 'Menu', unitDays: 'days', unitHours: 'hours', unitMin: 'minutes', unitSec: 'seconds', saveTheDate: 'Save the date', kindlyConfirm: 'Kindly confirm', celebrationLabel: 'The celebration', transportLabel: 'Getting there', viewDetails: 'View details', viewMap: 'View map', weekendLabel: 'Wedding weekend',
   emailLabel: 'Email address', thanksSub: 'We look forward to celebrating with you.', breakSeal: 'Tap the seal to reply',
@@ -102,6 +104,7 @@ const en: Dict = {
 };
 
 const fr: Dict = {
+  pgTitle: 'Cette page est réservée aux invités', pgPlaceholder: 'Mot de passe de l’invitation', pgSubmit: 'Entrer', pgWrong: 'Mot de passe incorrect — vérifiez votre invitation',
   boardingPass: 'Carte d’embarquement de l’invité', passenger: 'Passager',
   navMenu: 'Menu', unitDays: 'jours', unitHours: 'heures', unitMin: 'minutes', unitSec: 'secondes', saveTheDate: 'Réservez la date', kindlyConfirm: 'Merci de confirmer', celebrationLabel: 'La célébration', transportLabel: 'S’y rendre', viewDetails: 'Voir les détails', viewMap: 'Voir la carte', weekendLabel: 'Week-end de mariage',
   emailLabel: 'Adresse e-mail', thanksSub: 'Nous avons hâte de célébrer avec vous.', breakSeal: 'Touchez le sceau pour répondre',
@@ -134,6 +137,7 @@ const fr: Dict = {
 };
 
 const es: Dict = {
+  pgTitle: 'Esta página es solo para invitados', pgPlaceholder: 'Contraseña de la invitación', pgSubmit: 'Entrar', pgWrong: 'Contraseña incorrecta — revisa tu invitación',
   boardingPass: 'Tarjeta de embarque del invitado', passenger: 'Pasajero',
   navMenu: 'Menú', unitDays: 'días', unitHours: 'horas', unitMin: 'minutos', unitSec: 'segundos', saveTheDate: 'Reserva la fecha', kindlyConfirm: 'Por favor confirma', celebrationLabel: 'La celebración', transportLabel: 'Cómo llegar', viewDetails: 'Ver detalles', viewMap: 'Ver mapa', weekendLabel: 'Fin de semana de boda',
   emailLabel: 'Correo electrónico', thanksSub: 'Estamos deseando celebrarlo contigo.', breakSeal: 'Toca el sello para responder',
@@ -166,6 +170,7 @@ const es: Dict = {
 };
 
 const de: Dict = {
+  pgTitle: 'Diese Seite ist nur für Gäste', pgPlaceholder: 'Passwort aus der Einladung', pgSubmit: 'Öffnen', pgWrong: 'Falsches Passwort — bitte prüft eure Einladung',
   boardingPass: 'Bordkarte des Gastes', passenger: 'Passagier',
   navMenu: 'Menü', unitDays: 'Tage', unitHours: 'Stunden', unitMin: 'Minuten', unitSec: 'Sekunden', saveTheDate: 'Save the Date', kindlyConfirm: 'Bitte bestätigt', celebrationLabel: 'Die Feier', transportLabel: 'Anreise', viewDetails: 'Details ansehen', viewMap: 'Karte ansehen', weekendLabel: 'Hochzeitswochenende',
   emailLabel: 'E-Mail-Adresse', thanksSub: 'Wir freuen uns darauf, mit euch zu feiern.', breakSeal: 'Tippe auf das Siegel zum Antworten',
@@ -198,6 +203,7 @@ const de: Dict = {
 };
 
 const pl: Dict = {
+  pgTitle: 'Ta strona jest tylko dla gości', pgPlaceholder: 'Hasło z zaproszenia', pgSubmit: 'Wejdź', pgWrong: 'Błędne hasło — sprawdź zaproszenie',
   boardingPass: 'Karta pokładowa gościa', passenger: 'Pasażer',
   navMenu: 'Menu', unitDays: 'dni', unitHours: 'godzin', unitMin: 'minut', unitSec: 'sekund', saveTheDate: 'Zarezerwuj datę', kindlyConfirm: 'Prosimy o potwierdzenie', celebrationLabel: 'Uroczystość', transportLabel: 'Dojazd', viewDetails: 'Zobacz szczegóły', viewMap: 'Zobacz mapę', weekendLabel: 'Weselny weekend',
   emailLabel: 'Adres e-mail', thanksSub: 'Nie możemy się doczekać wspólnego świętowania.', breakSeal: 'Dotknij pieczęci, aby odpowiedzieć',
@@ -230,6 +236,7 @@ const pl: Dict = {
 };
 
 const ro: Dict = {
+  pgTitle: 'Această pagină este doar pentru invitați', pgPlaceholder: 'Parola din invitație', pgSubmit: 'Intră', pgWrong: 'Parolă greșită — verificați invitația',
   boardingPass: 'Cartea de îmbarcare a invitatului', passenger: 'Pasager',
   navMenu: 'Meniu', unitDays: 'zile', unitHours: 'ore', unitMin: 'minute', unitSec: 'secunde', saveTheDate: 'Rezervați data', kindlyConfirm: 'Vă rugăm să confirmați', celebrationLabel: 'Celebrarea', transportLabel: 'Cum ajungeți', viewDetails: 'Vezi detalii', viewMap: 'Vezi harta', weekendLabel: 'Weekend de nuntă',
   emailLabel: 'Adresă de e-mail', thanksSub: 'Abia așteptăm să sărbătorim împreună.', breakSeal: 'Atinge sigiliul pentru a răspunde',

@@ -12,11 +12,10 @@ export default async function WeddingAdminPage({ params }: Props) {
   const { data: wedding } = await supabase.from('weddings').select('*').eq('id', params.id).eq('user_id', user.id).single();
   if (!wedding) notFound();
 
-  // Get linked template
-  const { data: weddingTemplate } = await supabase.from('wedding_templates').select('template_id').eq('wedding_id', wedding.id).single();
+  // Get linked template (direct foreign key on weddings)
   let template = null;
-  if (weddingTemplate) {
-    const { data } = await supabase.from('templates').select('*').eq('id', weddingTemplate.template_id).single();
+  if (wedding.template_id) {
+    const { data } = await supabase.from('templates').select('*').eq('id', wedding.template_id).single();
     template = data;
   }
 

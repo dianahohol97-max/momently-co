@@ -1,22 +1,36 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import QRCode from 'qrcode';
 
 interface ShareTabProps { wedding: any; }
 
 export function ShareTab({ wedding }: ShareTabProps) {
   const [copied, setCopied] = useState(false);
+  const [pwEnabled, setPwEnabled] = useState(!!wedding.guest_password);
+  const [pw, setPw] = useState(wedding.guest_password || '');
+  const [pwSaving, setPwSaving] = useState(false);
+  const [pwSaved, setPwSaved] = useState(false);
+  const savePassword = async () => {
+    setPwSaving(true); setPwSaved(false);
+    try {
+      const res = await fetch('/api/weddings/' + wedding.id, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ guest_password: pwEnabled && pw.trim() ? pw.trim() : null }) });
+      if (res.ok) { setPwSaved(true); setTimeout(() => setPwSaved(false), 2500); }
+    } finally { setPwSaving(false); }
+  };
   const qrRef = useRef<HTMLDivElement>(null);
   const weddingUrl = (typeof window !== 'undefined' ? window.location.origin : 'https://momently-co.vercel.app') + '/w/' + wedding.slug;
   const cameraUrl = weddingUrl + '/camera';
   const names = wedding.partner_name_1 + ' & ' + wedding.partner_name_2;
   const isPublished = wedding.status === 'published';
 
-  // Generate real QR code using external API
+  // Generate QR locally (print-quality, no third-party service)
   useEffect(() => {
     if (!qrRef.current || !wedding.slug) return;
-    const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(weddingUrl) + '&bgcolor=ffffff&color=1a1a2e&margin=10';
-    qrRef.current.innerHTML = '<img src="' + qrUrl + '" alt="QR Code" width="200" height="200" style="border-radius:8px" />';
+    QRCode.toDataURL(weddingUrl, { width: 600, margin: 2, color: { dark: '#1a1a2e', light: '#ffffff' } }).then((url: string) => {
+      if (!qrRef.current) return;
+      qrRef.current.innerHTML = '<img src="' + url + '" alt="QR Code" width="200" height="200" style="border-radius:8px" /><br/><a href="' + url + '" download="momently-qr-' + wedding.slug + '.png" style="display:inline-block;margin-top:8px;font-size:12px;color:#b8956a;text-decoration:underline">Завантажити PNG для друку</a>';
+    });
   }, [wedding.slug, weddingUrl]);
 
   const copyLink = (url: string) => {
@@ -36,6 +50,30 @@ export function ShareTab({ wedding }: ShareTabProps) {
           <p className="text-sm text-amber-700">Весілля ще не опубліковано. Опублікуйте, щоб гості могли бачити запрошення.</p>
         </div>
       )}
+
+      <section className="bg-white border border-gray-200 rounded-xl p-6">
+        <div className="flex items-center justify-between gap-4 flex-wrap">
+          <div>
+            <h3 className="text-sm font-medium text-[#1a1a2e]">Захист паролем</h3>
+            <p className="text-xs text-gray-400 mt-1">Гості побачать сайт лише після введення пароля із запрошення.</p>
+          </div>
+          <label className="inline-flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" checked={pwEnabled} onChange={e => setPwEnabled(e.target.checked)} className="w-4 h-4 accent-[#b8956a]" />
+            <span className="text-sm text-gray-600">{pwEnabled ? 'Увімкнено' : 'Вимкнено'}</span>
+          </label>
+        </div>
+        {pwEnabled && (
+          <input value={pw} onChange={e => setPw(e.target.value)} placeholder="Напр.: kohannya2026"
+            className="mt-4 w-full border border-gray-200 rounded-lg px-4 py-3 text-sm outline-none focus:border-[#b8956a]" />
+        )}
+        <div className="mt-4 flex items-center gap-3">
+          <button onClick={savePassword} disabled={pwSaving || (pwEnabled && !pw.trim())}
+            className="px-4 py-2.5 bg-[#1a1a2e] text-white text-xs uppercase tracking-widest rounded-lg disabled:opacity-40">
+            {pwSaving ? 'Зберігаємо…' : 'Зберегти'}
+          </button>
+          {pwSaved && <span className="text-xs text-green-600">Збережено</span>}
+        </div>
+      </section>
 
       <section>
         <h2 className="font-serif text-xl text-[#1a1a2e] mb-1">Посилання на запрошення</h2>
