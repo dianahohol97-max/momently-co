@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import { t as tr, normalizeLocale } from '@/lib/i18n';
 import Image from 'next/image';
 
 // ─── TYPES ───────────────────────────────────────────────
@@ -16,6 +17,7 @@ interface GiftItem {
 }
 
 interface WeddingData {
+  locale?: string;
   partner_name_1: string;
   partner_name_2: string;
   wedding_date: string;         // ISO string
@@ -43,44 +45,44 @@ interface WeddingData {
 
 // ─── DEMO DATA (замінюється Supabase даними) ─────────────
 const DEMO: WeddingData = {
-  partner_name_1: 'Olivia',
-  partner_name_2: 'Kevin',
+  partner_name_1: 'Ліна',
+  partner_name_2: 'Роман',
   wedding_date: '2026-08-24T16:30:00',
-  location: 'Biarritz, France',
-  story_short: 'We request the pleasure of your company at the celebration of our union.',
-  story_quote: '"Our love started by the sea"',
-  story_long: 'There is something about the rhythm of the waves that matched our own from the very beginning. From the cold Atlantic breeze to the warm Mediterranean sun, every horizon we\'ve seen together has led us to this moment.',
+  location: 'Одеса',
+  story_short: 'Запрошуємо вас розділити з нами святкування нашого союзу.',
+  story_quote: '«Наше кохання почалося біля моря»',
+  story_long: 'У ритмі хвиль від самого початку було щось наше. Від прохолодного ранкового бризу на Ланжероні до теплого вечірнього сонця над портом — кожен обрій, який ми бачили разом, вів нас до цього моменту.',
   polaroid_url: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&q=80',
-  polaroid_caption: 'Our first summer together, 2019',
+  polaroid_caption: 'Наше перше спільне літо, 2019',
   hero_bg_url: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1600&q=80',
   story_bg_url: 'https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?w=1600&q=80',
-  venue_name: 'Château de Brindos',
-  venue_address: '1 Allée du Château, 64600 Anglet, France',
+  venue_name: 'Вілла Отрада, Одеса',
+  venue_address: 'узвіз Отрада, Одеса',
   venue_map_url: 'https://images.unsplash.com/photo-1524661135-423995f22d0b?w=800&q=80',
   venue_directions_url: 'https://maps.google.com',
   hotels: [
-    { name: 'Hôtel du Palais', description: 'Iconic oceanfront luxury', url: '#' },
-    { name: 'Le Regina Biarritz', description: 'Boutique charm near the lighthouse', url: '#' },
+    { name: 'Готель «Лондонський»', description: 'Легенда Приморського бульвару', url: '#' },
+    { name: 'M1 Club Hotel', description: 'Сучасний люкс за крок від моря', url: '#' },
   ],
-  dress_code_description: 'The celebration is Black Tie Optional. We invite you to embrace the coastal elegance.',
+  dress_code_description: 'Дрес-код — black tie optional. Запрошуємо вас до прибережної елегантності.',
   dress_code_colors: ['#000000', '#3b3b3c', '#d6d4d3', '#ffffff'],
   itinerary: [
-    { title: 'Welcome Drinks', time: 'Friday • 7:00 PM', description: 'Le Bar Basque, Biarritz. Casual attire. Kick off the weekend with cocktails.' },
-    { title: 'The Ceremony', time: 'Saturday • 4:30 PM', description: 'The main event. Garden ceremony followed by cocktails on the terrace.' },
-    { title: 'Dinner & Dancing', time: 'Saturday • 7:30 PM', description: 'A celebration under the stars in the Grand Ballroom.' },
-    { title: 'Farewell Brunch', time: 'Sunday • 11:00 AM', description: 'A leisurely goodbye. Pastries and coffee by the pool.' },
+    { title: 'Вітальні коктейлі', time: 'П’ятниця • 19:00', description: 'Бар на Ланжероні. Вільний стиль. Відкриваємо вікенд коктейлями біля води.' },
+    { title: 'Церемонія', time: 'Субота • 16:30', description: 'Головна подія. Церемонія в саду, після — коктейлі на терасі з видом на море.' },
+    { title: 'Вечеря і танці', time: 'Субота • 19:30', description: 'Святкування під зорями у великій залі.' },
+    { title: 'Прощальний бранч', time: 'Неділя • 11:00', description: 'Неспішне прощання. Випічка і кава біля басейну.' },
   ],
   gifts: [
-    { title: 'The Wish List', url: '#', type: 'wishlist' },
-    { title: 'Honeymoon Fund', url: '#', type: 'fund' },
+    { title: 'Лист побажань', url: '#', type: 'wishlist' },
+    { title: 'Фонд подорожі', url: '#', type: 'fund' },
   ],
   faq: [
-    { question: 'Are children invited?', answer: 'While we love your little ones, our wedding weekend will be an adults-only celebration. We hope you understand.' },
-    { question: 'Transport on the day?', answer: 'Shuttles will be provided from Biarritz City Centre to the venue starting at 3:45 PM. Return shuttles will run throughout the evening.' },
-    { question: 'RSVP Deadline?', answer: 'We kindly ask for all RSVPs to be submitted by January 17, 2026.' },
+    { question: 'Чи запрошені діти?', answer: 'Ми любимо ваших малюків, але цей вікенд задумали лише для дорослих. Сподіваємось на розуміння.' },
+    { question: 'Як дістатися в день церемонії?', answer: 'Від центру міста з 15:45 курсуватимуть трансфери до вілли. Зворотні рейси — протягом усього вечора.' },
+    { question: 'До котрої відповісти?', answer: 'Просимо надіслати відповідь до 17 січня 2026.' },
   ],
-  rsvp_deadline: 'January 17, 2026',
-  slug: 'olivia-kevin',
+  rsvp_deadline: '17 січня 2026',
+  slug: 'lina-roman',
 };
 
 // ─── COUNTDOWN ───────────────────────────────────────────
@@ -107,7 +109,7 @@ function useCountdown(targetDate: string) {
 }
 
 // ─── ADD TO CALENDAR ──────────────────────────────────────
-function addToCalendar(data: WeddingData) {
+function addToCalendar(data: WeddingData, summary?: string) {
   const start = new Date(data.wedding_date);
   const end = new Date(start.getTime() + 4 * 3600000);
   const fmt = (d: Date) => d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
@@ -124,7 +126,9 @@ function addToCalendar(data: WeddingData) {
 }
 
 // ─── RSVP FORM ────────────────────────────────────────────
-function RSVPForm({ slug }: { slug: string }) {
+function RSVPForm({ slug, locale }: { slug: string; locale?: string }) {
+  const L = normalizeLocale(locale);
+  const t = (k: string, v?: Record<string, string | number>) => tr(L, k, v);
   const [form, setForm] = useState({ name: '', email: '', attendance: '', dietary: '', plus_one: false });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
@@ -146,8 +150,8 @@ function RSVPForm({ slug }: { slug: string }) {
 
   if (status === 'success') return (
     <div className="text-center py-12">
-      <p className="font-headline text-3xl italic mb-4">Thank you</p>
-      <p className="font-body text-sm opacity-60">We look forward to celebrating with you.</p>
+      <p className="font-headline text-3xl italic mb-4">{t('thanksYes', { name: '' }).replace(', !', '!')}</p>
+      <p className="font-body text-sm opacity-60">{t('thanksSub')}</p>
     </div>
   );
 
@@ -155,18 +159,18 @@ function RSVPForm({ slug }: { slug: string }) {
     <form className="space-y-10 mt-8" onSubmit={handleSubmit}>
       <input
         className="w-full bg-transparent border-0 border-b border-black/20 py-4 px-0 focus:ring-0 focus:border-black placeholder:text-black/30 font-body transition-colors outline-none text-sm"
-        placeholder="Full Name" required
+        placeholder={t('nameLabel')} required
         value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
       />
       <input
         className="w-full bg-transparent border-0 border-b border-black/20 py-4 px-0 focus:ring-0 focus:border-black placeholder:text-black/30 font-body transition-colors outline-none text-sm"
-        placeholder="Email Address" type="email" required
+        placeholder={t('emailLabel')} type="email" required
         value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
       />
       <div className="space-y-4">
         <p className="font-label text-[10px] tracking-widest uppercase opacity-40">Will you be joining us?</p>
         <div className="flex gap-8">
-          {[{ val: 'attending', label: 'Happily Accept' }, { val: 'declined', label: 'Regretfully Decline' }].map(o => (
+          {[{ val: 'attending', label: t('yes') }, { val: 'declined', label: t('no') }].map(o => (
             <label key={o.val} className="flex items-center gap-3 cursor-pointer group">
               <input
                 type="radio" name="attendance" value={o.val}
@@ -196,15 +200,17 @@ function RSVPForm({ slug }: { slug: string }) {
         type="submit" disabled={status === 'loading'}
         className="w-full bg-black text-white py-5 font-label tracking-[0.4em] uppercase text-xs hover:opacity-80 transition-all active:scale-[0.98] duration-200 disabled:opacity-40"
       >
-        {status === 'loading' ? 'Sending...' : 'Submit RSVP'}
+        {status === 'loading' ? t('sending') : t('submit')}
       </button>
-      {status === 'error' && <p className="text-red-500 text-xs text-center">Something went wrong. Please try again.</p>}
+      {status === 'error' && <p className="text-red-500 text-xs text-center">{t('errSend')}</p>}
     </form>
   );
 }
 
 // ─── MAIN TEMPLATE ────────────────────────────────────────
 export default function CoteDazurTemplate({ data = DEMO }: { data?: WeddingData }) {
+  const L = normalizeLocale(data.locale);
+  const t = (k: string, v?: Record<string, string | number>) => tr(L, k, v);
   const [menuOpen, setMenuOpen] = useState(false);
   const countdown = useCountdown(data.wedding_date);
 
@@ -272,10 +278,10 @@ export default function CoteDazurTemplate({ data = DEMO }: { data?: WeddingData 
           {/* Countdown */}
           <div className="flex gap-8 md:gap-16 pt-12 justify-center">
             {[
-              { val: countdown.days,    label: 'Days' },
-              { val: countdown.hours,   label: 'Hours' },
-              { val: countdown.minutes, label: 'Mins' },
-              { val: countdown.seconds, label: 'Secs' },
+              { val: countdown.days,    label: t('unitDays') },
+              { val: countdown.hours,   label: t('unitHours') },
+              { val: countdown.minutes, label: t('unitMin') },
+              { val: countdown.seconds, label: t('unitSec') },
             ].map(({ val, label }) => (
               <div key={label} className="flex flex-col items-center">
                 <span className="font-headline text-[clamp(2.2rem,4.6vw,3.4rem)] md:text-[clamp(4rem,11vw,9.5rem)] tabular-nums">{String(val).padStart(2, '0')}</span>
@@ -286,13 +292,13 @@ export default function CoteDazurTemplate({ data = DEMO }: { data?: WeddingData 
 
           {/* Add to Calendar */}
           <button
-            onClick={() => addToCalendar(data)}
+            onClick={() => addToCalendar(data, t('stdEvent', { names: data.partner_name_1 + ' & ' + data.partner_name_2 }))}
             className="mt-4 inline-flex items-center gap-2 border border-black/20 px-6 py-3 font-body text-[10px] tracking-widest uppercase hover:bg-black hover:text-white transition-all"
           >
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
-            Add to Calendar
+            {t('addToCalendar')}
           </button>
         </div>
         <div className="absolute bottom-12 left-1/2 animate-bounce">
@@ -312,11 +318,11 @@ export default function CoteDazurTemplate({ data = DEMO }: { data?: WeddingData 
           </div>
         </div>
         <div className="torn-edge bg-white p-10 md:p-16 relative">
-          <p className="tracking-[0.3em] uppercase text-xs opacity-50 mb-5 font-body">Save the Date</p>
+          <p className="tracking-[0.3em] uppercase text-xs opacity-50 mb-5 font-body">{t('saveTheDate')}</p>
           <div className="font-headline text-3xl leading-relaxed mb-6">{data.story_short}</div>
           <p className="font-body text-[#474747] leading-loose mb-8 max-w-md text-sm">{data.story_long}</p>
           <button className="border-b border-black/20 pb-1.5 font-body uppercase text-[10px] tracking-widest hover:border-black transition-all">
-            Read our full story
+            {t('readStory')}
           </button>
         </div>
       </section>
@@ -336,8 +342,8 @@ export default function CoteDazurTemplate({ data = DEMO }: { data?: WeddingData 
       <section className="py-32 bg-[#eeeeee] px-6" id="itinerary">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-24">
-            <p className="tracking-[0.4em] uppercase text-xs opacity-50 mb-4 font-body">The Weekend</p>
-            <h3 className="font-headline text-[clamp(2.2rem,4.6vw,3.4rem)] italic">Itinerary</h3>
+            <p className="tracking-[0.4em] uppercase text-xs opacity-50 mb-4 font-body">{t('weekendLabel')}</p>
+            <h3 className="font-headline text-[clamp(2.2rem,4.6vw,3.4rem)] italic">{t('scheduleTitle')}</h3>
           </div>
           <div className="relative">
             <div className="hidden md:block absolute top-1/2 left-0 w-full h-px bg-black/10 -translate-y-1/2" />
@@ -363,7 +369,7 @@ export default function CoteDazurTemplate({ data = DEMO }: { data?: WeddingData 
       <section className="py-32 px-6 max-w-7xl mx-auto" id="venue">
         <div className="grid lg:grid-cols-2 gap-24 items-start">
           <div>
-            <h3 className="font-headline text-[clamp(2.2rem,4.6vw,3.4rem)] mb-12">The Venue</h3>
+            <h3 className="font-headline text-[clamp(2.2rem,4.6vw,3.4rem)] mb-12">{t('locationLabel')}</h3>
             <div className="aspect-video w-full grayscale contrast-125 mb-8 overflow-hidden">
               <img src={data.venue_map_url} alt={data.venue_name} className="w-full h-full object-cover" />
             </div>
@@ -371,14 +377,14 @@ export default function CoteDazurTemplate({ data = DEMO }: { data?: WeddingData 
             <p className="font-body text-[#474747] text-sm mb-6">{data.venue_address}</p>
             <a href={data.venue_directions_url} target="_blank" rel="noreferrer"
               className="inline-block bg-black text-white px-8 py-3 font-body text-xs tracking-widest uppercase hover:opacity-80 transition-opacity">
-              Get Directions
+              {t('routeBtn')}
             </a>
           </div>
 
           <div className="space-y-20">
             {/* Hotels */}
             <div>
-              <h3 className="font-headline text-3xl mb-8 italic">Where to stay</h3>
+              <h3 className="font-headline text-3xl mb-8 italic">{t('stayLabel')}</h3>
               <ul className="space-y-6">
                 {data.hotels.map((h, i) => (
                   <li key={i} className="flex justify-between border-b border-black/10 pb-4">
@@ -394,7 +400,7 @@ export default function CoteDazurTemplate({ data = DEMO }: { data?: WeddingData 
 
             {/* Dress Code */}
             <div>
-              <h3 className="font-headline text-3xl mb-6 italic">Dress Code</h3>
+              <h3 className="font-headline text-3xl mb-6 italic">{t('dressLabel')}</h3>
               <p className="font-body text-[#474747] mb-8 leading-relaxed text-sm">{data.dress_code_description}</p>
               <div className="flex gap-4 items-center flex-wrap">
                 {data.dress_code_colors.map((color, i) => (
@@ -404,7 +410,7 @@ export default function CoteDazurTemplate({ data = DEMO }: { data?: WeddingData 
                     title={color}
                   />
                 ))}
-                <span className="font-body text-[10px] tracking-widest uppercase opacity-40 ml-2">Inspiration Palette</span>
+                <span className="font-body text-[10px] tracking-widest uppercase opacity-40 ml-2">{t('paletteLabel')}</span>
               </div>
             </div>
           </div>
@@ -414,8 +420,8 @@ export default function CoteDazurTemplate({ data = DEMO }: { data?: WeddingData 
       {/* GIFTS */}
       <section className="py-32 bg-white px-6" id="gifts">
         <div className="max-w-4xl mx-auto text-center">
-          <p className="tracking-[0.4em] uppercase text-xs opacity-50 mb-6 font-body">Gifting</p>
-          <h3 className="font-headline text-[clamp(2.2rem,4.6vw,3.4rem)] italic mb-12">Registry</h3>
+          <p className="tracking-[0.4em] uppercase text-xs opacity-50 mb-6 font-body">{t('giftsLabel')}</p>
+          <h3 className="font-headline text-[clamp(2.2rem,4.6vw,3.4rem)] italic mb-12">{t('giftsLabel')}</h3>
           <p className="font-body text-[#474747] mb-16 text-lg leading-relaxed max-w-2xl mx-auto">
             Your presence is our greatest gift. However, if you wish to honor us with a gesture, we have curated a selection of items for our home and a fund for our first adventure as a married couple.
           </p>
@@ -437,7 +443,7 @@ export default function CoteDazurTemplate({ data = DEMO }: { data?: WeddingData 
       {/* FAQ */}
       <section className="py-32 bg-[#f3f3f4] px-6">
         <div className="max-w-3xl mx-auto">
-          <h3 className="font-headline text-4xl mb-16 text-center italic">Frequently Asked</h3>
+          <h3 className="font-headline text-4xl mb-16 text-center italic">{t('faqTitle')}</h3>
           <div className="space-y-12">
             {data.faq.map((item, i) => (
               <div key={i} className="space-y-3">
@@ -455,7 +461,7 @@ export default function CoteDazurTemplate({ data = DEMO }: { data?: WeddingData 
           <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-black text-white px-8 py-2.5 font-body text-[10px] tracking-[0.3em] uppercase whitespace-nowrap">
             RSVP by {data.rsvp_deadline}
           </div>
-          <RSVPForm slug={data.slug} />
+          <RSVPForm slug={data.slug} locale={data.locale} />
         </div>
       </section>
 
