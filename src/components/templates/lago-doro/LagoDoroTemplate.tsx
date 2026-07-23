@@ -229,7 +229,7 @@ export default function LagoDoroTemplate({ data = DEMO }: { data?: WeddingData }
       {/* TOP NAV */}
       <header className="fixed top-0 w-full z-50 bg-[#faf9f6]/80 backdrop-blur-md border-b border-[#d1c4b8]/20">
         <div className="flex justify-between items-center px-6 py-4 max-w-screen-xl mx-auto">
-          <button className="text-[#735a39] text-2xl">☰</button>
+          <button className="text-[#735a39] text-2xl"></button>
           <h1 className="font-headline text-2xl italic text-[#1a1c1a]">
             {data.partner_name_1} & {data.partner_name_2}
           </h1>
@@ -352,8 +352,7 @@ export default function LagoDoroTemplate({ data = DEMO }: { data?: WeddingData }
               {data.hotels.map((h, i) => (
                 <div key={i} className="flex items-start gap-4">
                   <div className="w-8 h-8 rounded-full bg-[#735a39]/10 flex items-center justify-center text-[#735a39] flex-shrink-0 mt-0.5">
-                    🏨
-                  </div>
+                                      </div>
                   <div>
                     <h5 className="font-semibold text-sm">{h.name}</h5>
                     <p className="text-xs text-[#4e453c] mt-1">{h.description}</p>
@@ -373,7 +372,7 @@ export default function LagoDoroTemplate({ data = DEMO }: { data?: WeddingData }
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="bg-white/90 backdrop-blur-sm px-5 py-3 rounded-full flex items-center gap-2">
-                <span className="text-[#735a39]">📍</span>
+                <span className="text-[#735a39]"></span>
                 <span className="text-xs font-semibold uppercase tracking-widest">{data.venue_name}</span>
               </div>
             </div>
@@ -451,11 +450,11 @@ export default function LagoDoroTemplate({ data = DEMO }: { data?: WeddingData }
       {/* MOBILE BOTTOM NAV */}
       <nav className="fixed bottom-0 left-0 w-full z-50 bg-[#faf9f6]/90 backdrop-blur-xl flex justify-around items-center pt-3 pb-6 px-4 border-t border-[#d1c4b8]/20 shadow-[0_-8px_30px_rgba(26,28,26,0.04)] md:hidden">
         {[
-          { href: '#home', icon: '📖', label: 'Story' },
-          { href: '#events', icon: '📅', label: 'Events' },
-          { href: '#travel', icon: '🏨', label: 'Travel' },
-          { href: '#faq', icon: '❓', label: 'FAQ' },
-          { href: '#rsvp', icon: '✉️', label: 'RSVP' },
+          { href: '#home', icon: '', label: 'Story' },
+          { href: '#events', icon: '', label: 'Events' },
+          { href: '#travel', icon: '', label: 'Travel' },
+          { href: '#faq', icon: '', label: 'FAQ' },
+          { href: '#rsvp', icon: '', label: 'RSVP' },
         ].map(({ href, icon, label }) => (
           <a key={href} href={href}
             className="flex flex-col items-center justify-center text-[#1a1c1a]/50 hover:text-[#735a39] transition-colors">

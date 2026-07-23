@@ -1,11 +1,13 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
+import { t as tr, normalizeLocale } from '@/lib/i18n';
 
 const C = { black: '#0E0E0E', white: '#F4F2ED', line: 'rgba(244,242,237,.22)', lineD: 'rgba(14,14,14,.22)' };
 
 interface ScheduleItem { time: string; title: string }
 interface FaqItem { question: string; answer: string }
 interface WeddingData {
+  locale?: string;
   partner_name_1: string; partner_name_2: string;
   wedding_date: string; wedding_date_display?: string; location: string; slug: string;
   hero_image_url?: string; story_image_url?: string; story_bg_url?: string;
@@ -49,6 +51,8 @@ const DEMO: WeddingData = {
 
 export default function NoirTemplate({ data }: { data?: Partial<WeddingData> }) {
   const d: WeddingData = { ...DEMO, ...(data || {}) };
+  const L = normalizeLocale(d.locale);
+  const t = (k: string, v?: Record<string, string | number>) => tr(L, k, v);
   const rootRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLElement>(null);
   const [barOn, setBarOn] = useState(false);
@@ -83,9 +87,9 @@ export default function NoirTemplate({ data }: { data?: Partial<WeddingData> }) 
       <div className={'nr-bar' + (barOn ? ' on' : '')}>
         <button className="nr-mono" onClick={() => go('nr-top')}>{d.partner_name_1[0]}—{d.partner_name_2[0]}</button>
         <div className="nr-links">
-          <button onClick={() => go('nr-story')}>Історія</button>
-          <button onClick={() => go('nr-day')}>Вечір</button>
-          <button onClick={() => go('nr-place')}>Деталі</button>
+          <button onClick={() => go('nr-story')}>{t('navStory')}</button>
+          <button onClick={() => go('nr-day')}>{t('navSchedule')}</button>
+          <button onClick={() => go('nr-place')}>{t('navDetails')}</button>
         </div>
         <button className="nr-cta" onClick={() => go('nr-rsvp')}>RSVP</button>
       </div>
@@ -94,10 +98,10 @@ export default function NoirTemplate({ data }: { data?: Partial<WeddingData> }) 
         <div className="nr-hero-bg">{d.hero_image_url && <img src={d.hero_image_url} alt="" />}</div>
         <div className="nr-veil" />
         <div className="nr-hero-in">
-          <p className="nr-eyebrow rv">запрошення на весілля</p>
+          <p className="nr-eyebrow rv">{t('inviteCaps')}</p>
           <h1 className="rv" style={{ transitionDelay: '.1s' }}>{d.partner_name_1}<span>×</span>{d.partner_name_2}</h1>
           <p className="nr-date rv" style={{ transitionDelay: '.2s' }}>{dateDisplay} — {d.location}</p>
-          {days !== null && <p className="nr-count rv" style={{ transitionDelay: '.3s' }}>{days} днів до вечора</p>}
+          {days !== null && <p className="nr-count rv" style={{ transitionDelay: '.3s' }}>{t('daysTo', { n: days })}</p>}
         </div>
       </header>
 
@@ -112,7 +116,7 @@ export default function NoirTemplate({ data }: { data?: Partial<WeddingData> }) 
       <section className="nr-story" id="nr-story">
         <div className="nr-wrap nr-grid2">
           <div>
-            <p className="nr-eyebrow rv">наша історія</p>
+            <p className="nr-eyebrow rv">{t('storyA')} {t('storyB')}</p>
             {d.story_heading && <h2 className="rv" style={{ transitionDelay: '.08s' }}>{d.story_heading}</h2>}
             {d.story_paragraph_1 && <p className="nr-body rv" style={{ transitionDelay: '.16s' }}>{d.story_paragraph_1}</p>}
             {d.story_paragraph_2 && <p className="nr-body rv" style={{ transitionDelay: '.22s' }}>{d.story_paragraph_2}</p>}
@@ -126,7 +130,7 @@ export default function NoirTemplate({ data }: { data?: Partial<WeddingData> }) 
       {!!d.schedule?.length && (
         <section className="nr-day" id="nr-day">
           <div className="nr-wrap">
-            <p className="nr-eyebrow rv">розклад вечора</p>
+            <p className="nr-eyebrow rv">{t('scheduleTitle')}</p>
             <div className="nr-daylist">
               {d.schedule.map((s, i) => (
                 <div key={i} className="nr-row rv" style={{ transitionDelay: `${i * 0.05}s` }}>
@@ -144,17 +148,17 @@ export default function NoirTemplate({ data }: { data?: Partial<WeddingData> }) 
         <div className="nr-wrap nr-grid2">
           {d.venue_name && (
             <div className="rv">
-              <p className="nr-eyebrow">локація</p>
+              <p className="nr-eyebrow">{t('locationLabel')}</p>
               <h3>{d.venue_name}</h3>
               <p className="nr-body">{d.venue_address}{d.venue_description ? '. ' + d.venue_description : ''}</p>
               {d.venue_directions_url && (
-                <a className="nr-link" href={d.venue_directions_url} target="_blank" rel="noopener noreferrer">маршрут</a>
+                <a className="nr-link" href={d.venue_directions_url} target="_blank" rel="noopener noreferrer">{t('routeBtn')}</a>
               )}
             </div>
           )}
           {d.dress_code_title && (
             <div className="rv" style={{ transitionDelay: '.1s' }}>
-              <p className="nr-eyebrow">дрес-код</p>
+              <p className="nr-eyebrow">{t('dressLabel')}</p>
               <h3>{d.dress_code_title}</h3>
               {d.dress_code_description && <p className="nr-body">{d.dress_code_description}</p>}
               <div className="nr-bw"><i style={{ background: '#0E0E0E' }} /><i style={{ background: '#F4F2ED', border: '1px solid ' + C.lineD }} /></div>
@@ -166,7 +170,7 @@ export default function NoirTemplate({ data }: { data?: Partial<WeddingData> }) 
       {!!d.faq?.length && (
         <section className="nr-faq-sec">
           <div className="nr-wrap">
-            <p className="nr-eyebrow rv">питання</p>
+            <p className="nr-eyebrow rv">{t('faqTitle')}</p>
             <div className="nr-faq rv">
               {d.faq.map((f, i) => (
                 <details key={i}><summary>{f.question}<span className="nr-pl" /></summary><div className="nr-a">{f.answer}</div></details>
@@ -181,18 +185,20 @@ export default function NoirTemplate({ data }: { data?: Partial<WeddingData> }) 
       <footer className="nr-footer">
         <p className="nr-fs">{d.closing_message || 'до зустрічі,'}</p>
         <p className="nr-fn">{d.partner_name_1} та {d.partner_name_2}</p>
-        <p className="nr-cred">створено на <a href="https://momently.co" target="_blank" rel="noopener noreferrer">momently.co</a></p>
+        <p className="nr-cred">{t('createdOn')} <a href="https://momently.co" target="_blank" rel="noopener noreferrer">momently.co</a></p>
       </footer>
     </div>
   );
 }
 
 function NoirRsvp({ d }: { d: WeddingData }) {
+  const L = normalizeLocale(d.locale);
+  const t = (k: string, v?: Record<string, string | number>) => tr(L, k, v);
   const [status, setStatus] = useState<'form' | 'sending' | 'success' | 'error'>('form');
   const [attending, setAttending] = useState(true);
   const [name, setName] = useState('');
   const [nameErr, setNameErr] = useState(false);
-  const [guests, setGuests] = useState('1 гість');
+  const [guests, setGuests] = useState(tr(normalizeLocale(d.locale), 'guest1'));
   const [wish, setWish] = useState('');
 
   const submit = async () => {
@@ -204,8 +210,8 @@ function NoirRsvp({ d }: { d: WeddingData }) {
         body: JSON.stringify({
           name: name.trim(),
           attendance: attending ? 'attending' : 'declined',
-          dietary: wish.trim() || undefined,
-          plus_one: attending && guests === '2 гості',
+          dietary: wish.trim() ? t('wishesWord') + ': ' + wish.trim() : undefined,
+          plus_one: attending && guests === t('guest2'),
           wedding_slug: d.slug,
         }),
       });
@@ -218,41 +224,41 @@ function NoirRsvp({ d }: { d: WeddingData }) {
     <section className="nr-rsvp" id="nr-rsvp">
       <div className="nr-wrap nr-rsvp-in">
         <p className="nr-eyebrow">rsvp</p>
-        <h2>Будете з нами?</h2>
-        {d.rsvp_deadline && <p className="nr-dl">Відповідь — до {d.rsvp_deadline}.</p>}
+        <h2>{t('rsvpTitle')}</h2>
+        {d.rsvp_deadline && <p className="nr-dl">{t('rsvpDeadline', { date: d.rsvp_deadline })}</p>}
         {status === 'success' ? (
           <div className="nr-done">
-            <p className="nr-done-t">{attending ? `Дякуємо, ${name.trim()}.` : `Дякуємо за відповідь, ${name.trim()}.`}</p>
-            <p className="nr-done-s">{attending ? 'Чекаємо на вас. Буде красиво.' : 'Шкода — але ви будете з нами подумки.'}</p>
+            <p className="nr-done-t">{attending ? t('thanksYes', { name: name.trim() }) : t('thanksNo', { name: name.trim() })}</p>
+            <p className="nr-done-s">{attending ? t('thanksSub') : t('thanksNoSub')}</p>
           </div>
         ) : (
           <div className="nr-form">
-            <label className="nr-f" htmlFor="nr-name">Ім’я та прізвище</label>
-            <input id="nr-name" className={'nr-in' + (nameErr ? ' err' : '')} type="text" placeholder="Оксана Коваль"
+            <label className="nr-f" htmlFor="nr-name">{t('nameLabel')}</label>
+            <input id="nr-name" className={'nr-in' + (nameErr ? ' err' : '')} type="text" placeholder={t('namePlaceholder')}
               value={name} onChange={e => { setName(e.target.value); setNameErr(false); }} />
-            <label className="nr-f">Присутність</label>
+            <label className="nr-f">{t('presenceLabel')}</label>
             <div className="nr-chips">
-              <button type="button" className={'nr-chip' + (attending ? ' on' : '')} onClick={() => setAttending(true)}>Так, буду</button>
-              <button type="button" className={'nr-chip' + (!attending ? ' on' : '')} onClick={() => setAttending(false)}>На жаль, ні</button>
+              <button type="button" className={'nr-chip' + (attending ? ' on' : '')} onClick={() => setAttending(true)}>{t('yes')}</button>
+              <button type="button" className={'nr-chip' + (!attending ? ' on' : '')} onClick={() => setAttending(false)}>{t('no')}</button>
             </div>
             {attending && (
               <div className="nr-two">
                 <div>
-                  <label className="nr-f" htmlFor="nr-guests">Гостей</label>
+                  <label className="nr-f" htmlFor="nr-guests">{t('guestsLabel')}</label>
                   <select id="nr-guests" className="nr-in" value={guests} onChange={e => setGuests(e.target.value)}>
-                    <option>1 гість</option><option>2 гості</option>
+                    <option>{t('guest1')}</option><option>{t('guest2')}</option>
                   </select>
                 </div>
                 <div>
-                  <label className="nr-f" htmlFor="nr-wish">Побажання</label>
-                  <input id="nr-wish" className="nr-in" type="text" placeholder="без горіхів" value={wish} onChange={e => setWish(e.target.value)} />
+                  <label className="nr-f" htmlFor="nr-wish">{t('wishesLabel')}</label>
+                  <input id="nr-wish" className="nr-in" type="text" placeholder={t('wishesPlaceholder')} value={wish} onChange={e => setWish(e.target.value)} />
                 </div>
               </div>
             )}
             <button className="nr-send" onClick={submit} disabled={status === 'sending'}>
-              {status === 'sending' ? 'Надсилаємо…' : 'Надіслати відповідь'}
+              {status === 'sending' ? t('sending') : t('submit')}
             </button>
-            {status === 'error' && <p className="nr-err">Не вдалося надіслати — спробуйте ще раз.</p>}
+            {status === 'error' && <p className="nr-err">{t('errSend')}</p>}
           </div>
         )}
       </div>

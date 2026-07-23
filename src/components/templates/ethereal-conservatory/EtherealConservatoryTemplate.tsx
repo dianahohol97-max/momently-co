@@ -77,9 +77,9 @@ const DEMO: WeddingData = {
   venue_image_url: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=1600&q=80',
   venue_map_url: '#',
   guest_details: [
-    { icon: '👗', title: 'Dress Code', description: 'Garden Formal. We encourage floral prints, light linens, and comfortable footwear suitable for grass paths.' },
-    { icon: '🎁', title: 'Gifts', description: 'Your presence is our greatest gift. Should you wish to honor us, a contribution to our new home fund would be cherished.' },
-    { icon: '🚐', title: 'Transport', description: 'Shuttles will be provided from the Grand Heritage Hotel starting at 2:30 PM on the day of the ceremony.' },
+    { icon: '', title: 'Dress Code', description: 'Garden Formal. We encourage floral prints, light linens, and comfortable footwear suitable for grass paths.' },
+    { icon: '', title: 'Gifts', description: 'Your presence is our greatest gift. Should you wish to honor us, a contribution to our new home fund would be cherished.' },
+    { icon: '', title: 'Transport', description: 'Shuttles will be provided from the Grand Heritage Hotel starting at 2:30 PM on the day of the ceremony.' },
   ],
   rsvp_bg_url: 'https://images.unsplash.com/photo-1495274049782-6b00b0e1d785?w=1400&q=80',
   rsvp_deadline: 'August 1st, 2026',
@@ -152,7 +152,7 @@ function RSVPForm({ data }: { data: WeddingData }) {
 
   if (status === 'success') return (
     <div className="text-center py-12 space-y-4">
-      <div style={{ fontSize: 40 }}>🌿</div>
+      <div style={{ fontSize: 40 }}></div>
       <h3 style={{ fontFamily: "'Noto Serif', serif", fontSize: 28, color: C.primary }}>Thank you</h3>
       <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: 13, color: C.textMuted }}>
         We look forward to celebrating with you.
@@ -243,11 +243,11 @@ export default function EtherealConservatoryTemplate({ data = DEMO }: { data?: W
       <header className="fixed top-0 w-full z-50 flex justify-between items-center px-6 h-20"
         style={{ background: 'rgba(255,255,255,0.8)', backdropFilter: 'blur(20px)', boxShadow: '0 12px 32px rgba(28,28,26,0.05)' }}>
         <button onClick={() => setMenuOpen(o => !o)}
-          style={{ color: C.primary, fontSize: 22, background: 'none', border: 'none', cursor: 'pointer' }}>☰</button>
+          style={{ color: C.primary, fontSize: 22, background: 'none', border: 'none', cursor: 'pointer' }}></button>
         <div style={{ fontFamily: "'Noto Serif', serif", fontStyle: 'italic', fontSize: 22, color: C.primary, letterSpacing: '-0.01em' }}>
           {data.partner_name_1} & {data.partner_name_2}
         </div>
-        <a href="#rsvp" style={{ color: C.primary, fontSize: 20 }}>♡</a>
+        <a href="#rsvp" style={{ color: C.primary, fontSize: 20 }}></a>
 
         {menuOpen && (
           <div className="absolute top-full left-0 w-72 flex flex-col gap-5 p-10"
@@ -334,7 +334,7 @@ export default function EtherealConservatoryTemplate({ data = DEMO }: { data?: W
               </p>
             ))}
           </div>
-          <div style={{ marginTop: 48, fontSize: 40, color: C.gold, opacity: 0.4 }}>✿</div>
+          <div style={{ marginTop: 48, fontSize: 40, color: C.gold, opacity: 0.4 }}></div>
         </div>
       </section>
 
@@ -370,7 +370,7 @@ export default function EtherealConservatoryTemplate({ data = DEMO }: { data?: W
                   </p>
                 </div>
                 <div className="flex items-center gap-2" style={{ color: C.primary }}>
-                  <span style={{ fontSize: 14 }}>📍</span>
+                  <span style={{ fontSize: 14 }}></span>
                   <span style={{ fontFamily: "'Manrope', sans-serif", fontSize: 11, letterSpacing: '0.15em', textTransform: 'uppercase', fontWeight: 600 }}>
                     {ev.location}
                   </span>
@@ -463,10 +463,10 @@ export default function EtherealConservatoryTemplate({ data = DEMO }: { data?: W
         style={{ background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(24px)',
           borderRadius: '24px 24px 0 0', boxShadow: '0 -8px 24px rgba(28,28,26,0.04)' }}>
         {[
-          { href: '#our-story', icon: '📖', label: 'Story' },
-          { href: '#events', icon: '📅', label: 'Events' },
-          { href: '#venue', icon: '📍', label: 'Venue' },
-          { href: '#rsvp', icon: '✉️', label: 'RSVP' },
+          { href: '#our-story', icon: '', label: 'Story' },
+          { href: '#events', icon: '', label: 'Events' },
+          { href: '#venue', icon: '', label: 'Venue' },
+          { href: '#rsvp', icon: '', label: 'RSVP' },
         ].map(({ href, icon, label }) => (
           <a key={href} href={href}
             className="flex flex-col items-center gap-1"

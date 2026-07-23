@@ -267,7 +267,7 @@ export default function TheStationeryTemplate({ data = DEMO }: { data?: WeddingD
         style={{ background: `${C.bg}F0`, backdropFilter: 'blur(16px)' }}>
         <button onClick={() => setMenuOpen(o => !o)}
           style={{ fontFamily: "'Work Sans', sans-serif", fontSize: 11, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.textSub, background: 'none', border: 'none', cursor: 'pointer' }}>
-          {menuOpen ? '✕' : '☰'}
+          {menuOpen ? '' : ''}
         </button>
         <div style={{ fontFamily: "'Noto Serif', serif", fontSize: 18, letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: 300, color: C.textSub }}>
           {initials}
@@ -465,7 +465,7 @@ export default function TheStationeryTemplate({ data = DEMO }: { data?: WeddingD
       {/* REGISTRY */}
       <section style={{ padding: '80px 40px', background: C.bgLow, textAlign: 'center' }} id="registry">
         <div className="max-w-xl mx-auto space-y-6">
-          <div style={{ fontSize: 32, color: C.gold, opacity: 0.6 }}>🎁</div>
+          <div style={{ fontSize: 32, color: C.gold, opacity: 0.6 }}></div>
           <h2 style={{ fontFamily: "'Noto Serif', serif", fontSize: 36, color: C.text }}>Registry</h2>
           <p style={{ fontFamily: "'Newsreader', serif", fontSize: 17, lineHeight: 1.8, color: `${C.text}CC` }}>
             {data.gifts_description}

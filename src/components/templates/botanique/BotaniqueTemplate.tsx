@@ -1,11 +1,13 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
+import { t as tr, normalizeLocale } from '@/lib/i18n';
 
 const C = { bg: '#F2F4EC', ink: '#252B21', leaf: '#55603F', mid: '#8B9770', tint: '#E4E9D6', line: 'rgba(37,43,33,.18)' };
 
 interface ScheduleItem { time: string; title: string }
 interface FaqItem { question: string; answer: string }
 interface WeddingData {
+  locale?: string;
   partner_name_1: string; partner_name_2: string;
   wedding_date: string; wedding_date_display?: string; location: string; slug: string;
   hero_image_url?: string; story_image_url?: string; story_bg_url?: string;
@@ -63,6 +65,8 @@ const Sprig = ({ color = C.mid }: { color?: string }) => (
 
 export default function BotaniqueTemplate({ data }: { data?: Partial<WeddingData> }) {
   const d: WeddingData = { ...DEMO, ...(data || {}) };
+  const L = normalizeLocale(d.locale);
+  const t = (k: string, v?: Record<string, string | number>) => tr(L, k, v);
   const rootRef = useRef<HTMLDivElement>(null);
   const [days, setDays] = useState<number | null>(null);
 
@@ -89,25 +93,25 @@ export default function BotaniqueTemplate({ data }: { data?: Partial<WeddingData
       <div className="bq-bar">
         <button className="bq-mono" onClick={() => go('bq-top')}>{d.partner_name_1[0]} · {d.partner_name_2[0]}</button>
         <div className="bq-links">
-          <button onClick={() => go('bq-story')}>Історія</button>
-          <button onClick={() => go('bq-day')}>День</button>
-          <button onClick={() => go('bq-place')}>Деталі</button>
+          <button onClick={() => go('bq-story')}>{t('navStory')}</button>
+          <button onClick={() => go('bq-day')}>{t('navSchedule')}</button>
+          <button onClick={() => go('bq-place')}>{t('navDetails')}</button>
           <button onClick={() => go('bq-rsvp')}>RSVP</button>
         </div>
       </div>
 
       <header className="bq-hero" id="bq-top">
         <Sprig />
-        <p className="bq-script rv">запрошуємо на наше весілля</p>
+        <p className="bq-script rv">{t('heroScript')}</p>
         <h1 className="rv" style={{ transitionDelay: '.08s' }}>{d.partner_name_1}</h1>
-        <p className="bq-and rv" style={{ transitionDelay: '.14s' }}>та</p>
+        <p className="bq-and rv" style={{ transitionDelay: '.14s' }}>{t('and')}</p>
         <h1 className="rv" style={{ transitionDelay: '.2s' }}>{d.partner_name_2}</h1>
         <div className="bq-arch rv" style={{ transitionDelay: '.3s' }}>
           {d.hero_image_url && <img src={d.hero_image_url} alt="" />}
         </div>
         <p className="bq-date rv" style={{ transitionDelay: '.4s' }}>{d.wedding_date_display} · {d.location}</p>
-        {days !== null && <p className="bq-count rv" style={{ transitionDelay: '.48s' }}>до весілля {days} днів</p>}
-        <button className="bq-btn rv" style={{ transitionDelay: '.56s' }} onClick={() => go('bq-rsvp')}>Підтвердити присутність</button>
+        {days !== null && <p className="bq-count rv" style={{ transitionDelay: '.48s' }}>{t('daysTo', { n: days })}</p>}
+        <button className="bq-btn rv" style={{ transitionDelay: '.56s' }} onClick={() => go('bq-rsvp')}>{t('rsvpBtn')}</button>
       </header>
 
       <section className="bq-story" id="bq-story">
@@ -116,7 +120,7 @@ export default function BotaniqueTemplate({ data }: { data?: Partial<WeddingData
             {d.story_image_url && <img src={d.story_image_url} alt="" loading="lazy" />}
           </figure>
           <div>
-            <p className="bq-lbl rv">наша історія</p>
+            <p className="bq-lbl rv">{t('storyA')} {t('storyB')}</p>
             {d.story_heading && <h2 className="rv" style={{ transitionDelay: '.08s' }}>{d.story_heading}</h2>}
             {d.story_paragraph_1 && <p className="bq-body rv" style={{ transitionDelay: '.16s' }}>{d.story_paragraph_1}</p>}
             {d.story_paragraph_2 && <p className="bq-body rv" style={{ transitionDelay: '.22s' }}>{d.story_paragraph_2}</p>}
@@ -129,7 +133,7 @@ export default function BotaniqueTemplate({ data }: { data?: Partial<WeddingData
           <div className="bq-wrap">
             <div className="bq-card rv">
               <Sprig color="#C9D2B4" />
-              <h3>Розклад дня</h3>
+              <h3>{t('scheduleTitle')}</h3>
               {d.schedule.map((s, i) => (
                 <div key={i} className="bq-row">
                   <span className="bq-t">{s.time}</span>
@@ -158,17 +162,17 @@ export default function BotaniqueTemplate({ data }: { data?: Partial<WeddingData
         <div className="bq-wrap bq-grid2">
           {d.venue_name && (
             <div className="rv">
-              <p className="bq-lbl">локація</p>
+              <p className="bq-lbl">{t('locationLabel')}</p>
               <h3>{d.venue_name}</h3>
               <p className="bq-body">{d.venue_address}{d.venue_description ? '. ' + d.venue_description : ''}</p>
               {d.venue_directions_url && (
-                <a className="bq-link" href={d.venue_directions_url} target="_blank" rel="noopener noreferrer">Прокласти маршрут</a>
+                <a className="bq-link" href={d.venue_directions_url} target="_blank" rel="noopener noreferrer">{t('routeBtn')}</a>
               )}
             </div>
           )}
           {d.dress_code_title && (
             <div className="rv" style={{ transitionDelay: '.1s' }}>
-              <p className="bq-lbl">дрес-код</p>
+              <p className="bq-lbl">{t('dressLabel')}</p>
               <h3>{d.dress_code_title}</h3>
               {d.dress_code_description && <p className="bq-body">{d.dress_code_description}</p>}
               {!!d.dress_code_colors?.length && (
@@ -186,7 +190,7 @@ export default function BotaniqueTemplate({ data }: { data?: Partial<WeddingData
       {!!d.faq?.length && (
         <section className="bq-faq-sec">
           <div className="bq-wrap">
-            <p className="bq-lbl bq-center rv">часті питання</p>
+            <p className="bq-lbl bq-center rv">{t('faqTitle')}</p>
             <div className="bq-faq rv">
               {d.faq.map((f, i) => (
                 <details key={i}><summary>{f.question}<span className="bq-pl" /></summary><div className="bq-a">{f.answer}</div></details>
@@ -202,27 +206,29 @@ export default function BotaniqueTemplate({ data }: { data?: Partial<WeddingData
         <Sprig color="#C9D2B4" />
         <p className="bq-fs">{d.closing_message || 'з любов’ю,'}</p>
         <p className="bq-fn">{d.partner_name_1} та {d.partner_name_2}</p>
-        <p className="bq-cred">створено на <a href="https://momently.co" target="_blank" rel="noopener noreferrer">momently.co</a></p>
+        <p className="bq-cred">{t('createdOn')} <a href="https://momently.co" target="_blank" rel="noopener noreferrer">momently.co</a></p>
       </footer>
     </div>
   );
 }
 
 function BotaniqueRsvp({ d }: { d: WeddingData }) {
+  const L = normalizeLocale(d.locale);
+  const t = (k: string, v?: Record<string, string | number>) => tr(L, k, v);
   const [status, setStatus] = useState<'form' | 'sending' | 'success' | 'error'>('form');
   const [attending, setAttending] = useState(true);
   const [name, setName] = useState('');
   const [nameErr, setNameErr] = useState(false);
-  const [guests, setGuests] = useState('1 гість');
-  const [meal, setMeal] = useState('звичайне');
+  const [guests, setGuests] = useState(tr(normalizeLocale(d.locale), 'guest1'));
+  const [meal, setMeal] = useState(tr(normalizeLocale(d.locale), 'menuRegular'));
   const [wish, setWish] = useState('');
 
   const submit = async () => {
     if (!name.trim()) { setNameErr(true); return; }
     setStatus('sending');
     const dietary = [
-      attending ? 'меню: ' + meal : '',
-      wish.trim() ? 'побажання: ' + wish.trim() : '',
+      attending ? t('menuWord') + ': ' + meal : '',
+      wish.trim() ? t('wishesWord') + ': ' + wish.trim() : '',
     ].filter(Boolean).join(' · ') || undefined;
     try {
       const res = await fetch('/api/rsvp', {
@@ -231,7 +237,7 @@ function BotaniqueRsvp({ d }: { d: WeddingData }) {
           name: name.trim(),
           attendance: attending ? 'attending' : 'declined',
           dietary,
-          plus_one: attending && guests === '2 гості',
+          plus_one: attending && guests === t('guest2'),
           wedding_slug: d.slug,
         }),
       });
@@ -244,47 +250,47 @@ function BotaniqueRsvp({ d }: { d: WeddingData }) {
     <section className="bq-rsvp" id="bq-rsvp">
       <div className="bq-rsvp-card">
         <Sprig />
-        <h2>Будете з нами?</h2>
-        {d.rsvp_deadline && <p className="bq-dl">Дайте відповідь, будь ласка, до {d.rsvp_deadline}.</p>}
+        <h2>{t('rsvpTitle')}</h2>
+        {d.rsvp_deadline && <p className="bq-dl">{t('rsvpDeadline', { date: d.rsvp_deadline })}</p>}
         {status === 'success' ? (
           <div className="bq-done">
-            <p className="bq-done-t">{attending ? `Дякуємо, ${name.trim()}!` : `Дякуємо за відповідь, ${name.trim()}`}</p>
-            <p className="bq-done-s">{attending ? `Чекаємо на вас · ${guests} · ${meal} меню.` : 'Шкода, що не побачимось — ви будете з нами подумки.'}</p>
+            <p className="bq-done-t">{attending ? t('thanksYes', { name: name.trim() }) : t('thanksNo', { name: name.trim() })}</p>
+            <p className="bq-done-s">{attending ? t('waitingFor', { guests, menu: meal }) : t('thanksNoSub')}</p>
           </div>
         ) : (
           <div>
-            <label className="bq-f" htmlFor="bq-name">Ім’я та прізвище</label>
-            <input id="bq-name" className={'bq-in' + (nameErr ? ' err' : '')} type="text" placeholder="Оксана Коваль"
+            <label className="bq-f" htmlFor="bq-name">{t('nameLabel')}</label>
+            <input id="bq-name" className={'bq-in' + (nameErr ? ' err' : '')} type="text" placeholder={t('namePlaceholder')}
               value={name} onChange={e => { setName(e.target.value); setNameErr(false); }} />
-            <label className="bq-f">Присутність</label>
+            <label className="bq-f">{t('presenceLabel')}</label>
             <div className="bq-chips">
-              <button type="button" className={'bq-chip' + (attending ? ' on' : '')} onClick={() => setAttending(true)}>Так, буду</button>
-              <button type="button" className={'bq-chip' + (!attending ? ' on' : '')} onClick={() => setAttending(false)}>На жаль, ні</button>
+              <button type="button" className={'bq-chip' + (attending ? ' on' : '')} onClick={() => setAttending(true)}>{t('yes')}</button>
+              <button type="button" className={'bq-chip' + (!attending ? ' on' : '')} onClick={() => setAttending(false)}>{t('no')}</button>
             </div>
             {attending && (
               <div>
                 <div className="bq-two">
                   <div>
-                    <label className="bq-f" htmlFor="bq-guests">Кількість гостей</label>
+                    <label className="bq-f" htmlFor="bq-guests">{t('guestsLabel')}</label>
                     <select id="bq-guests" className="bq-in" value={guests} onChange={e => setGuests(e.target.value)}>
-                      <option>1 гість</option><option>2 гості</option>
+                      <option>{t('guest1')}</option><option>{t('guest2')}</option>
                     </select>
                   </div>
                   <div>
-                    <label className="bq-f" htmlFor="bq-meal">Меню</label>
+                    <label className="bq-f" htmlFor="bq-meal">{t('menuLabel')}</label>
                     <select id="bq-meal" className="bq-in" value={meal} onChange={e => setMeal(e.target.value)}>
-                      <option>звичайне</option><option>вегетаріанське</option><option>дитяче</option>
+                      <option>{t('menuRegular')}</option><option>{t('menuVeg')}</option><option>{t('menuKids')}</option>
                     </select>
                   </div>
                 </div>
-                <label className="bq-f" htmlFor="bq-wish">Алергії або побажання</label>
-                <input id="bq-wish" className="bq-in" type="text" placeholder="без горіхів" value={wish} onChange={e => setWish(e.target.value)} />
+                <label className="bq-f" htmlFor="bq-wish">{t('wishesLabel')}</label>
+                <input id="bq-wish" className="bq-in" type="text" placeholder={t('wishesPlaceholder')} value={wish} onChange={e => setWish(e.target.value)} />
               </div>
             )}
             <div className="bq-send"><button className="bq-btn" onClick={submit} disabled={status === 'sending'}>
-              {status === 'sending' ? 'Надсилаємо…' : 'Надіслати відповідь'}
+              {status === 'sending' ? t('sending') : t('submit')}
             </button></div>
-            {status === 'error' && <p className="bq-err">Не вдалося надіслати — спробуйте ще раз.</p>}
+            {status === 'error' && <p className="bq-err">{t('errSend')}</p>}
           </div>
         )}
       </div>

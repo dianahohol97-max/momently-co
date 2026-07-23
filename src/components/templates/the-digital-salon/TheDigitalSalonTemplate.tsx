@@ -67,11 +67,11 @@ const DEMO: WeddingData = {
   story_paragraph_1: 'It began in the quiet corners of a Parisian library, where a shared love for antiquated manuscripts sparked a conversation that hasn\'t ended. From the cobblestone streets of Montmartre to the sun-drenched vineyards of the Loire Valley, our journey has been a collection of whispered promises and grand adventures.',
   story_paragraph_2: 'We invite you to join us as we begin our most beautiful chapter yet, surrounded by the echoes of history and the warmth of your company.',
   timeline: [
-    { time: '11:00 AM', title: 'Wedding Ceremony', location: 'St. Germain Chapel', icon: '⛪' },
-    { time: '1:00 PM',  title: 'Welcome Toast',    location: 'The Grand Salon',    icon: '🥂' },
-    { time: '3:00 PM',  title: 'Wedding Lunch',    location: 'The Orangery',       icon: '🍽️' },
-    { time: '8:00 PM',  title: 'First Dance',      location: 'Ballroom',           icon: '🎵' },
-    { time: '11:00 PM', title: 'Fireworks',        location: 'Terrace Gardens',    icon: '✨' },
+    { time: '11:00 AM', title: 'Wedding Ceremony', location: 'St. Germain Chapel', icon: '' },
+    { time: '1:00 PM',  title: 'Welcome Toast',    location: 'The Grand Salon',    icon: '' },
+    { time: '3:00 PM',  title: 'Wedding Lunch',    location: 'The Orangery',       icon: '' },
+    { time: '8:00 PM',  title: 'First Dance',      location: 'Ballroom',           icon: '' },
+    { time: '11:00 PM', title: 'Fireworks',        location: 'Terrace Gardens',    icon: '' },
   ],
   venue_name: 'Château des Magnolias',
   venue_address: '42 Avenue du Parc, 75008 Paris, France',
@@ -160,7 +160,7 @@ function RSVPForm({ data }: { data: WeddingData }) {
 
   if (status === 'success') return (
     <div className="text-center py-16">
-      <div style={{ fontSize: 36, marginBottom: 16 }}>🌸</div>
+      <div style={{ fontSize: 36, marginBottom: 16 }}></div>
       <h3 style={{ fontFamily: "'Newsreader', serif", fontStyle: 'italic', fontSize: 32, color: C.primary }}>
         Thank you
       </h3>
@@ -171,7 +171,7 @@ function RSVPForm({ data }: { data: WeddingData }) {
   return (
     <form onSubmit={handleSubmit}>
       <div className="text-center mb-10">
-        <div style={{ fontSize: 32, opacity: 0.3, marginBottom: 12 }}>🌸</div>
+        <div style={{ fontSize: 32, opacity: 0.3, marginBottom: 12 }}></div>
         <h2 style={{ fontFamily: "'Newsreader', serif", fontStyle: 'italic', fontSize: 44, color: C.primary, marginBottom: 6 }}>
           RSVP
         </h2>
@@ -290,7 +290,7 @@ export default function TheDigitalSalonTemplate({ data = DEMO }: { data?: Weddin
           ))}
         </div>
         <button className="md:hidden" onClick={() => setMenuOpen(o => !o)}
-          style={{ color: C.primary, fontSize: 22 }}>☰</button>
+          style={{ color: C.primary, fontSize: 22 }}></button>
         {menuOpen && (
           <div className="absolute top-full left-0 w-full flex flex-col py-6 px-8 gap-5 md:hidden"
             style={{ background: C.bg, borderBottom: `1px solid ${C.outlineV}40` }}>
@@ -521,13 +521,13 @@ export default function TheDigitalSalonTemplate({ data = DEMO }: { data?: Weddin
                 <div className="space-y-3">
                   {data.venue_parking && (
                     <div className="flex items-center gap-3" style={{ color: C.primary }}>
-                      <span>🚗</span>
+                      <span></span>
                       <span style={{ fontFamily: "'Noto Serif', serif", fontStyle: 'italic', fontSize: 14 }}>Secure valet parking available</span>
                     </div>
                   )}
                   {data.venue_accommodation && (
                     <div className="flex items-center gap-3" style={{ color: C.primary }}>
-                      <span>🏨</span>
+                      <span></span>
                       <span style={{ fontFamily: "'Noto Serif', serif", fontStyle: 'italic', fontSize: 14 }}>Accommodation bookings available</span>
                     </div>
                   )}
@@ -551,7 +551,7 @@ export default function TheDigitalSalonTemplate({ data = DEMO }: { data?: Weddin
       {/* REGISTRY */}
       <section style={{ padding: '100px 40px', background: C.bgLow, position: 'relative', overflow: 'hidden' }}>
         <div className="max-w-2xl mx-auto text-center relative z-10">
-          <div style={{ fontSize: 36, color: C.primary, opacity: 0.4, marginBottom: 16 }}>🎁</div>
+          <div style={{ fontSize: 36, color: C.primary, opacity: 0.4, marginBottom: 16 }}></div>
           <h2 style={{ fontFamily: "'Newsreader', serif", fontStyle: 'italic', fontSize: 48, color: C.primary, marginBottom: 20 }}>
             Registry
           </h2>
