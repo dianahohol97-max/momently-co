@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import { t as tr, normalizeLocale } from '@/lib/i18n';
 
 // ─── COLORS ──────────────────────────────────────────────
 const C = {
@@ -31,6 +32,7 @@ interface Hotel {
 }
 
 interface WeddingData {
+  locale?: string;
   partner_name_1: string;
   partner_name_2: string;
   wedding_date: string;
@@ -59,47 +61,47 @@ interface WeddingData {
 
 // ─── DEMO DATA ────────────────────────────────────────────
 const DEMO: WeddingData = {
-  partner_name_1: 'Arabella',
-  partner_name_2: 'James',
+  partner_name_1: 'Аделіна',
+  partner_name_2: 'Ян',
   wedding_date: '2026-06-24T16:00:00',
-  wedding_date_written: 'Twenty-Fourth of June',
-  location: 'The Cotswolds, England',
-  location_written: 'The Manor, The Cotswolds',
+  wedding_date_written: 'Двадцять четверте червня',
+  location: 'Полісся',
+  location_written: 'Замок Радомисль, Полісся',
   hero_image_url: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1600&q=80',
   portrait_image_url: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=80',
-  story_quote: '"In the quiet corners of an ancestral garden, under the watchful gaze of stone and ivy, we found a love that felt as though it had always existed—an archive of moments waiting to be written."',
-  story_invite: 'We invite you to join us as we begin our life together at the Manor, where time stands still among the clipped hedges and midnight library shelves. A celebration of history, heritage, and the quiet devotion of a lifetime.',
+  story_quote: '«У тихих закутках старого саду, під пильним поглядом каменю і плюща, ми знайшли любов, що ніби існувала завжди — архів моментів, які чекали бути записаними.»',
+  story_invite: 'Запрошуємо вас розпочати разом із нами наше спільне життя в Маєтку — там, де час завмирає серед стрижених живоплотів і опівнічних бібліотечних полиць. Свято історії, спадку і тихої відданості на все життя.',
   story_paragraphs: [
-    'It began in the quiet hum of a London library, amidst the scent of aging parchment and the soft rhythm of falling rain. Two strangers, bound by a shared affinity for the forgotten corners of history, found themselves reaching for the same leather-bound volume of romantic verse.',
-    'The seasons that followed were a whirlwind of moonlit walks through the Cotswolds and hushed conversations in candlelit bistros. We discovered that love is not a single grand gesture, but a collection of whispers—the way the light catches a smile, or the comfort of a hand held tight against the winter chill.',
-    'On a misty evening on the balcony of a Venetian palazzo, as the bells of San Marco tolled in the distance, a promise was made. A promise to build a life that feels like an heirloom—rich in tradition, layered with memory, and guarded by the fierce devotion of two souls who finally found their home.',
-    'Now, as we prepare to stand before our families and the weight of history itself, we invite you to be part of the most important chapter yet. Our story is no longer just ours; it is a tapestry we continue to weave with those we hold most dear.',
+    'Все почалося в тихому гулі львівської наукової бібліотеки — серед запаху старого паперу і м’якого ритму дощу за вікнами. Двоє незнайомців, поєднані любов’ю до забутих закутків історії, одночасно потяглися за тим самим томиком романтичної поезії у шкіряній палітурці.',
+    'Сезони, що настали, були виром місячних прогулянок Карпатами і тихих розмов у бістро при свічках. Ми відкрили, що любов — не один великий жест, а колекція шепотів: те, як світло ловить усмішку, чи тепло руки, стиснутої міцніше проти зимового холоду.',
+    'Туманного вечора на балконі старого палацу, під далекі дзвони Ратуші, пролунала обіцянка. Обіцянка збудувати життя, що відчувається як реліквія — багате традицією, шароване пам’яттю і бережене відданістю двох душ, які нарешті знайшли свій дім.',
+    'Тепер, готуючись стати перед нашими родинами і самою вагою історії, ми запрошуємо вас у найважливіший розділ. Наша історія більше не лише наша — це гобелен, який ми тчемо далі разом із найдорожчими.',
   ],
   events: [
-    { time: 'June 23 · 19:00', title: 'The Arrival Dinner', location: 'The Great Hall', description: 'An intimate gathering to welcome our dearest guests to the estate.' },
-    { time: 'June 24 · 15:30', title: 'The Ceremony', location: 'The Garden Sanctuary', description: 'Vows exchanged beneath the ancient oak, witnessed by stone and sky.' },
-    { time: 'June 24 · 17:30', title: 'The Cocktail Hour', location: 'The Terrace', description: 'Champagne and conversation as the golden hour descends.' },
-    { time: 'June 24 · 19:30', title: 'The Feast', location: 'The Dining Hall', description: 'A candlelit dinner and dancing until the early hours.' },
+    { time: '23 червня · 19:00', title: 'Вечеря прибуття', location: 'Велика зала', description: 'Камерна зустріч найдорожчих гостей маєтку.' },
+    { time: '24 червня · 15:30', title: 'Церемонія', location: 'Сад-святилище', description: 'Обітниці під старим дубом — за свідків камінь і небо.' },
+    { time: '24 червня · 17:30', title: 'Коктейльна година', location: 'Тераса', description: 'Шампанське й розмови, поки сходить золота година.' },
+    { time: '24 червня · 19:30', title: 'Бенкет', location: 'Трапезна зала', description: 'Вечеря при свічках і танці до перших годин ранку.' },
   ],
-  venue_name: 'The Manor Estate',
-  venue_address: 'Church Lane, Bourton-on-the-Water\nCheltenham GL54 2AN, England',
+  venue_name: 'Замок Радомисль',
+  venue_address: 'вул. Замкова, 1\nРадомишль, Житомирщина',
   venue_image_url: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1200&q=80',
   venue_directions_url: '#',
   hotels: [
-    { name: 'The Lygon Arms', description: 'A historic coaching inn in the heart of Broadway Village. Mention "A&J" for preferred rates.', url: '#' },
-    { name: 'Barnsley House', description: 'An intimate boutique hotel surrounded by celebrated gardens.', url: '#' },
+    { name: 'Садиба «Стара пошта»', description: 'Історичний заїзд за десять хвилин від замку. Назвіть код «А&Я» для особливих умов.', url: '#' },
+    { name: 'Бутік-готель «Плющ»', description: 'Камерний прихисток серед доглянутих садів.', url: '#' },
   ],
-  dress_code_title: 'Black Tie',
-  dress_code_description: 'We kindly request formal evening attire. Gentlemen in black tie; ladies in floor-length gowns. A palette of ivory, champagne, midnight, or forest is encouraged.',
-  gifts_description: 'Your presence at our celebration is the greatest gift we could ask for. Should you wish to honour us with a gesture, a contribution to our honeymoon fund would be deeply cherished.',
+  dress_code_title: 'Black tie',
+  dress_code_description: 'Просимо про урочисте вечірнє вбрання: панове — у смокінгах, пані — у сукнях у підлогу. Вітаємо палітру слонової кістки, шампанського, опівнічної синяви та лісової зелені.',
+  gifts_description: 'Ваша присутність на нашому святі — найбільший подарунок, про який ми могли б просити. Якщо захочете вшанувати нас жестом, внесок у фонд нашої подорожі буде глибоко цінним.',
   gifts_url: '#',
   faq: [
-    { question: 'Are children invited?', answer: 'Our celebration is an adults-only occasion, with the exception of nursing infants. We hope this allows everyone the freedom to celebrate fully.' },
-    { question: 'How do I reach the estate?', answer: 'The Manor is accessible by car via the A429. We recommend arranging accommodation locally, as the estate does not have overnight facilities for guests.' },
-    { question: 'What is the RSVP deadline?', answer: 'We kindly ask for your response by May 1st, 2026, to allow us to finalise arrangements.' },
+    { question: 'Чи запрошені діти?', answer: 'Наше свято — для дорослих, за винятком немовлят. Сподіваємось, це подарує кожному свободу святкувати сповна.' },
+    { question: 'Як дістатися до маєтку?', answer: 'До замку зручно доїхати автомобілем трасою на Житомир. Радимо подбати про проживання поблизу — у маєтку немає гостьових кімнат.' },
+    { question: 'До котрої дати відповісти?', answer: 'Просимо про вашу відповідь до 1 травня 2026 — щоб ми встигли завершити приготування.' },
   ],
-  rsvp_deadline: 'May 1st, 2026',
-  slug: 'arabella-james',
+  rsvp_deadline: '1 травня 2026',
+  slug: 'adelina-yan',
 };
 
 // ─── COUNTDOWN ────────────────────────────────────────────
@@ -124,7 +126,7 @@ function useCountdown(targetDate: string) {
 }
 
 // ─── ADD TO CALENDAR ──────────────────────────────────────
-function addToCalendar(data: WeddingData) {
+function addToCalendar(data: WeddingData, summary?: string) {
   const start = new Date(data.wedding_date);
   const end = new Date(start.getTime() + 6 * 3600000);
   const fmt = (d: Date) => d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
@@ -140,6 +142,8 @@ function addToCalendar(data: WeddingData) {
 
 // ─── RSVP FORM ────────────────────────────────────────────
 function RSVPForm({ data }: { data: WeddingData }) {
+  const L = normalizeLocale(data.locale);
+  const t = (k: string, v?: Record<string, string | number>) => tr(L, k, v);
   const [form, setForm] = useState({ name: '', email: '', attendance: '', dietary: '', message: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
@@ -162,10 +166,10 @@ function RSVPForm({ data }: { data: WeddingData }) {
   if (status === 'success') return (
     <div className="text-center py-16 space-y-4">
       <div style={{ fontFamily: "'Corinthia', cursive", fontSize: 56, color: C.primary }}>
-        Thank you
+        {t('thanksYes', { name: '' }).replace(', !', '!')}
       </div>
       <p style={{ color: C.textMuted, fontSize: 11, letterSpacing: '0.25em', textTransform: 'uppercase' }}>
-        Your response has been received
+        {t('envReceived')}
       </p>
     </div>
   );
@@ -176,7 +180,7 @@ function RSVPForm({ data }: { data: WeddingData }) {
         <input
           className="w-full bg-transparent focus:outline-none py-3 px-0 text-xl"
           style={{ fontFamily: "'Newsreader', serif", fontStyle: 'italic', color: C.textWarm, borderBottom: `0.5px solid ${C.outlineV}` }}
-          placeholder="Full Name" required
+          placeholder={t('nameLabel')} required
           value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
         />
       </div>
@@ -184,16 +188,16 @@ function RSVPForm({ data }: { data: WeddingData }) {
         <input
           className="w-full bg-transparent focus:outline-none py-3 px-0"
           style={{ fontFamily: "'Newsreader', serif", color: C.textWarm, borderBottom: `0.5px solid ${C.outlineV}` }}
-          placeholder="Email Address" type="email"
+          placeholder={t('emailLabel')} type="email"
           value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
         />
       </div>
       <div className="space-y-4">
         <p style={{ fontSize: 10, letterSpacing: '0.25em', textTransform: 'uppercase', color: C.secondary }}>
-          Your Presence
+          {t('yourPresence')}
         </p>
         <div className="flex gap-10">
-          {[{ val: 'attending', label: 'Joyfully Accept' }, { val: 'declined', label: 'Regretfully Decline' }].map(o => (
+          {[{ val: 'attending', label: t('yes') }, { val: 'declined', label: t('no') }].map(o => (
             <label key={o.val} className="flex items-center gap-3 cursor-pointer">
               <input type="radio" name="attendance" value={o.val}
                 checked={form.attendance === o.val}
@@ -211,7 +215,7 @@ function RSVPForm({ data }: { data: WeddingData }) {
         <input
           className="w-full bg-transparent focus:outline-none py-3 px-0"
           style={{ fontFamily: "'Newsreader', serif", color: C.textWarm, borderBottom: `0.5px solid ${C.outlineV}` }}
-          placeholder="Dietary Requirements or Notes"
+          placeholder={t('wishesLabel')}
           value={form.dietary} onChange={e => setForm(f => ({ ...f, dietary: e.target.value }))}
         />
       </div>
@@ -220,10 +224,10 @@ function RSVPForm({ data }: { data: WeddingData }) {
         className="w-full py-5 text-sm disabled:opacity-40 transition-opacity hover:opacity-80"
         style={{ background: C.burgundy, color: C.textWarm, letterSpacing: '0.3em', textTransform: 'uppercase', fontFamily: "'Newsreader', serif', fontSize: 12" }}
       >
-        {status === 'loading' ? 'Sending...' : 'Submit Response'}
+        {status === 'loading' ? t('sending') : t('submit')}
       </button>
       {status === 'error' && (
-        <p style={{ color: '#ffb4ab', fontSize: 11, textAlign: 'center' }}>Something went wrong. Please try again.</p>
+        <p style={{ color: '#ffb4ab', fontSize: 11, textAlign: 'center' }}>{t('errSend')}</p>
       )}
       <p style={{ fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.secondary, textAlign: 'center' }}>
         Kindly respond by {data.rsvp_deadline}
@@ -270,6 +274,8 @@ function OrnateCorners({ children }: { children: React.ReactNode }) {
 
 // ─── MAIN TEMPLATE ────────────────────────────────────────
 export default function TheManorTemplate({ data = DEMO }: { data?: WeddingData }) {
+  const L = normalizeLocale(data.locale);
+  const t = (k: string, v?: Record<string, string | number>) => tr(L, k, v);
   const [menuOpen, setMenuOpen] = useState(false);
   const [envelopeOpen, setEnvelopeOpen] = useState(false);
   const countdown = useCountdown(data.wedding_date);
@@ -298,7 +304,7 @@ export default function TheManorTemplate({ data = DEMO }: { data?: WeddingData }
               style={{ color: i === 0 ? C.primary : `${C.textWarm}99`, fontSize: 10, letterSpacing: '0.15em', textTransform: 'uppercase',
                 borderBottom: i === 0 ? `1px solid ${C.primary}` : undefined, paddingBottom: i === 0 ? 2 : undefined }}
               className="hover:opacity-100 transition-opacity">
-              {['Our Story', 'The Details', 'Where to Stay'][i]}
+              {[t('navStory'), t('navDetails'), 'Where to Stay'][i]}
             </a>
           ))}
         </div>
@@ -314,12 +320,12 @@ export default function TheManorTemplate({ data = DEMO }: { data?: WeddingData }
             className="hover:text-white transition-colors">RSVP</a>
           <a href="#gifts"
             style={{ background: C.burgundy, color: C.textWarm, padding: '8px 16px', fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase' }}>
-            Gift Registry
+            {t('giftsLabel')}
           </a>
         </div>
         <button className="md:hidden" onClick={() => setMenuOpen(o => !o)}
           style={{ color: C.primary, fontSize: 11, letterSpacing: '0.2em', textTransform: 'uppercase' }}>
-          Menu
+          {t('navMenu')}
         </button>
         {menuOpen && (
           <div className="absolute top-full left-0 w-full flex flex-col py-8 px-8 gap-6 md:hidden"
@@ -327,7 +333,7 @@ export default function TheManorTemplate({ data = DEMO }: { data?: WeddingData }
             {['#story', '#details', '#stay', '#rsvp'].map((href, i) => (
               <a key={href} href={href} onClick={() => setMenuOpen(false)}
                 style={{ color: C.textMuted, fontSize: 11, letterSpacing: '0.2em', textTransform: 'uppercase' }}>
-                {['Our Story', 'The Details', 'Where to Stay', 'RSVP'][i]}
+                {[t('navStory'), t('navDetails'), 'Where to Stay', 'RSVP'][i]}
               </a>
             ))}
           </div>
@@ -366,7 +372,7 @@ export default function TheManorTemplate({ data = DEMO }: { data?: WeddingData }
               {!envelopeOpen && (
                 <div className="absolute bottom-4 left-0 right-0 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   <span style={{ fontSize: 8, letterSpacing: '0.2em', textTransform: 'uppercase', color: `${C.bg}60` }}>
-                    Private Invitation
+                    {t('privateInv')}
                   </span>
                 </div>
               )}
@@ -380,7 +386,7 @@ export default function TheManorTemplate({ data = DEMO }: { data?: WeddingData }
               onClick={() => setEnvelopeOpen(true)}
               style={{ fontSize: 10, letterSpacing: '0.4em', textTransform: 'uppercase', color: C.textMuted }}
               className="flex flex-col items-center gap-3 hover:text-white transition-colors mt-8">
-              <span>Click Envelope to Open</span>
+              <span>{t('envOpen')}</span>
               <span style={{ animation: 'bounce 2s infinite' }}>↓</span>
             </button>
           ) : (
@@ -393,13 +399,13 @@ export default function TheManorTemplate({ data = DEMO }: { data?: WeddingData }
                   style={{ background: C.burgundy, color: C.textWarm, padding: '14px 40px', fontSize: 11, letterSpacing: '0.25em', textTransform: 'uppercase' }}>
                   RSVP
                 </a>
-                <button onClick={() => addToCalendar(data)}
+                <button onClick={() => addToCalendar(data, t('stdEvent', { names: data.partner_name_1 + ' & ' + data.partner_name_2 }))}
                   style={{ border: `1px solid ${C.outlineV}`, color: C.textMuted, padding: '14px 28px', fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase' }}
                   className="flex items-center gap-2 justify-center hover:border-white transition-colors">
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
-                  Add to Calendar
+                  {t('addToCalendar')}
                 </button>
               </div>
             </div>
@@ -411,14 +417,14 @@ export default function TheManorTemplate({ data = DEMO }: { data?: WeddingData }
       <section style={{ background: C.bgLow, padding: '80px 32px' }}>
         <div className="max-w-4xl mx-auto">
           <p style={{ fontSize: 10, letterSpacing: '0.4em', textTransform: 'uppercase', color: C.outline, textAlign: 'center', marginBottom: 48 }}>
-            The Final Countdown
+            {t('countdownLabel')}
           </p>
           <div className="flex flex-col md:flex-row justify-between items-center gap-8 md:gap-0">
             {[
-              { val: countdown.days, label: 'Days' },
-              { val: countdown.hours, label: 'Hours' },
-              { val: countdown.minutes, label: 'Minutes' },
-              { val: countdown.seconds, label: 'Seconds' },
+              { val: countdown.days, label: t('unitDays') },
+              { val: countdown.hours, label: t('unitHours') },
+              { val: countdown.minutes, label: t('unitMin') },
+              { val: countdown.seconds, label: t('unitSec') },
             ].map(({ val, label }, i) => (
               <>
                 <div key={label} className="text-center">
@@ -444,7 +450,7 @@ export default function TheManorTemplate({ data = DEMO }: { data?: WeddingData }
               Archive No. 07
             </p>
             <h2 style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: 'clamp(36px, 5vw, 60px)', color: C.text }}>
-              Our Story
+              {`${t('storyA')} ${t('storyB')}`}
             </h2>
             <div className="mx-auto mt-6 w-12 h-px" style={{ background: `${C.outlineV}60` }} />
           </div>
@@ -472,7 +478,7 @@ export default function TheManorTemplate({ data = DEMO }: { data?: WeddingData }
             ))}
             <div className="pt-12">
               <p style={{ fontSize: 10, letterSpacing: '0.3em', textTransform: 'uppercase', color: C.secondary, marginBottom: 12 }}>
-                With Love
+                {t('withLove')}
               </p>
               <div style={{ fontFamily: "'Corinthia', cursive", fontSize: 56, color: C.text }}>
                 {data.partner_name_1} & {data.partner_name_2}
@@ -490,10 +496,10 @@ export default function TheManorTemplate({ data = DEMO }: { data?: WeddingData }
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-16">
             <p style={{ fontSize: 10, letterSpacing: '0.4em', textTransform: 'uppercase', color: C.secondary, marginBottom: 12 }}>
-              The Celebration
+              {t('celebrationLabel')}
             </p>
             <h2 style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: 48, color: C.text }}>
-              Every Subtle Detail
+              {t('detailsTag')}
             </h2>
           </div>
           <p style={{ textAlign: 'center', color: C.textMuted, fontSize: 14, lineHeight: 1.8, maxWidth: 600, margin: '0 auto 60px' }}>
@@ -523,7 +529,7 @@ export default function TheManorTemplate({ data = DEMO }: { data?: WeddingData }
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
             <div>
               <p style={{ fontSize: 10, letterSpacing: '0.4em', textTransform: 'uppercase', color: C.secondary, marginBottom: 16 }}>
-                The Venue
+                {t('locationLabel')}
               </p>
               <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 42, lineHeight: 1.2, color: C.text, marginBottom: 20 }}>
                 {data.venue_name}
@@ -535,7 +541,7 @@ export default function TheManorTemplate({ data = DEMO }: { data?: WeddingData }
                 style={{ display: 'inline-block', border: `1px solid ${C.primary}40`, color: C.primary,
                   padding: '12px 32px', fontSize: 10, letterSpacing: '0.25em', textTransform: 'uppercase' }}
                 className="hover:border-white hover:text-white transition-colors">
-                Get Directions
+                {t('routeBtn')}
               </a>
             </div>
             <div style={{ overflow: 'hidden', aspectRatio: '4/3' }}>
@@ -552,10 +558,10 @@ export default function TheManorTemplate({ data = DEMO }: { data?: WeddingData }
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-16">
             <p style={{ fontSize: 10, letterSpacing: '0.4em', textTransform: 'uppercase', color: C.secondary, marginBottom: 12 }}>
-              Accommodation
+              {t('stayLabel')}
             </p>
             <h2 style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: 42, color: C.text }}>
-              Where to Stay
+              {t('stayLabel')}
             </h2>
           </div>
           <div className="space-y-6">
@@ -578,7 +584,7 @@ export default function TheManorTemplate({ data = DEMO }: { data?: WeddingData }
       <section style={{ padding: '100px 32px' }}>
         <div className="max-w-3xl mx-auto text-center">
           <p style={{ fontSize: 10, letterSpacing: '0.5em', textTransform: 'uppercase', color: C.secondary, marginBottom: 16 }}>
-            Attire
+            {t('dressLabel')}
           </p>
           <h2 style={{ fontFamily: "'Noto Serif', serif", fontSize: 'clamp(48px, 8vw, 96px)', textTransform: 'uppercase', letterSpacing: '-0.02em', color: C.text }}>
             {data.dress_code_title}
@@ -598,10 +604,10 @@ export default function TheManorTemplate({ data = DEMO }: { data?: WeddingData }
                 <WaxSeal initials="♡" />
               </div>
               <p style={{ fontSize: 10, letterSpacing: '0.4em', textTransform: 'uppercase', color: C.secondary, marginBottom: 12 }}>
-                Gifting
+                {t('giftsLabel')}
               </p>
               <h2 style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: 40, color: C.text, marginBottom: 20 }}>
-                Our Story
+                {`${t('storyA')} ${t('storyB')}`}
               </h2>
               <p style={{ fontStyle: 'italic', color: C.textMuted, fontSize: 15, lineHeight: 1.8, marginBottom: 32 }}>
                 {data.gifts_description}
@@ -609,7 +615,7 @@ export default function TheManorTemplate({ data = DEMO }: { data?: WeddingData }
               <a href={data.gifts_url}
                 style={{ display: 'inline-block', background: C.burgundy, color: C.textWarm, padding: '14px 48px', fontSize: 10, letterSpacing: '0.25em', textTransform: 'uppercase' }}
                 className="hover:opacity-80 transition-opacity">
-                Honeymoon Fund
+                {t('fundLabel')}
               </a>
             </div>
           </OrnateCorners>
@@ -620,7 +626,7 @@ export default function TheManorTemplate({ data = DEMO }: { data?: WeddingData }
       <section style={{ padding: '100px 32px' }}>
         <div className="max-w-3xl mx-auto">
           <p style={{ fontSize: 10, letterSpacing: '0.5em', textTransform: 'uppercase', color: C.secondary, marginBottom: 60, textAlign: 'center' }}>
-            Common Queries
+            {t('faqTitle')}
           </p>
           <div className="space-y-12">
             {data.faq.map((item, i) => (
@@ -640,10 +646,10 @@ export default function TheManorTemplate({ data = DEMO }: { data?: WeddingData }
         <div className="max-w-xl mx-auto">
           <div className="text-center mb-16">
             <div style={{ fontFamily: "'Corinthia', cursive", fontSize: 56, color: C.primary, marginBottom: 8 }}>
-              Kindly RSVP
+              {t('kindlyConfirm')}
             </div>
             <p style={{ fontSize: 11, letterSpacing: '0.25em', textTransform: 'uppercase', color: C.secondary }}>
-              Awaiting your response
+              {t('envWaiting')}
             </p>
           </div>
           <OrnateCorners>
@@ -661,10 +667,10 @@ export default function TheManorTemplate({ data = DEMO }: { data?: WeddingData }
           {data.partner_name_1} & {data.partner_name_2}
         </div>
         <div style={{ fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', textAlign: 'center', color: C.secondary, opacity: 0.5 }}>
-          Est. MMXXVI · An Ancestral Archive
+          {t('estLine')}
         </div>
         <div className="flex gap-10">
-          {['Privacy', 'Contact Us'].map(label => (
+          {[t('privacyLbl'), t('contactUs')].map(label => (
             <a key={label} href="#"
               style={{ color: C.secondary, fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase' }}
               className="hover:text-white transition-colors">

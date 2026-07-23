@@ -38,6 +38,7 @@ export function resolveLocaleFromRequest(country?: string | null, acceptLanguage
 type Dict = Record<string, string>;
 
 const uk: Dict = {
+  envOpen: 'Торкніться конверта, щоб відкрити', envWaiting: 'Чекаємо на вашу відповідь', envReceived: 'Вашу відповідь отримано', privateInv: 'Приватне запрошення', estLine: 'Est. MMXXVI · Родинний архів', detailsTag: 'Кожна витончена деталь', yourPresence: 'Ваша присутність', fundLabel: 'Фонд подорожі', contactUs: 'Звʼязатися з нами', privacyLbl: 'Приватність', withLove: 'З любовʼю',
   selectPh: 'Оберіть…', countdownLabel: 'Зворотний відлік',
   giftsLabel: 'Подарунки', paletteLabel: 'Палітра-натхнення', readStory: 'Прочитати нашу історію', stayLabel: 'Де зупинитися',
   stdSoon: 'Деталі — незабаром на нашому сайті', stdSite: 'Перейти на сайт весілля', stdCal: 'Додати в календар', stdGoogle: 'Google Календар', stdIcs: 'Apple / Outlook', stdEvent: 'Весілля — {names}', stdShareText: '{names} — збережіть дату: {date}!',
@@ -76,6 +77,7 @@ const uk: Dict = {
 };
 
 const en: Dict = {
+  envOpen: 'Click envelope to open', envWaiting: 'Awaiting your response', envReceived: 'Your response has been received', privateInv: 'Private invitation', estLine: 'Est. MMXXVI · An Ancestral Archive', detailsTag: 'Every subtle detail', yourPresence: 'Your presence', fundLabel: 'Honeymoon fund', contactUs: 'Contact us', privacyLbl: 'Privacy', withLove: 'With love',
   selectPh: 'Select…', countdownLabel: 'The countdown',
   giftsLabel: 'Gifts', paletteLabel: 'Inspiration palette', readStory: 'Read our full story', stayLabel: 'Where to stay',
   stdSoon: 'Details coming soon on our website', stdSite: 'Visit the wedding site', stdCal: 'Add to calendar', stdGoogle: 'Google Calendar', stdIcs: 'Apple / Outlook', stdEvent: 'Wedding — {names}', stdShareText: '{names} — save the date: {date}!',
@@ -114,6 +116,7 @@ const en: Dict = {
 };
 
 const fr: Dict = {
+  envOpen: 'Touchez l’enveloppe pour ouvrir', envWaiting: 'Dans l’attente de votre réponse', envReceived: 'Votre réponse a bien été reçue', privateInv: 'Invitation privée', estLine: 'Est. MMXXVI · Archives de famille', detailsTag: 'Chaque détail subtil', yourPresence: 'Votre présence', fundLabel: 'Cagnotte voyage', contactUs: 'Nous contacter', privacyLbl: 'Confidentialité', withLove: 'Avec amour',
   selectPh: 'Choisissez…', countdownLabel: 'Le compte à rebours',
   giftsLabel: 'Cadeaux', paletteLabel: 'Palette d’inspiration', readStory: 'Lire notre histoire', stayLabel: 'Où loger',
   stdSoon: 'Détails bientôt sur notre site', stdSite: 'Voir le site du mariage', stdCal: 'Ajouter au calendrier', stdGoogle: 'Google Agenda', stdIcs: 'Apple / Outlook', stdEvent: 'Mariage — {names}', stdShareText: '{names} — réservez la date : {date} !',
@@ -152,6 +155,7 @@ const fr: Dict = {
 };
 
 const es: Dict = {
+  envOpen: 'Toca el sobre para abrir', envWaiting: 'Esperando tu respuesta', envReceived: 'Tu respuesta ha sido recibida', privateInv: 'Invitación privada', estLine: 'Est. MMXXVI · Archivo familiar', detailsTag: 'Cada detalle sutil', yourPresence: 'Tu presencia', fundLabel: 'Fondo de luna de miel', contactUs: 'Contáctanos', privacyLbl: 'Privacidad', withLove: 'Con amor',
   selectPh: 'Elige…', countdownLabel: 'La cuenta atrás',
   giftsLabel: 'Regalos', paletteLabel: 'Paleta de inspiración', readStory: 'Leer nuestra historia', stayLabel: 'Dónde alojarse',
   stdSoon: 'Detalles pronto en nuestra web', stdSite: 'Ver la web de la boda', stdCal: 'Añadir al calendario', stdGoogle: 'Google Calendar', stdIcs: 'Apple / Outlook', stdEvent: 'Boda — {names}', stdShareText: '{names} — reserva la fecha: {date}!',
@@ -190,6 +194,7 @@ const es: Dict = {
 };
 
 const de: Dict = {
+  envOpen: 'Umschlag antippen zum Öffnen', envWaiting: 'Wir warten auf eure Antwort', envReceived: 'Eure Antwort ist eingegangen', privateInv: 'Private Einladung', estLine: 'Est. MMXXVI · Ein Familienarchiv', detailsTag: 'Jedes feine Detail', yourPresence: 'Eure Anwesenheit', fundLabel: 'Flitterwochen-Fonds', contactUs: 'Kontakt', privacyLbl: 'Datenschutz', withLove: 'In Liebe',
   selectPh: 'Bitte wählen…', countdownLabel: 'Der Countdown',
   giftsLabel: 'Geschenke', paletteLabel: 'Farbpalette', readStory: 'Unsere Geschichte lesen', stayLabel: 'Übernachtung',
   stdSoon: 'Details bald auf unserer Website', stdSite: 'Zur Hochzeitswebsite', stdCal: 'Zum Kalender hinzufügen', stdGoogle: 'Google Kalender', stdIcs: 'Apple / Outlook', stdEvent: 'Hochzeit — {names}', stdShareText: '{names} — save the date: {date}!',
@@ -228,6 +233,7 @@ const de: Dict = {
 };
 
 const pl: Dict = {
+  envOpen: 'Dotknij koperty, aby otworzyć', envWaiting: 'Czekamy na odpowiedź', envReceived: 'Twoja odpowiedź została zapisana', privateInv: 'Prywatne zaproszenie', estLine: 'Est. MMXXVI · Archiwum rodzinne', detailsTag: 'Każdy subtelny detal', yourPresence: 'Twoja obecność', fundLabel: 'Fundusz podróży', contactUs: 'Kontakt', privacyLbl: 'Prywatność', withLove: 'Z miłością',
   selectPh: 'Wybierz…', countdownLabel: 'Odliczanie',
   giftsLabel: 'Prezenty', paletteLabel: 'Paleta inspiracji', readStory: 'Przeczytaj naszą historię', stayLabel: 'Gdzie się zatrzymać',
   stdSoon: 'Szczegóły wkrótce na naszej stronie', stdSite: 'Zobacz stronę ślubu', stdCal: 'Dodaj do kalendarza', stdGoogle: 'Kalendarz Google', stdIcs: 'Apple / Outlook', stdEvent: 'Ślub — {names}', stdShareText: '{names} — zarezerwuj datę: {date}!',
@@ -266,6 +272,7 @@ const pl: Dict = {
 };
 
 const ro: Dict = {
+  envOpen: 'Atingeți plicul pentru a deschide', envWaiting: 'Așteptăm răspunsul vostru', envReceived: 'Răspunsul a fost primit', privateInv: 'Invitație privată', estLine: 'Est. MMXXVI · Arhivă de familie', detailsTag: 'Fiecare detaliu subtil', yourPresence: 'Prezența voastră', fundLabel: 'Fond pentru luna de miere', contactUs: 'Contactați-ne', privacyLbl: 'Confidențialitate', withLove: 'Cu dragoste',
   selectPh: 'Alegeți…', countdownLabel: 'Numărătoarea inversă',
   giftsLabel: 'Cadouri', paletteLabel: 'Paletă de inspirație', readStory: 'Citește povestea noastră', stayLabel: 'Unde vă cazați',
   stdSoon: 'Detalii în curând pe site-ul nostru', stdSite: 'Vezi site-ul nunții', stdCal: 'Adaugă în calendar', stdGoogle: 'Google Calendar', stdIcs: 'Apple / Outlook', stdEvent: 'Nuntă — {names}', stdShareText: '{names} — rezervați data: {date}!',
