@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import { t as tr, normalizeLocale } from '@/lib/i18n';
 import Link from 'next/link';
 
 // ─── TYPES ───────────────────────────────────────────────
@@ -11,6 +12,7 @@ interface ScheduleItem {
 }
 
 interface WeddingData {
+  locale?: string;
   partner_name_1: string;
   partner_name_2: string;
   wedding_date: string;
@@ -32,32 +34,32 @@ interface WeddingData {
 
 // ─── DEMO DATA ────────────────────────────────────────────
 const DEMO: WeddingData = {
-  partner_name_1: 'Luca',
-  partner_name_2: 'Isabella',
+  partner_name_1: 'Лев',
+  partner_name_2: 'Ія',
   wedding_date: '2026-09-24T16:00:00',
-  location: 'Firenze, Italy',
-  story_quote: '"Our story began in the quiet corners of a Milanese gallery, a chance encounter amidst the stark lines of modernist sculpture."',
-  story_paragraph_1: 'What followed was a journey through the landscapes of architecture and art, finding beauty in the intersection of form and function. Luca, an architect of spaces; Isabella, a curator of light. Together, we have built a world that celebrates the essential.',
-  story_paragraph_2: 'Join us as we formalize this union in an environment that reflects our shared aesthetic — where every detail is intentional, and every moment is a frame in our monograph.',
-  venue_name: 'Villa Gamberaia, Firenze',
-  venue_address: 'Via del Rossellino, 72\n50135 Firenze FI, Italy',
+  location: 'Київ',
+  story_quote: '«Наша історія почалася в тихій залі Мистецького арсеналу — випадкова зустріч серед прямих ліній модерністської скульптури.»',
+  story_paragraph_1: 'Далі була мандрівка крізь ландшафти архітектури й мистецтва — пошук краси на перетині форми і функції. Лев — архітектор просторів; Ія — кураторка світла. Разом ми збудували світ, який святкує суттєве.',
+  story_paragraph_2: 'Приєднуйтесь до нас у середовищі, що віддзеркалює нашу спільну естетику — де кожна деталь навмисна, а кожна мить — кадр нашої монографії.',
+  venue_name: 'Галерея М17, Київ',
+  venue_address: 'вул. Антоновича, 102-104\nКиїв',
   venue_image_url: 'https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?w=1200&q=80',
   venue_map_url: '#',
-  dress_code_title: 'Black Tie',
-  dress_code_description: 'Formal evening attire required. We kindly request a palette of black, charcoal, or deep navy.',
+  dress_code_title: 'Black tie',
+  dress_code_description: 'Урочистий вечірній дрес-код. Просимо палітру чорного, графітового або глибокого синього.',
   schedule: [
-    { time: '16:00', title: 'The Vows', location: 'The Garden Sanctuary', description: 'Outdoor Ceremony' },
-    { time: '17:30', title: 'Aperitivo', location: 'The Glass Pavilion', description: 'Cocktails & Curated Small Plates' },
-    { time: '19:30', title: 'Dinner', location: 'The Grand Monolith Hall', description: 'Four-Course Seasonal Gastronomy' },
-    { time: '22:00', title: 'Nocturnal', location: 'The Cellar Lounge', description: 'Music, Movement, & Midnight Spirits' },
+    { time: '16:00', title: 'Обітниці', location: 'Сад скульптур', description: 'Церемонія просто неба' },
+    { time: '17:30', title: 'Аперитив', location: 'Скляний павільйон', description: 'Коктейлі та авторські закуски' },
+    { time: '19:30', title: 'Вечеря', location: 'Головна зала', description: 'Чотири сезонні страви' },
+    { time: '22:00', title: 'Ноктюрн', location: 'Лаунж', description: 'Музика, рух і опівнічні тости' },
   ],
   faq: [
-    { question: 'Can I bring a plus one?', answer: 'Due to the intimate nature of the venue, we can only accommodate guests specifically named on the invitation.' },
-    { question: 'Are children invited?', answer: 'We love your children, but we have chosen for our wedding to be an adult-only occasion to allow everyone to relax and enjoy the evening.' },
-    { question: 'Transport to the Villa?', answer: 'Shuttles will depart from the Four Seasons Firenze at 15:15. Private transport is available; however, parking at the villa is limited.' },
+    { question: 'Чи можна прийти з парою?', answer: 'Через камерність простору ми можемо прийняти лише гостей, названих у запрошенні.' },
+    { question: 'Чи запрошені діти?', answer: 'Ми любимо ваших дітей, але цей вечір задумали лише для дорослих — щоб кожен міг видихнути і святкувати.' },
+    { question: 'Як дістатися?', answer: 'О 15:15 від станції метро «Олімпійська» вирушить трансфер. Своїм авто теж можна — але паркінг біля галереї обмежений.' },
   ],
-  rsvp_deadline: 'August 1st',
-  slug: 'luca-isabella',
+  rsvp_deadline: '1 серпня 2026',
+  slug: 'lev-iia',
 };
 
 // ─── COUNTDOWN ────────────────────────────────────────────
@@ -97,7 +99,9 @@ function addToCalendar(data: WeddingData) {
 }
 
 // ─── RSVP FORM ────────────────────────────────────────────
-function RSVPForm({ slug, deadline }: { slug: string; deadline: string }) {
+function RSVPForm({ slug, deadline, locale }: { slug: string; deadline: string; locale?: string }) {
+  const L = normalizeLocale(locale);
+  const t = (k: string, v?: Record<string, string | number>) => tr(L, k, v);
   const [form, setForm] = useState({ name: '', email: '', attendance: '', dietary: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
@@ -119,23 +123,23 @@ function RSVPForm({ slug, deadline }: { slug: string; deadline: string }) {
 
   if (status === 'success') return (
     <div className="py-20">
-      <h3 className="font-headline text-5xl leading-tight mb-6">Thank you.</h3>
-      <p className="font-body text-sm uppercase tracking-widest text-zinc-500">We look forward to celebrating with you.</p>
+      <h3 className="font-headline text-5xl leading-tight mb-6">{t('thanksYes', { name: '' }).replace(', !', '!')}</h3>
+      <p className="font-body text-sm uppercase tracking-widest text-zinc-500">{t('thanksSub')}</p>
     </div>
   );
 
   return (
     <form className="space-y-12" onSubmit={handleSubmit}>
       <div className="space-y-2">
-        <label className="font-sans text-[10px] uppercase tracking-widest text-black block">Full Name</label>
+        <label className="font-sans text-[10px] uppercase tracking-widest text-black block">{t('nameLabel')}</label>
         <input
           className="w-full border-b border-zinc-300 bg-transparent py-4 focus:outline-none focus:border-black px-0 text-xl font-headline placeholder:text-zinc-300"
-          placeholder="John Doe" required
+          placeholder={t('namePlaceholder')} required
           value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
         />
       </div>
       <div className="space-y-2">
-        <label className="font-sans text-[10px] uppercase tracking-widest text-black block">Email</label>
+        <label className="font-sans text-[10px] uppercase tracking-widest text-black block">{t('emailLabel')}</label>
         <input
           className="w-full border-b border-zinc-300 bg-transparent py-4 focus:outline-none focus:border-black px-0 text-xl font-headline placeholder:text-zinc-300"
           placeholder="your@email.com" type="email"
@@ -143,9 +147,9 @@ function RSVPForm({ slug, deadline }: { slug: string; deadline: string }) {
         />
       </div>
       <div className="space-y-4">
-        <label className="font-sans text-[10px] uppercase tracking-widest text-black block">Presence</label>
+        <label className="font-sans text-[10px] uppercase tracking-widest text-black block">{t('presenceLabel')}</label>
         <div className="flex gap-10 pt-2">
-          {[{ val: 'attending', label: 'Joyfully Accept' }, { val: 'declined', label: 'Regretfully Decline' }].map(o => (
+          {[{ val: 'attending', label: t('yes') }, { val: 'declined', label: t('no') }].map(o => (
             <label key={o.val} className="flex items-center gap-3 cursor-pointer">
               <input
                 type="radio" name="attendance" value={o.val}
@@ -159,7 +163,7 @@ function RSVPForm({ slug, deadline }: { slug: string; deadline: string }) {
         </div>
       </div>
       <div className="space-y-2">
-        <label className="font-sans text-[10px] uppercase tracking-widest text-black block">Dietary Preferences</label>
+        <label className="font-sans text-[10px] uppercase tracking-widest text-black block">{t('wishesLabel')}</label>
         <input
           className="w-full border-b border-zinc-300 bg-transparent py-4 focus:outline-none focus:border-black px-0 text-xl font-headline placeholder:text-zinc-300"
           placeholder="None, Vegan, Allergies..."
@@ -170,7 +174,7 @@ function RSVPForm({ slug, deadline }: { slug: string; deadline: string }) {
         type="submit" disabled={status === 'loading'}
         className="w-full bg-black text-white py-6 font-sans uppercase tracking-[0.3em] text-sm hover:bg-zinc-800 transition-colors disabled:opacity-40"
       >
-        {status === 'loading' ? 'Sending...' : 'Submit Response'}
+        {status === 'loading' ? t('sending') : t('submit')}
       </button>
       {status === 'error' && <p className="text-red-500 text-xs text-center uppercase tracking-widest">Something went wrong. Please try again.</p>}
       <p className="font-body text-xs uppercase tracking-widest text-zinc-400">Responses requested by {deadline}.</p>
@@ -180,6 +184,8 @@ function RSVPForm({ slug, deadline }: { slug: string; deadline: string }) {
 
 // ─── MAIN TEMPLATE ────────────────────────────────────────
 export default function IlMonografoTemplate({ data = DEMO }: { data?: WeddingData }) {
+  const L = normalizeLocale(data.locale);
+  const t = (k: string, v?: Record<string, string | number>) => tr(L, k, v);
   const [menuOpen, setMenuOpen] = useState(false);
   const countdown = useCountdown(data.wedding_date);
 
@@ -203,7 +209,7 @@ export default function IlMonografoTemplate({ data = DEMO }: { data?: WeddingDat
           {data.partner_name_1} & {data.partner_name_2}
         </div>
         <div className="hidden md:flex gap-10 items-center">
-          {[['#couple', 'The Couple'], ['#schedule', 'Schedule'], ['#venue', 'Venue']].map(([href, label]) => (
+          {[['#couple', t('navStory')], ['#schedule', t('navSchedule')], ['#venue', t('locationLabel')]].map(([href, label]) => (
             <a key={href} href={href}
               className="text-zinc-400 font-sans tracking-widest text-[10px] uppercase hover:text-zinc-900 transition-colors">
               {label}
@@ -217,7 +223,7 @@ export default function IlMonografoTemplate({ data = DEMO }: { data?: WeddingDat
         <button className="md:hidden text-2xl" onClick={() => setMenuOpen(o => !o)}>☰</button>
         {menuOpen && (
           <div className="absolute top-full left-0 w-full bg-white border-t border-zinc-100 flex flex-col py-6 px-8 gap-5 md:hidden shadow-sm">
-            {[['#couple', 'The Couple'], ['#schedule', 'Schedule'], ['#venue', 'Venue'], ['#rsvp', 'RSVP']].map(([href, label]) => (
+            {[['#couple', t('navStory')], ['#schedule', t('navSchedule')], ['#venue', t('locationLabel')], ['#rsvp', 'RSVP']].map(([href, label]) => (
               <a key={href} href={href} onClick={() => setMenuOpen(false)}
                 className="text-zinc-500 font-sans uppercase tracking-[0.2em] text-xs hover:text-black transition-colors">
                 {label}
@@ -249,7 +255,7 @@ export default function IlMonografoTemplate({ data = DEMO }: { data?: WeddingDat
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
-              Add to Calendar
+              {t('addToCalendar')}
             </button>
           </div>
         </div>
@@ -260,10 +266,10 @@ export default function IlMonografoTemplate({ data = DEMO }: { data?: WeddingDat
         <div className="max-w-screen-xl mx-auto px-8 md:px-10">
           <div className="flex flex-col md:flex-row justify-between items-baseline gap-8 md:gap-0">
             {[
-              { val: countdown.days, label: 'Days' },
-              { val: countdown.hours, label: 'Hours' },
-              { val: countdown.minutes, label: 'Minutes' },
-              { val: countdown.seconds, label: 'Seconds' },
+              { val: countdown.days, label: t('unitDays') },
+              { val: countdown.hours, label: t('unitHours') },
+              { val: countdown.minutes, label: t('unitMin') },
+              { val: countdown.seconds, label: t('unitSec') },
             ].map(({ val, label }, i) => (
               <>
                 <div key={label} className="flex flex-col">
@@ -280,7 +286,7 @@ export default function IlMonografoTemplate({ data = DEMO }: { data?: WeddingDat
       {/* OUR STORY */}
       <section className="py-32 md:py-40 bg-zinc-50" id="couple">
         <div className="max-w-4xl mx-auto px-8 md:px-10">
-          <p className="font-sans text-[10px] uppercase tracking-[0.5em] text-zinc-400 mb-10">The Monograph</p>
+          <p className="font-sans text-[10px] uppercase tracking-[0.5em] text-zinc-400 mb-10">{`${t('storyA')} ${t('storyB')}`}</p>
           <p className="font-headline italic text-3xl md:text-5xl leading-tight text-black mb-14">
             {data.story_quote}
           </p>
@@ -294,7 +300,7 @@ export default function IlMonografoTemplate({ data = DEMO }: { data?: WeddingDat
       {/* SCHEDULE */}
       <section className="py-32 md:py-40 bg-[#f9f9f9]" id="schedule">
         <div className="max-w-screen-xl mx-auto px-8 md:px-10">
-          <p className="font-sans text-[10px] uppercase tracking-[0.5em] text-zinc-400 mb-20">Order of Events</p>
+          <p className="font-sans text-[10px] uppercase tracking-[0.5em] text-zinc-400 mb-20">{t('scheduleTitle')}</p>
           <div className="grid grid-cols-1 md:grid-cols-12 gap-y-20 md:gap-y-28">
             {data.schedule.map((item, i) => {
               const colSpans = ['md:col-span-5', 'md:col-span-5 md:col-start-7', 'md:col-span-6', 'md:col-span-4 md:col-start-8'];
@@ -316,7 +322,7 @@ export default function IlMonografoTemplate({ data = DEMO }: { data?: WeddingDat
       {/* VENUE */}
       <section className="grid grid-cols-1 md:grid-cols-2 min-h-[600px]" id="venue">
         <div className="bg-black text-white flex flex-col justify-center p-12 md:p-24">
-          <p className="font-sans text-[10px] uppercase tracking-[0.5em] text-white/40 mb-10">The Location</p>
+          <p className="font-sans text-[10px] uppercase tracking-[0.5em] text-white/40 mb-10">{t('locationLabel')}</p>
           <h3 className="font-headline text-5xl md:text-6xl mb-10 leading-tight">
             {data.venue_name.split(',').map((part, i) => (
               <span key={i}>{i > 0 ? (<><br /><span className="italic">{part}</span></>) : part}</span>
@@ -328,7 +334,7 @@ export default function IlMonografoTemplate({ data = DEMO }: { data?: WeddingDat
           <div className="mt-14">
             <a href={data.venue_map_url} target="_blank" rel="noreferrer"
               className="inline-block border border-white px-10 py-4 font-sans text-[10px] uppercase tracking-[0.3em] hover:bg-white hover:text-black transition-colors">
-              View Map
+              {t('viewMap')}
             </a>
           </div>
         </div>
@@ -340,7 +346,7 @@ export default function IlMonografoTemplate({ data = DEMO }: { data?: WeddingDat
 
       {/* DRESS CODE */}
       <section className="py-32 md:py-40 bg-zinc-50 text-center">
-        <p className="font-sans text-[10px] uppercase tracking-[0.5em] text-zinc-400 mb-10">Attire</p>
+        <p className="font-sans text-[10px] uppercase tracking-[0.5em] text-zinc-400 mb-10">{t('dressLabel')}</p>
         <div className="max-w-4xl mx-auto px-8 md:px-10">
           <p className="font-headline text-6xl md:text-9xl uppercase tracking-tighter text-black">
             {data.dress_code_title}
@@ -354,7 +360,7 @@ export default function IlMonografoTemplate({ data = DEMO }: { data?: WeddingDat
       {/* FAQ */}
       <section className="py-32 md:py-40 bg-white">
         <div className="max-w-3xl mx-auto px-8 md:px-10">
-          <p className="font-sans text-[10px] uppercase tracking-[0.5em] text-zinc-400 mb-20">Common Queries</p>
+          <p className="font-sans text-[10px] uppercase tracking-[0.5em] text-zinc-400 mb-20">{t('faqTitle')}</p>
           <div className="space-y-16">
             {data.faq.map((item, i) => (
               <div key={i}>
@@ -371,9 +377,9 @@ export default function IlMonografoTemplate({ data = DEMO }: { data?: WeddingDat
         <div className="max-w-screen-xl mx-auto px-8 md:px-10">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-20 md:gap-24 items-start">
             <div>
-              <p className="font-sans text-[10px] uppercase tracking-[0.5em] text-zinc-400 mb-10">Presence</p>
+              <p className="font-sans text-[10px] uppercase tracking-[0.5em] text-zinc-400 mb-10">{t('presenceLabel')}</p>
               <h3 className="font-headline text-5xl md:text-6xl leading-tight">
-                Kindly confirm your attendance.
+                {t('kindlyConfirm')}
               </h3>
               <p className="mt-8 font-sans text-xs text-zinc-400 uppercase tracking-widest">{data.location}</p>
             </div>
