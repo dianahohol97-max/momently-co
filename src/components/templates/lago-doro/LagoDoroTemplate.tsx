@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import { t as tr, normalizeLocale } from '@/lib/i18n';
 
 // ─── TYPES ───────────────────────────────────────────────
 interface EventItem {
@@ -17,6 +18,7 @@ interface Hotel {
 }
 
 interface WeddingData {
+  locale?: string;
   partner_name_1: string;
   partner_name_2: string;
   wedding_date: string;
@@ -47,43 +49,43 @@ interface WeddingData {
 
 // ─── DEMO DATA ────────────────────────────────────────────
 const DEMO: WeddingData = {
-  partner_name_1: 'Gabriel',
-  partner_name_2: 'Maria',
+  partner_name_1: 'Матвій',
+  partner_name_2: 'Злата',
   wedding_date: '2026-09-14T16:00:00',
-  location: 'Lake Como, Italy',
+  location: 'озеро Гарда, Італія',
   hero_image_url: 'https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=1600&q=80',
-  story_heading: 'A journey that began in London and led us to the shores of Como.',
-  story_paragraph_1: 'It started with a chance encounter on a rainy afternoon in Chelsea. What followed was a whirlwind of shared dreams, transatlantic flights, and a deep-seated love for the timeless beauty of the Italian lakes.',
-  story_paragraph_2: 'After five years of adventures, we couldn\'t think of a more enchanting place to pledge our forever than the historic Villa del Balbianello. We invite you to join us for a weekend of elegance, laughter, and amore.',
+  story_heading: 'Подорож, що почалася у Львові й привела нас на береги Гарди.',
+  story_paragraph_1: 'Все почалося з випадкової зустрічі дощового вечора на Вірменській. Далі був вихор спільних мрій, перельотів і глибокої любові до позачасової краси італійських озер.',
+  story_paragraph_2: 'Після п’яти років пригод ми не змогли уявити чарівнішого місця для нашої обіцянки назавжди, ніж стара вілла над Гардою. Запрошуємо вас на вікенд елегантності, сміху та amore.',
   story_image_1_url: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=80',
   story_image_2_url: 'https://images.unsplash.com/photo-1470116945706-e6bf5d5a53ca?w=600&q=80',
   story_image_3_url: 'https://images.unsplash.com/photo-1455849318743-b2233052fcff?w=900&q=80',
   events: [
-    { date_time: 'Sept 13 · 19:00', title: 'Welcome Dinner', venue: 'Grand Hotel Tremezzo Terrace', description: 'An evening of cocktails and coastal flavors to kick off our wedding weekend under the stars.' },
-    { date_time: 'Sept 14 · 16:00', title: 'The Ceremony', venue: 'The Gardens, Villa del Balbianello', description: 'We exchange vows amidst the blooming azaleas and the historic architecture of the lake\'s most iconic villa.', highlight: true },
-    { date_time: 'Sept 14 · 18:00', title: 'The Reception', venue: 'The Loggia Durini', description: 'Dining, dancing, and toasts as we celebrate our first night as husband and wife.' },
+    { date_time: '13.09 · 19:00', title: 'Вітальна вечеря', venue: 'Тераса гранд-готелю, Сірміоне', description: 'Вечір коктейлів і озерних смаків — відкриваємо весільний вікенд під зорями.' },
+    { date_time: '14.09 · 16:00', title: 'Церемонія', venue: 'Сади вілли Кортіне', description: 'Обмінюємось обітницями серед азалій і столітніх кипарисів найкрасивішої вілли озера.', highlight: true },
+    { date_time: '14.09 · 18:00', title: 'Прийом', venue: 'Лоджія над озером', description: 'Вечеря, танці й тости — святкуємо нашу першу ніч як подружжя.' },
   ],
-  venue_name: 'Villa del Balbianello',
-  venue_address: 'Via Comoedia, 5\n22016 Lenno, Lake Como, Italy',
+  venue_name: 'Вілла Кортіне',
+  venue_address: 'Via Grotte, 6\n25019 Сірміоне, озеро Гарда, Італія',
   venue_map_url: '#',
   venue_image_url: 'https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?w=800&q=80',
   hotels: [
-    { name: 'Grand Hotel Tremezzo', description: 'Our primary room block. Mention "G&M Wedding" for special rates.', url: '#' },
-    { name: 'Villa d\'Este', description: 'A historic masterpiece for a truly luxurious stay.', url: '#' },
+    { name: 'Grand Hotel Terme', description: 'Наш основний блок номерів. Назвіть код «М&З» для спеціальних умов.', url: '#' },
+    { name: 'Villa Cortine Palace', description: 'Історична перлина для по-справжньому розкішного відпочинку.', url: '#' },
   ],
-  travel_description: 'Lake Como is easily accessible from Milan (MXP). We recommend taking the Malpensa Express to Como Lago station or arranging a private car through our concierge.',
-  dress_code_title: 'Black Tie Optional',
-  dress_code_description: 'We request our guests wear formal attire. Gentlemen in tuxedos or dark suits; ladies in floor-length gowns or elegant cocktail dresses.',
+  travel_description: 'До Гарди найзручніше з Мілана (MXP) або Верони (VRN): потяг до станції Дезенцано, далі — 15 хвилин таксі до Сірміоне, або трансфер через нашого консьєржа.',
+  dress_code_title: 'Black tie optional',
+  dress_code_description: 'Просимо гостей про урочисте вбрання: панове — смокінги або темні костюми, пані — сукні в підлогу або елегантний коктейль.',
   dress_code_image_1_url: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=400&q=80',
   dress_code_image_2_url: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400&q=80',
   faq: [
-    { question: 'Are children invited?', answer: 'We love your little ones, but our wedding will be an adults-only celebration.' },
-    { question: 'Is there parking at the Villa?', answer: 'Access to the Villa is by boat only. Private shuttles will be provided from the Lido di Lenno.' },
-    { question: 'Gifts and Registry', answer: 'Your presence is the only gift we require. If you wish to honor us with a gift, a contribution to our honeymoon fund would be appreciated.' },
+    { question: 'Чи запрошені діти?', answer: 'Ми любимо ваших малюків, але це свято задумали лише для дорослих.' },
+    { question: 'Чи є паркінг біля вілли?', answer: 'Заїзд на територію обмежений — від центру Сірміоне курсуватимуть приватні шатли.' },
+    { question: 'Подарунки', answer: 'Ваша присутність — єдиний подарунок, який нам потрібен. За бажання будемо вдячні за внесок у фонд нашої подорожі.' },
   ],
-  meal_options: ['Herb Roasted Beef Medallions', 'Pan-Seared Sea Bass', 'Wild Mushroom Risotto (Vegan)'],
-  rsvp_deadline: 'August 1st, 2026',
-  slug: 'gabriel-maria',
+  meal_options: ['Яловичина з розмарином', 'Сібас на грилі', 'Різото з білими грибами (веган)'],
+  rsvp_deadline: '1 серпня 2026',
+  slug: 'matvii-zlata',
 };
 
 // ─── COUNTDOWN ────────────────────────────────────────────
@@ -108,7 +110,7 @@ function useCountdown(targetDate: string) {
 }
 
 // ─── ADD TO CALENDAR ──────────────────────────────────────
-function addToCalendar(data: WeddingData) {
+function addToCalendar(data: WeddingData, summary?: string) {
   const start = new Date(data.wedding_date);
   const end = new Date(start.getTime() + 6 * 3600000);
   const fmt = (d: Date) => d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
@@ -124,6 +126,8 @@ function addToCalendar(data: WeddingData) {
 
 // ─── RSVP FORM ────────────────────────────────────────────
 function RSVPForm({ data }: { data: WeddingData }) {
+  const L = normalizeLocale(data.locale);
+  const t = (k: string, v?: Record<string, string | number>) => tr(L, k, v);
   const [form, setForm] = useState({ name: '', email: '', attendance: '', meal: '', plus_one_name: '', dietary: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
@@ -145,8 +149,8 @@ function RSVPForm({ data }: { data: WeddingData }) {
 
   if (status === 'success') return (
     <div className="text-center py-24">
-      <h3 className="font-headline text-4xl mb-4" style={{ fontFamily: "'Newsreader', serif", fontStyle: 'italic' }}>Thank you.</h3>
-      <p className="text-xs uppercase tracking-widest text-[#7f756a]">We look forward to celebrating with you.</p>
+      <h3 className="font-headline text-4xl mb-4" style={{ fontFamily: "'Newsreader', serif", fontStyle: 'italic' }}>{t('thanksYes', { name: '' }).replace(', !', '!')}</h3>
+      <p className="text-xs uppercase tracking-widest text-[#7f756a]">{t('thanksSub')}</p>
     </div>
   );
 
@@ -156,19 +160,19 @@ function RSVPForm({ data }: { data: WeddingData }) {
         <input
           className="w-full bg-transparent border-b border-[#d1c4b8]/50 focus:border-[#735a39] focus:outline-none px-0 py-4 text-xl placeholder:text-[#7f756a]/40"
           style={{ fontFamily: "'Newsreader', serif" }}
-          placeholder="Full Name" required
+          placeholder={t('nameLabel')} required
           value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
         />
       </div>
       <div>
         <input
           className="w-full bg-transparent border-b border-[#d1c4b8]/50 focus:border-[#735a39] focus:outline-none px-0 py-4 text-base placeholder:text-[#7f756a]/40"
-          placeholder="Email Address" type="email"
+          placeholder={t('emailLabel')} type="email"
           value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
         />
       </div>
       <div className="grid grid-cols-2 gap-6">
-        {[{ val: 'attending', label: 'Delightfully Attend' }, { val: 'declined', label: 'Regretfully Decline' }].map(o => (
+        {[{ val: 'attending', label: t('yes') }, { val: 'declined', label: t('no') }].map(o => (
           <label key={o.val} className="flex items-center gap-3 cursor-pointer group">
             <input type="radio" name="attendance" value={o.val}
               checked={form.attendance === o.val}
@@ -187,12 +191,12 @@ function RSVPForm({ data }: { data: WeddingData }) {
         />
       </div>
       <div>
-        <label className="block text-[10px] uppercase tracking-widest text-[#7f756a] mb-3">Meal Choice</label>
+        <label className="block text-[10px] uppercase tracking-widest text-[#7f756a] mb-3">{t('menuLabel')}</label>
         <select
           className="w-full bg-transparent border-b border-[#d1c4b8]/50 focus:border-[#735a39] focus:outline-none px-0 py-2 appearance-none"
           value={form.meal} onChange={e => setForm(f => ({ ...f, meal: e.target.value }))}
         >
-          <option value="">Select...</option>
+          <option value="">{t('selectPh')}</option>
           {data.meal_options.map((m, i) => <option key={i} value={m}>{m}</option>)}
         </select>
       </div>
@@ -200,9 +204,9 @@ function RSVPForm({ data }: { data: WeddingData }) {
         type="submit" disabled={status === 'loading'}
         className="w-full py-5 bg-[#735a39] text-white text-sm uppercase tracking-[0.3em] hover:bg-[#594323] transition-colors rounded-none shadow-[#735a39]/10 disabled:opacity-40"
       >
-        {status === 'loading' ? 'Sending...' : 'Submit Response'}
+        {status === 'loading' ? t('sending') : t('submit')}
       </button>
-      {status === 'error' && <p className="text-red-500 text-xs text-center">Something went wrong. Please try again.</p>}
+      {status === 'error' && <p className="text-red-500 text-xs text-center">{t('errSend')}</p>}
       <p className="text-[10px] uppercase tracking-widest text-[#7f756a] text-center">Kindly respond by {data.rsvp_deadline}</p>
     </form>
   );
@@ -210,6 +214,8 @@ function RSVPForm({ data }: { data: WeddingData }) {
 
 // ─── MAIN TEMPLATE ────────────────────────────────────────
 export default function LagoDoroTemplate({ data = DEMO }: { data?: WeddingData }) {
+  const L = normalizeLocale(data.locale);
+  const t = (k: string, v?: Record<string, string | number>) => tr(L, k, v);
   const [activeNav, setActiveNav] = useState('home');
   const countdown = useCountdown(data.wedding_date);
 
@@ -244,7 +250,7 @@ export default function LagoDoroTemplate({ data = DEMO }: { data?: WeddingData }
           <div className="absolute inset-0 bg-black/30" />
         </div>
         <div className="space-y-4 relative z-10">
-          <p className="uppercase tracking-[0.3em] text-white/80 text-xs">A Celebration of Love</p>
+          <p className="uppercase tracking-[0.3em] text-white/80 text-xs">{t('celebrationLabel')}</p>
           <h2 className="text-[clamp(2.6rem,6vw,4.5rem)] md:text-8xl font-headline text-white leading-tight">
             {data.partner_name_1} <span className="font-serif-italic">&</span> {data.partner_name_2}
           </h2>
@@ -259,12 +265,12 @@ export default function LagoDoroTemplate({ data = DEMO }: { data?: WeddingData }
               className="inline-block px-10 py-4 bg-[#735a39] text-white tracking-widest text-xs uppercase hover:bg-[#594323] transition-colors rounded-none">
               RSVP
             </a>
-            <button onClick={() => addToCalendar(data)}
+            <button onClick={() => addToCalendar(data, t('stdEvent', { names: data.partner_name_1 + ' & ' + data.partner_name_2 }))}
               className="inline-flex items-center gap-2 px-8 py-4 border border-white/40 text-white text-xs uppercase tracking-widest hover:border-white transition-colors rounded-none">
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
-              Add to Calendar
+              {t('addToCalendar')}
             </button>
           </div>
         </div>
@@ -272,13 +278,13 @@ export default function LagoDoroTemplate({ data = DEMO }: { data?: WeddingData }
 
       {/* COUNTDOWN */}
       <section className="py-20 bg-white flex flex-col items-center">
-        <p className="text-[10px] uppercase tracking-[0.4em] text-[#7f756a] mb-10">The Final Countdown</p>
+        <p className="text-[10px] uppercase tracking-[0.4em] text-[#7f756a] mb-10">{t('countdownLabel')}</p>
         <div className="flex gap-8 md:gap-14">
           {[
-            { val: countdown.days, label: 'Days' },
-            { val: countdown.hours, label: 'Hours' },
-            { val: countdown.minutes, label: 'Mins' },
-            { val: countdown.seconds, label: 'Secs' },
+            { val: countdown.days, label: t('unitDays') },
+            { val: countdown.hours, label: t('unitHours') },
+            { val: countdown.minutes, label: t('unitMin') },
+            { val: countdown.seconds, label: t('unitSec') },
           ].map(({ val, label }) => (
             <div key={label} className="text-center">
               <span className="block font-headline text-[clamp(2.2rem,4.6vw,3.4rem)] md:text-[clamp(4rem,11vw,9.5rem)] font-light text-[#735a39] tabular-nums">
@@ -322,8 +328,8 @@ export default function LagoDoroTemplate({ data = DEMO }: { data?: WeddingData }
       <section className="py-20 bg-[#f4f3f1]" id="events">
         <div className="px-6 max-w-screen-xl mx-auto">
           <div className="text-center mb-14">
-            <p className="text-[10px] uppercase tracking-[0.4em] text-[#7f756a] mb-3">The Celebration</p>
-            <h3 className="font-headline text-4xl">Weekend Itinerary</h3>
+            <p className="text-[10px] uppercase tracking-[0.4em] text-[#7f756a] mb-3">{t('celebrationLabel')}</p>
+            <h3 className="font-headline text-4xl">{t('scheduleTitle')}</h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {data.events.map((ev, i) => (
@@ -344,7 +350,7 @@ export default function LagoDoroTemplate({ data = DEMO }: { data?: WeddingData }
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
           <div className="lg:col-span-2 space-y-7">
             <h3 className="font-headline text-4xl leading-tight">
-              Finding Your Way <br />
+              {t('transportLabel')} <br />
               <span className="font-serif-italic">to the Lake</span>
             </h3>
             <p className="text-[#4e453c] text-sm leading-relaxed">{data.travel_description}</p>
@@ -386,7 +392,7 @@ export default function LagoDoroTemplate({ data = DEMO }: { data?: WeddingData }
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
             {/* Dress Code */}
             <div>
-              <p className="text-[10px] uppercase tracking-[0.4em] text-[#7f756a] mb-5">Attire</p>
+              <p className="text-[10px] uppercase tracking-[0.4em] text-[#7f756a] mb-5">{t('dressLabel')}</p>
               <h3 className="font-headline text-4xl mb-6">
                 {data.dress_code_title.includes(' ') ? (
                   <>
@@ -403,7 +409,7 @@ export default function LagoDoroTemplate({ data = DEMO }: { data?: WeddingData }
             </div>
             {/* FAQ */}
             <div>
-              <p className="text-[10px] uppercase tracking-[0.4em] text-[#7f756a] mb-5">Frequently Asked</p>
+              <p className="text-[10px] uppercase tracking-[0.4em] text-[#7f756a] mb-5">{t('faqTitle')}</p>
               <div className="space-y-6">
                 {data.faq.map((item, i) => (
                   <div key={i} className="border-b border-[#d1c4b8]/30 pb-5">
@@ -421,7 +427,7 @@ export default function LagoDoroTemplate({ data = DEMO }: { data?: WeddingData }
       <section className="py-24 px-6 max-w-2xl mx-auto" id="rsvp">
         <div className="text-center mb-14">
           <h2 className="font-headline text-[clamp(2.2rem,4.6vw,3.4rem)] mb-3">
-            Will You Join <span className="font-serif-italic">Us?</span>
+            {t('rsvpTitle')} <span className="font-serif-italic">Us?</span>
           </h2>
           <p className="text-[#7f756a] uppercase tracking-widest text-[10px]">
             Kindly respond by {data.rsvp_deadline}
@@ -450,16 +456,15 @@ export default function LagoDoroTemplate({ data = DEMO }: { data?: WeddingData }
       {/* MOBILE BOTTOM NAV */}
       <nav className="fixed bottom-0 left-0 w-full z-50 bg-[#faf9f6]/90 backdrop-blur-xl flex justify-around items-center pt-3 pb-6 px-4 border-t border-[#d1c4b8]/20 shadow-[0_-8px_30px_rgba(26,28,26,0.04)] md:hidden">
         {[
-          { href: '#home', icon: '', label: 'Story' },
-          { href: '#events', icon: '', label: 'Events' },
-          { href: '#travel', icon: '', label: 'Travel' },
-          { href: '#faq', icon: '', label: 'FAQ' },
-          { href: '#rsvp', icon: '', label: 'RSVP' },
-        ].map(({ href, icon, label }) => (
+          { href: '#home', label: t('navStory') },
+          { href: '#events', label: t('navSchedule') },
+          { href: '#travel', label: t('transportLabel') },
+          { href: '#faq', label: t('navFaq') },
+          { href: '#rsvp', label: 'RSVP' },
+        ].map(({ href, label }) => (
           <a key={href} href={href}
             className="flex flex-col items-center justify-center text-[#1a1c1a]/50 hover:text-[#735a39] transition-colors">
-            <span className="text-lg mb-0.5">{icon}</span>
-            <span className="text-[9px] uppercase tracking-tight">{label}</span>
+            <span className="text-[10px] uppercase tracking-widest">{label}</span>
           </a>
         ))}
       </nav>

@@ -38,6 +38,7 @@ export function resolveLocaleFromRequest(country?: string | null, acceptLanguage
 type Dict = Record<string, string>;
 
 const uk: Dict = {
+  selectPh: 'Оберіть…', countdownLabel: 'Зворотний відлік',
   giftsLabel: 'Подарунки', paletteLabel: 'Палітра-натхнення', readStory: 'Прочитати нашу історію', stayLabel: 'Де зупинитися',
   stdSoon: 'Деталі — незабаром на нашому сайті', stdSite: 'Перейти на сайт весілля', stdCal: 'Додати в календар', stdGoogle: 'Google Календар', stdIcs: 'Apple / Outlook', stdEvent: 'Весілля — {names}', stdShareText: '{names} — збережіть дату: {date}!',
   stdComing: 'Деталі — незабаром на нашому сайті', stdOpenSite: 'Відкрити сайт весілля', stdShare: 'Поділитися',
@@ -75,6 +76,7 @@ const uk: Dict = {
 };
 
 const en: Dict = {
+  selectPh: 'Select…', countdownLabel: 'The countdown',
   giftsLabel: 'Gifts', paletteLabel: 'Inspiration palette', readStory: 'Read our full story', stayLabel: 'Where to stay',
   stdSoon: 'Details coming soon on our website', stdSite: 'Visit the wedding site', stdCal: 'Add to calendar', stdGoogle: 'Google Calendar', stdIcs: 'Apple / Outlook', stdEvent: 'Wedding — {names}', stdShareText: '{names} — save the date: {date}!',
   stdComing: 'Details coming soon on our website', stdOpenSite: 'Open the wedding site', stdShare: 'Share',
@@ -112,6 +114,7 @@ const en: Dict = {
 };
 
 const fr: Dict = {
+  selectPh: 'Choisissez…', countdownLabel: 'Le compte à rebours',
   giftsLabel: 'Cadeaux', paletteLabel: 'Palette d’inspiration', readStory: 'Lire notre histoire', stayLabel: 'Où loger',
   stdSoon: 'Détails bientôt sur notre site', stdSite: 'Voir le site du mariage', stdCal: 'Ajouter au calendrier', stdGoogle: 'Google Agenda', stdIcs: 'Apple / Outlook', stdEvent: 'Mariage — {names}', stdShareText: '{names} — réservez la date : {date} !',
   stdComing: 'Les détails arrivent bientôt sur notre site', stdOpenSite: 'Ouvrir le site du mariage', stdShare: 'Partager',
@@ -149,6 +152,7 @@ const fr: Dict = {
 };
 
 const es: Dict = {
+  selectPh: 'Elige…', countdownLabel: 'La cuenta atrás',
   giftsLabel: 'Regalos', paletteLabel: 'Paleta de inspiración', readStory: 'Leer nuestra historia', stayLabel: 'Dónde alojarse',
   stdSoon: 'Detalles pronto en nuestra web', stdSite: 'Ver la web de la boda', stdCal: 'Añadir al calendario', stdGoogle: 'Google Calendar', stdIcs: 'Apple / Outlook', stdEvent: 'Boda — {names}', stdShareText: '{names} — reserva la fecha: {date}!',
   stdComing: 'Pronto más detalles en nuestra web', stdOpenSite: 'Abrir la web de la boda', stdShare: 'Compartir',
@@ -186,6 +190,7 @@ const es: Dict = {
 };
 
 const de: Dict = {
+  selectPh: 'Bitte wählen…', countdownLabel: 'Der Countdown',
   giftsLabel: 'Geschenke', paletteLabel: 'Farbpalette', readStory: 'Unsere Geschichte lesen', stayLabel: 'Übernachtung',
   stdSoon: 'Details bald auf unserer Website', stdSite: 'Zur Hochzeitswebsite', stdCal: 'Zum Kalender hinzufügen', stdGoogle: 'Google Kalender', stdIcs: 'Apple / Outlook', stdEvent: 'Hochzeit — {names}', stdShareText: '{names} — save the date: {date}!',
   stdComing: 'Details folgen bald auf unserer Website', stdOpenSite: 'Hochzeitswebsite öffnen', stdShare: 'Teilen',
@@ -223,6 +228,7 @@ const de: Dict = {
 };
 
 const pl: Dict = {
+  selectPh: 'Wybierz…', countdownLabel: 'Odliczanie',
   giftsLabel: 'Prezenty', paletteLabel: 'Paleta inspiracji', readStory: 'Przeczytaj naszą historię', stayLabel: 'Gdzie się zatrzymać',
   stdSoon: 'Szczegóły wkrótce na naszej stronie', stdSite: 'Zobacz stronę ślubu', stdCal: 'Dodaj do kalendarza', stdGoogle: 'Kalendarz Google', stdIcs: 'Apple / Outlook', stdEvent: 'Ślub — {names}', stdShareText: '{names} — zarezerwuj datę: {date}!',
   stdComing: 'Szczegóły wkrótce na naszej stronie', stdOpenSite: 'Otwórz stronę ślubu', stdShare: 'Udostępnij',
@@ -260,6 +266,7 @@ const pl: Dict = {
 };
 
 const ro: Dict = {
+  selectPh: 'Alegeți…', countdownLabel: 'Numărătoarea inversă',
   giftsLabel: 'Cadouri', paletteLabel: 'Paletă de inspirație', readStory: 'Citește povestea noastră', stayLabel: 'Unde vă cazați',
   stdSoon: 'Detalii în curând pe site-ul nostru', stdSite: 'Vezi site-ul nunții', stdCal: 'Adaugă în calendar', stdGoogle: 'Google Calendar', stdIcs: 'Apple / Outlook', stdEvent: 'Nuntă — {names}', stdShareText: '{names} — rezervați data: {date}!',
   stdComing: 'Detalii în curând pe site-ul nostru', stdOpenSite: 'Deschide site-ul nunții', stdShare: 'Distribuie',
